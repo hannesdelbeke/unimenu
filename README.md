@@ -34,12 +34,13 @@ or json
   ]
 }       
 ```
-load the config into the unreal menu with a python command
+run this to create your unreal menu from the config
 ```python
 import unreal_menu
 unreal_menu.setup(config_path)
 ```
 
+## Notes
 - support loading multiple configs, they append. great for a studio config and several project configs.
 - you can append to a previously created list too.
 - setup autoload on startup with [init_unreal.py](https://docs.unrealengine.com/4.27/en-US/ProductionPipelines/ScriptingAndAutomation/Python/#theinit_unreal.pyfile)
