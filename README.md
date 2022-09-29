@@ -16,23 +16,24 @@ items:
 or json
 ```json
 {
-  "parent_menu": "LevelEditor.MainMenu",
-  "name": "my menu",
-  "items": [
-    {
-      "name": "my item",
-      "command": "print(\"Hello World\")"
-    },
-    {
-      "name": "my sub menu",
-      "items": [
-        {
-          "name": "sub item 1",
-          "command": "print(\"Hello World\")"
-        }
-     }
-  ]
-}       
+   "parent_menu":"LevelEditor.MainMenu",
+   "name":"my menu",
+   "items":[
+      {
+         "name":"my item",
+         "command":"print(\"Hello World\")"
+      },
+      {
+         "name":"my sub menu",
+         "items":[
+            {
+               "name":"sub item 1",
+               "command":"print(\"Hello World\")"
+            }
+         ]
+      }
+   ]
+}     
 ```
 run this to create your unreal menu from the config
 ```python
