@@ -42,6 +42,6 @@ unreal_menu.setup(config_path)
 ```
 
 ## Notes
-- support loading multiple configs, they append. great for a studio config and several project configs.
+- support loading multiple configs, they append. Great for a single studio config and several project configs. Or a team config.
 - you can append to a previously created list too.
 - setup autoload on startup with [init_unreal.py](https://docs.unrealengine.com/4.27/en-US/ProductionPipelines/ScriptingAndAutomation/Python/#theinit_unreal.pyfile)
