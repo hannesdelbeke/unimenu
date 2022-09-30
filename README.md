@@ -1,5 +1,5 @@
 # maya_menu
-A pure python helper module to add python commands to the maya menu.
+A pure python helper module to add string commands to the maya menu.
 ![Menu screenshot](menu_screenshot.jpg)
 
 # how to use
