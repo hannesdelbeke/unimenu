@@ -1,3 +1,5 @@
+archiving, development moved to https://github.com/hannesdelbeke/openmenu
+
 # unreal_menu
 A pure python module to add python commands to the unreal engine 5 menu.
 ![Menu screenshot](menu_screenshot.jpg)
