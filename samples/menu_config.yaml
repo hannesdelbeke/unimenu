@@ -1,0 +1,13 @@
+items:
+  - label: Custom Menu
+    items:
+      - label: Test
+        command: print("Test")
+      - label: my sub menu
+        items:
+          - label: Hello
+            command: print("Hello")
+          - label: World
+            command: print("World")
+      - label: Print sys version
+        command: import sys; print(sys.version)
