@@ -1,0 +1,21 @@
+# atm we use labels to create operator id names
+# - ensure they are unique
+# - ensure they are text and numbers only
+
+parent_menu: TOPBAR_MT_editor_menus  # this is optional
+items:
+  - label: Custom Menu
+    icon: FUND
+    items:
+      - label: Test
+        command: print("Test")
+        icon: CONE
+      - label: my sub menu
+        items:
+          - label: Hello
+            command: print("Hello")
+            icon: MODIFIER_ON
+          - label: World
+            command: print("World")
+      - label: Print sys version
+        command: import sys; print(sys.version)
