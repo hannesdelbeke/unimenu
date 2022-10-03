@@ -78,4 +78,7 @@ python 3.7+ due to f-strings and pathlib
 ## Development
 
 main platform is windows, would be interested to hear from mac & linux users.
-feel free to create a PR to help out
+
+feel free to create a PR to help out.
+
+to add support for your favorite software, add a python module named after the software with a setup_menu function
