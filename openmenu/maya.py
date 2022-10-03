@@ -1,31 +1,4 @@
 import pymel.core as pm  # todo replace with cmds because it's faster
-import json
-import warnings
-from pathlib import Path
-import sys
-
-
-# def setup(path: (str, Path)):
-#     """setup menu"""
-#     path = str(path)
-#     if path.lower().endswith('.json'):
-#         return setup_from_json(path)
-#     elif path.lower().endswith('.yaml'):
-#         return setup_from_yaml(path)
-#
-#
-# def setup_from_json(config_path):
-#     with open(config_path) as file:
-#         data = json.load(file)
-#     return setup_menu(data)
-#
-#
-# def setup_from_yaml(config_path):
-#     import yaml
-#
-#     with open(config_path) as file:
-#         data = yaml.load(file, Loader=yaml.SafeLoader)
-#     return setup_menu(data)
 
 
 def setup_menu(data):
@@ -57,6 +30,7 @@ def create_root_menu(label, window_name='gMainWindow'):
     """
     maya_window = pm.language.melGlobals[window_name]
     return pm.menu(label, parent=maya_window)
+
 
 def add_sub_menu(parent, label: str):
     return pm.menuItem(subMenu=True, label=label, parent=parent)
