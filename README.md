@@ -62,3 +62,6 @@ Blender
 - Maya 2023, 2022 (minimum)
 
 python 3.7+ due to f-strings and pathlib
+
+## alternatives
+- blender addon https://github.com/friedererdmann/blender_menus
