@@ -3,14 +3,10 @@ A pure python module to add python commands to the menu.
 
 Supports unreal engine, blender, maya, krita, substance painter
 
-![Menu screenshot](samples/menu_screen_maya.jpg)
-
-![Menu screenshot](samples/menu_screen_unreal5.jpg)
-
-![Menu screenshot](samples/menu_screen_krita.jpg)
-
-![Menu screenshot](samples/menu_screen_substance_painter.jpg)
-
+<img src="samples/menu_screen_maya.jpg" width="400"/>
+<img src="samples/menu_screen_unreal5.jpg" width="400"/>
+<img src="samples/menu_screen_krita.jpg" width="400"/>
+<img src="samples/menu_screen_substance_painter.jpg" width="400"/>
 
 # how to use
 
