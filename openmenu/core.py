@@ -24,8 +24,9 @@ class DCCs:
     MAYA = DCC('maya', 'maya')  # pymel can be slow to import
     UNREAL = DCC('unreal', 'unreal')
     MAX = DCC('max', 'pymxs')
+    KRITA = DCC('krita', 'krita')
 
-    ALL = [BLENDER, MAYA, UNREAL]
+    ALL = [BLENDER, MAYA, UNREAL, KRITA]
 
 
 def detect_dcc():

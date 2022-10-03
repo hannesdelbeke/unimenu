@@ -7,6 +7,8 @@ Supports unreal engine, blender, maya
 
 ![Menu screenshot](samples/menu_screen_unreal5.jpg)
 
+![Menu screenshot](samples/menu_screen_krita.jpg)
+
 
 # how to use
 
