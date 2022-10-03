@@ -66,3 +66,4 @@ python 3.7+ due to f-strings and pathlib
 ## alternatives
 - [blender addon](https://github.com/friedererdmann/blender_menus)
 - hacky way to create qt menu in blender - [shotgrid way](https://github.com/diegogarciahuerta/tk-blender/blob/d2c21fa53ab861886858388fbdc115e6d4e10a9d/resources/scripts/startup/Shotgun_menu.py#L156)
+- (paid) [python-toolbar-button-menu-creator](https://www.unrealengine.com/marketplace/en-US/product/python-toolbar-button-menu-creator/reviews?sessionInvalidated=true) and [docs](https://github.com/imgspc/UnrealMenuItem-Docs)
