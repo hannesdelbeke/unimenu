@@ -45,6 +45,13 @@ import openmenu
 openmenu.config_setup(config_path)
 ```
 
+## When to use
+
+some software e.g. Unity & Maya already have good ways to make custom menus. If you only use 1 software and find it easy to make a menu, you don't need openmenu.
+
+The power of this module comes from standardising menu creation across multiple software. Great for studio-pipelines with several programs.
+Openmenu can also help to make menu creation less complex e.g. in Blender.
+
 ## Notes
 - support loading multiple configs. Great for a single studio config and several project configs. Or a team config.
 - support creating another config to a previously created menu, or submenu!
