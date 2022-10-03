@@ -1,9 +1,6 @@
 import openmenu.core
 
 config_setup = openmenu.core.config_setup
+setup = openmenu.core.setup
 
-
-
-def create_from_config():
-    pass
 

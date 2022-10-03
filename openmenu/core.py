@@ -40,10 +40,14 @@ def detect_dcc():
 
 def config_setup(path: (str, Path), dcc=None):
     """setup menu"""
-    dcc = dcc or detect_dcc()
     data = get_json_data(path) or get_yaml_data(path)
+    return setup(data, dcc)
+
+
+def setup(data, dcc=None):
+    dcc = dcc or detect_dcc()
     module = importlib.import_module(f'openmenu.{dcc.name}')
-    module.setup_menu(data)
+    return module.setup_menu(data)
 
 
 def get_json_data(config_path):
