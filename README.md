@@ -1,13 +1,15 @@
 # openmenu
 A pure python module to add python commands to the menu.
 
-Supports unreal engine, blender, maya
+Supports unreal engine, blender, maya, krita, substance painter
 
 ![Menu screenshot](samples/menu_screen_maya.jpg)
 
 ![Menu screenshot](samples/menu_screen_unreal5.jpg)
 
 ![Menu screenshot](samples/menu_screen_krita.jpg)
+
+![Menu screenshot](samples/menu_screen_substance_painter.jpg)
 
 
 # how to use
@@ -64,6 +66,14 @@ Unreal
 Blender
 - load on startup with a script in the [startup folder](https://docs.blender.org/manual/en/dev/advanced/blender_directory_layout.html#path-layout)
 - support blender icons in menu (see [sample yaml](https://github.com/hannesdelbeke/openmenu/blob/main/samples/menu_config_blender.yaml))
+
+Krita
+- native PyQt5
+- print doesn't print to console
+
+Substance Painter
+- native PySide2
+- print doesn't print to console
 
 ## Supports
 - Unreal 5.0.2

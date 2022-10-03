@@ -25,8 +25,10 @@ class DCCs:
     UNREAL = DCC('unreal', 'unreal')
     MAX = DCC('max', 'pymxs')
     KRITA = DCC('krita', 'krita')
+    SUBSTANCE_DESIGNER = DCC('substance_designer', 'pysbs')
+    SUBSTANCE_PAINTER = DCC('substance_painter', 'substance_painter')
 
-    ALL = [BLENDER, MAYA, UNREAL, KRITA]
+    ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER]
 
 
 def detect_dcc():
@@ -37,6 +39,7 @@ def detect_dcc():
             return dcc
         except ImportError:
             pass
+    print("OPENMENU: no supported DCC detected")
 
 
 def config_setup(path: (str, Path), dcc=None):
