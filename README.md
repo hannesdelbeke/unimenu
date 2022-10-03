@@ -1,14 +1,17 @@
-archiving, development moved to https://github.com/hannesdelbeke/openmenu
+# openmenu
+A pure python module to add python commands to the menu.
 
-# unreal_menu
-A pure python module to add python commands to the unreal engine 5 menu.
+Supports unreal engine, blender, maya
+
 ![Menu screenshot](menu_screenshot.jpg)
+
+![Menu screenshot](menu_screen_unreal5.jpg)
+
 
 # how to use
 
 create your config in yaml
 ```yaml
-parent_menu: LevelEditor.MainMenu
 items:
   - name: my menu
     items:
@@ -18,7 +21,6 @@ items:
 or json
 ```json
 {
-   "parent_menu":"LevelEditor.MainMenu",
    "name":"my menu",
    "items":[
       {
@@ -39,11 +41,17 @@ or json
 ```
 run this to create your unreal menu from the config
 ```python
-import unreal_menu
-unreal_menu.setup(config_path)
+import openmenu
+openmenu.config_setup(config_path)
 ```
 
 ## Notes
 - support loading multiple configs. Great for a single studio config and several project configs. Or a team config.
 - support creating another config to a previously created menu, or submenu!
-- setup autoload on startup with [init_unreal.py](https://docs.unrealengine.com/4.27/en-US/ProductionPipelines/ScriptingAndAutomation/Python/#theinit_unreal.pyfile)
+
+Unreal
+- load on startup with [init_unreal.py](https://docs.unrealengine.com/4.27/en-US/ProductionPipelines/ScriptingAndAutomation/Python/#theinit_unreal.pyfile)
+
+Blender
+- load on startup with a script in the startup folder
+- support blender icons in menu (see [sample yaml](https://github.com/hannesdelbeke/openmenu/blob/main/samples/menu_config_blender.yaml))
