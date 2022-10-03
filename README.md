@@ -3,9 +3,9 @@ A pure python module to add python commands to the menu.
 
 Supports unreal engine, blender, maya
 
-![Menu screenshot](menu_screenshot.jpg)
+![Menu screenshot](samples/menu_screen_maya.jpg)
 
-![Menu screenshot](menu_screen_unreal5.jpg)
+![Menu screenshot](samples/menu_screen_unreal5.jpg)
 
 
 # how to use
@@ -55,3 +55,10 @@ Unreal
 Blender
 - load on startup with a script in the startup folder
 - support blender icons in menu (see [sample yaml](https://github.com/hannesdelbeke/openmenu/blob/main/samples/menu_config_blender.yaml))
+
+## Supports
+- Unreal 5.0.2
+- Blender 3.2, 2.93, 2.8 (minimum)
+- Maya 2023, 2022 (minimum)
+
+python 3.7+ due to f-strings and pathlib
