@@ -39,7 +39,7 @@ or json
    ]
 }     
 ```
-run this to create your unreal menu from the config
+run this to create your menu from the config
 ```python
 import openmenu
 openmenu.config_setup(config_path)
