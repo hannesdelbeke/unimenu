@@ -5,12 +5,8 @@ so we create windows with buttons instead, submenus create new windows
 
 import mset
 
-dockable_window = None
 def setup_menu(data):
-    # save window in a global to prevent garbage collection
-    global dockable_window
-    dockable_window = mset.UIWindow("OpenMenu")
-    _setup_menu_items(dockable_window, data.get('items'))
+    _setup_menu_items(None, data.get('items'))
 
 
 def _setup_menu_items(parent_menu, items: list):
@@ -30,10 +26,16 @@ def _setup_menu_items(parent_menu, items: list):
             _setup_menu_items(sub_menu, items)
 
 
+windows = []
 def add_sub_menu(parent, label: str):
+    global windows
+    if not parent:
+        window = mset.UIWindow(label)
+        # save window in a global to prevent garbage collection
+        windows.append(window)
+        return window
 
 
-    # window = mset.UIWindow("mar.pipe v.01")
     settings_drawer_ui = mset.UIDrawer(name=label)
     settings_drawer = mset.UIWindow(name="", register=False)
     settings_drawer_ui.containedControl = settings_drawer
