@@ -28,7 +28,7 @@ class DCCs:
     SUBSTANCE_DESIGNER = DCC('substance_designer', 'pysbs')
     SUBSTANCE_PAINTER = DCC('substance_painter', 'substance_painter')
 
-    ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER]
+    ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX]
 
 
 def detect_dcc():
