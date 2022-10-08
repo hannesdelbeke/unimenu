@@ -74,10 +74,18 @@ Substance Painter
 3ds Max
 - native PySide2
 
+Marmoset
+- doesn't support menu extension, so we create a window with buttons instead
+- run a script on startup with command line arguments: "toolbag.exe" "script-path" (not tested yet)
+
 ## Supports
+openmenu was tested in the following versions, and might work in other versions.
 - Unreal 5.0.2
 - Blender 3.2, 2.93, 2.8 (minimum)
 - Maya 2023, 2022 (minimum)
+- Substance Painter 8.2.0
+- Max 2024
+- Marmoset 3.08
 
 python 3.7+ due to f-strings and pathlib
 
@@ -87,6 +95,7 @@ python 3.7+ due to f-strings and pathlib
 - Unreal: (paid) [python-toolbar-button-menu-creator](https://www.unrealengine.com/marketplace/en-US/product/python-toolbar-button-menu-creator/reviews?sessionInvalidated=true) and [docs](https://github.com/imgspc/UnrealMenuItem-Docs)
 - https://github.com/Colorbleed/scriptsmenu
 - Max: [default menu system](https://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=GUID-90D08333-ADB3-4E8C-9579-1A0A71985604)
+
 ## Development
 
 main platform is windows, would be interested to hear from mac & linux users.
