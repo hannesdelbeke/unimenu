@@ -1,7 +1,7 @@
 # openmenu
 A pure python module to add python commands to the menu.
 
-Supports unreal engine, blender, maya, krita, substance painter
+Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max
 
 <img src="samples/menu_screen_maya.jpg" width="400"/>
 <img src="samples/menu_screen_unreal5.jpg" width="400"/>
@@ -71,6 +71,9 @@ Substance Painter
 - native PySide2
 - print doesn't print to console
 
+3ds Max
+- native PySide2
+
 ## Supports
 - Unreal 5.0.2
 - Blender 3.2, 2.93, 2.8 (minimum)
@@ -83,7 +86,7 @@ python 3.7+ due to f-strings and pathlib
 - Blender: hacky way to create qt menu in blender - [shotgrid way](https://github.com/diegogarciahuerta/tk-blender/blob/d2c21fa53ab861886858388fbdc115e6d4e10a9d/resources/scripts/startup/Shotgun_menu.py#L156)
 - Unreal: (paid) [python-toolbar-button-menu-creator](https://www.unrealengine.com/marketplace/en-US/product/python-toolbar-button-menu-creator/reviews?sessionInvalidated=true) and [docs](https://github.com/imgspc/UnrealMenuItem-Docs)
 - https://github.com/Colorbleed/scriptsmenu
-
+- Max: [default menu system](https://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=GUID-90D08333-ADB3-4E8C-9579-1A0A71985604)
 ## Development
 
 main platform is windows, would be interested to hear from mac & linux users.
@@ -91,3 +94,4 @@ main platform is windows, would be interested to hear from mac & linux users.
 feel free to create a PR to help out.
 
 to add support for your favorite software, add a python module named after the software with a setup_menu function
+where possible stick to the windows menu [design guidelines](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/bb226797(v=vs.85))
