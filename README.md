@@ -1,7 +1,7 @@
 # openmenu
 A pure python module to add python commands to the menu.
 
-Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max
+Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max, Marmoset
 
 <img src="samples/menu_screen_maya.jpg" width="400"/>
 <img src="samples/menu_screen_unreal5.jpg" width="400"/>
