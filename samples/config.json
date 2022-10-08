@@ -1,0 +1,23 @@
+{
+   "items":
+   [
+      {
+         "label":"my menu",
+         "items":[
+            {
+               "label":"Hello ",
+               "command":"print(\"Hello\")"
+            },
+            {
+               "label":"my sub menu",
+               "items":[
+                  {
+                     "label":" World",
+                     "command":"print(\" World\")"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

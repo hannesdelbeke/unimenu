@@ -1,8 +1,8 @@
 items:
   - label: Custom Menu
     items:
-      - label: Test
-        command: print("Test")
+      - label: Test Qt
+        command: import PyQt5.QtWidgets as QtWidgets; QtWidgets.QMessageBox.information(None, "Test", "Test")
       - label: my sub menu
         items:
           - label: Hello
