@@ -83,6 +83,15 @@ def breakdown():
     raise NotImplementedError("not yet implemented")
 
 
+def getattr_recursive(obj, attr):
+    """
+    getattr but recursive, supports nested attributes
+    provide multiple attributes separated by a dot
+    """
+    attributes = attr.split('.')
+    for attribute in attributes:
+        obj = getattr(obj, attribute)
+    return obj
 
 
 # load all modules in a folder
@@ -131,24 +140,15 @@ def module_setup(parent_module_name, parent_menu_name='', function_name='main', 
 
             # run the function on the module
             if _function_name:
-
-                # same as getattr(submodule, function_name)(), but recursive:
-                # if the dev provides attr.attr function name, recursively get the function
-                attribute_names = _function_name.split('.')
-                function = None
-                _parent = submodule
-                for attribute_name in attribute_names:
-                    function = getattr(_parent, attribute_name)
-                    _parent = function
-
+                function = getattr_recursive(submodule, _function_name)
                 function()
             else:
                 submodule()
 
-        submodule_dict = {}
-        submodule_dict['label'] = submodule_name
-        submodule_dict['command'] = callback
-
+        submodule_dict = {
+        'label' : submodule_name,
+        'command' : callback,
+        }
         items.append(submodule_dict)
 
     data = {}
