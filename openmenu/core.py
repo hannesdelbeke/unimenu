@@ -146,8 +146,8 @@ def module_setup(parent_module_name, parent_menu_name='', function_name='main', 
                 submodule()
 
         submodule_dict = {
-        'label' : submodule_name,
-        'command' : callback,
+            'label': submodule_name,
+            'command': callback,
         }
         items.append(submodule_dict)
 
@@ -156,7 +156,7 @@ def module_setup(parent_module_name, parent_menu_name='', function_name='main', 
         data['parent'] = parent_menu_name
 
     data['items'] = [{
-        'label': parent_module.__name__ ,
+        'label': parent_module.__name__,
         'items': items
     }]
 
