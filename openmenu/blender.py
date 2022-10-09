@@ -113,7 +113,7 @@ def menu_wrapper(parent, label):
 
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
-        self.layout.menu(id_name, icon='OUTPUT')
+        self.layout.menu(id_name)
     parent.append(menu_draw)
 
     return MenuWrapper
