@@ -95,6 +95,7 @@ python 3.7+ due to f-strings and pathlib
 - Unreal: (paid) [python-toolbar-button-menu-creator](https://www.unrealengine.com/marketplace/en-US/product/python-toolbar-button-menu-creator/reviews?sessionInvalidated=true) and [docs](https://github.com/imgspc/UnrealMenuItem-Docs)
 - https://github.com/Colorbleed/scriptsmenu
 - Max: [default menu system](https://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=GUID-90D08333-ADB3-4E8C-9579-1A0A71985604)
+- After effects: (Payed) [kbar](https://aescripts.com/kbar/)
 
 ## Development
 
