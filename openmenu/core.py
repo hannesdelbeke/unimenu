@@ -3,6 +3,7 @@ import warnings
 from pathlib import Path
 from collections import namedtuple
 import importlib
+import pkgutil
 
 # class DCC:
 #     name = None
@@ -80,3 +81,85 @@ def get_yaml_data(config_path):
 def breakdown():
     """remove from menu"""
     raise NotImplementedError("not yet implemented")
+
+
+
+
+# load all modules in a folder
+# let user choose a function name to run on these modules
+# hookup module and function name as callback to menu item
+def module_setup(parent_module_name, parent_menu_name='', function_name='main', dcc=None):
+    """
+    create a menu for all modules in a folder,
+    automatically keep your menu up to date with all tools in that folder
+
+    note: ensure the folder is importable and in your environment path
+
+    Args:
+    parent_module: the module that contains all tools. e.g.:
+                   cool_tools
+                   ├─ __init__.py   (import cool_tools)
+                   ├─ tool1.py      (import cool_tools.tool1)
+                   └─ tool2.py      (import cool_tools.tool2)
+    function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
+                   if empty, call the module directly
+    dcc: the dcc that contains the menu. if None, will try to detect dcc
+
+    """
+
+    parent_module = importlib.import_module(parent_module_name)
+
+    # create dict for every module in the folder
+    # label: the name of the module
+    # callback: the function to run
+
+    # todo support recursive folders -> auto create submenus
+
+    items = []
+    for module_finder, submodule_name, ispkg in pkgutil.iter_modules(parent_module.__path__):
+        # skip private modules
+        if submodule_name.startswith('_'):
+            continue
+
+        # to prevent issues with late binding
+        # https://stackoverflow.com/questions/3431676/creating-functions-or-lambdas-in-a-loop-or-comprehension
+        # first arg might be self, e.g. operator wrapped in blender
+        def callback(self=None, _submodule_name=submodule_name, _function_name=function_name, *args, **kwargs):
+
+            # todo only import the module after clicking in the menu
+            submodule = module_finder.find_spec(_submodule_name).loader.load_module()
+
+            # run the function on the module
+            if _function_name:
+
+                # same as getattr(submodule, function_name)(), but recursive:
+                # if the dev provides attr.attr function name, recursively get the function
+                attribute_names = _function_name.split('.')
+                function = None
+                _parent = submodule
+                for attribute_name in attribute_names:
+                    function = getattr(_parent, attribute_name)
+                    _parent = function
+
+                function()
+            else:
+                submodule()
+
+        submodule_dict = {}
+        submodule_dict['label'] = submodule_name
+        submodule_dict['command'] = callback
+
+        items.append(submodule_dict)
+
+    data = {}
+    if parent_menu_name:
+        data['parent'] = parent_menu_name
+
+    data['items'] = [{
+        'label': parent_module.__name__ ,
+        'items': items
+    }]
+
+    return setup(data, dcc)
+
+
