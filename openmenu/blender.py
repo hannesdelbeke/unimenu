@@ -1,9 +1,9 @@
 import bpy
 
-# first we load data
-# then create operators (classes)
-# then register operator-classes
-# then add operators to menu
+# 1. load data
+# 2. create operators (classes)
+# 3. register operators
+# 4. add operators to menu
 
 
 def setup_menu(data):
@@ -93,6 +93,7 @@ def menu_wrapper(parent, label):
     # class: OPENMENU_OT_my_operator
     # id: openmenu.my_operator
     # todo we dont need to set both class and bl_idname
+
     name = 'OPENMENU_MT_' + label.replace(' ', '_')
     id_name = name.replace('_MT_', '.').lower()
 
@@ -113,17 +114,16 @@ def menu_wrapper(parent, label):
 
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
-        self.layout.menu(id_name, icon='OUTPUT')
+        self.layout.menu(id_name)
     parent.append(menu_draw)
 
     return MenuWrapper
 
 
-def _setup_menu_items(parent: bpy.types.Operator, items: list):
+def _setup_menu_items(parent: bpy.types.Operator, items: list) -> list:
     """
     recursively add all menu items and submenus
     """
-
     operators = []
 
     for item in items:
@@ -145,12 +145,8 @@ def _setup_menu_items(parent: bpy.types.Operator, items: list):
 
 
 def add_sub_menu(parent, label: str):
-    _class = menu_wrapper(parent, label)
-    return _class
+    return menu_wrapper(parent, label)
 
 
 def add_to_menu(parent, label: str, command: str):
-    _class = operator_wrapper(parent, label, command)  # add_to_men
-
-    return _class
-
+    return operator_wrapper(parent, label, command)
