@@ -1,9 +1,11 @@
-import bpy
-
+"""
 # 1. load data
 # 2. create operators (classes)
 # 3. register operators
 # 4. add operators to menu
+"""
+import bpy
+from typing import Union, Callable
 
 
 def setup_menu(data):
@@ -13,40 +15,47 @@ def setup_menu(data):
     """
 
     # get data
-    items = data.get('items')
-    parent_name = data.get('parent_menu') or 'TOPBAR_MT_editor_menus'
+    items = data.get("items")
+    parent_name = data.get("parent_menu") or "TOPBAR_MT_editor_menus"
     parent = getattr(bpy.types, parent_name)
 
     operators = _setup_menu_items(parent, items)
     return operators
 
 
-def breakdown_menu(operators, parent_name='TOPBAR_MT_editor_menus'):
+def breakdown_menu(operators, parent_name="TOPBAR_MT_editor_menus"):
     """remove from menu"""
 
     raise NotImplementedError
 
-    for op in operators:
-        bpy.utils.unregister_class(op)
+    # for op in operators:
+    #     bpy.utils.unregister_class(op)
+    #
+    # # add root menu to menu
+    # parent = getattr(bpy.types, parent_name)
+    # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
 
-    # add root menu to menu
-    parent = getattr(bpy.types, parent_name)
-    parent.remove(draw_menu)  # TODO somehow track draw_menu callable
 
+def operator_wrapper(
+    parent: bpy.types.Operator,
+    label: str,
+    command: Union[str, Callable],
+    icon_name="NONE",
+):
+    """
+    Wrap a command in a Blender operator & add it to a parent menu operator.
 
-def operator_wrapper(parent: bpy.types.Operator, label: str, command: str, icon_name='NONE'):
-    """make operator to wrap a command"""
-
-    # 1 make class
-    # 2 register class
-    # 3 add to (sub)menu (parent operator)
+    1 make class
+    2 register class
+    3 add to (sub)menu (parent operator)
+    """
 
     # handle name
     # class: OPENMENU_OT_my_operator
     # id: openmenu.my_operator
     #  todo add support dupe names
-    name = 'OPENMENU_OT_' + label.replace(' ', '_')
-    id_name = name.replace('OPENMENU_OT_', 'openmenu.').lower()
+    name = "OPENMENU_OT_" + label.replace(" ", "_")
+    id_name = name.replace("OPENMENU_OT_", "openmenu.").lower()
 
     # create
     class OperatorWrapper(bpy.types.Operator):
@@ -68,7 +77,8 @@ def operator_wrapper(parent: bpy.types.Operator, label: str, command: str, icon_
             elif callable(self._command):
                 self._command()
 
-            return {'RUNNING_MODAL'}
+            return {"RUNNING_MODAL"}
+
     OperatorWrapper.__name__ = name
 
     # register
@@ -77,16 +87,18 @@ def operator_wrapper(parent: bpy.types.Operator, label: str, command: str, icon_
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
         self.layout.operator(id_name, icon=icon_name)
+
     parent.append(menu_draw)
 
     return OperatorWrapper
 
 
-def menu_wrapper(parent, label):
-
-    # 1 make class
-    # 2 register class
-    # 3 add to (sub)menu (parent operator)
+def menu_wrapper(parent: bpy.types.Operator, label: str):
+    """
+    1 make class
+    2 register class
+    3 add to (sub)menu (parent operator)
+    """
 
     # todo add support dupe names
     # handle name
@@ -94,17 +106,15 @@ def menu_wrapper(parent, label):
     # id: openmenu.my_operator
     # todo we dont need to set both class and bl_idname
 
-    name = 'OPENMENU_MT_' + label.replace(' ', '_')
-    id_name = name.replace('_MT_', '.').lower()
+    name = "OPENMENU_MT_" + label.replace(" ", "_")
+    id_name = name.replace("_MT_", ".").lower()
 
     class MenuWrapper(bpy.types.Menu):
-        """Ready Player Me menu class."""
-
         bl_label = label
         bl_idname = id_name
 
         def draw(self, context):
-            layout = self.layout  # this is needed, even when unused. blender is not pythonic
+            layout = self.layout  # layout is needed, even when unused
 
     # rename class
     MenuWrapper.__name__ = name
@@ -115,26 +125,27 @@ def menu_wrapper(parent, label):
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
         self.layout.menu(id_name)
+
     parent.append(menu_draw)
 
     return MenuWrapper
 
 
-def _setup_menu_items(parent: bpy.types.Operator, items: list) -> list:
+def _setup_menu_items(parent: bpy.types.Operator, items: list):
     """
     recursively add all menu items and submenus
     """
     operators = []
 
     for item in items:
-        label = item.get('label')
-        command = item.get('command', None)
+        label = item.get("label")
+        command = item.get("command", None)
 
         if command:
             menu_item = add_to_menu(parent, label, command)
             operators.append(menu_item)
         else:  # submenu
-            items = item.get('items', [])
+            items = item.get("items", [])
             sub_menu = add_sub_menu(parent, label)
             operators.append(sub_menu)
 
@@ -144,9 +155,9 @@ def _setup_menu_items(parent: bpy.types.Operator, items: list) -> list:
     return operators
 
 
-def add_sub_menu(parent, label: str):
+def add_sub_menu(parent: bpy.types.Operator, label: str):
     return menu_wrapper(parent, label)
 
 
-def add_to_menu(parent, label: str, command: str):
+def add_to_menu(parent: bpy.types.Operator, label: str, command: str):
     return operator_wrapper(parent, label, command)
