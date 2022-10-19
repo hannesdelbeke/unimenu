@@ -44,4 +44,3 @@ def add_to_menu(parent: QMenu, label: str, command):
 def breakdown():
     """remove from menu"""
     raise NotImplementedError("not yet implemented")
-

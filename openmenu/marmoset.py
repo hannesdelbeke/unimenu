@@ -5,6 +5,7 @@ so we create windows with buttons instead, submenus create new windows
 
 import mset
 
+
 def setup_menu(data):
     _setup_menu_items(None, data.get('items'))
 
@@ -27,6 +28,8 @@ def _setup_menu_items(parent_menu, items: list):
 
 
 windows = []
+
+
 def add_sub_menu(parent, label: str):
     global windows
     if not parent:
@@ -34,7 +37,6 @@ def add_sub_menu(parent, label: str):
         # save window in a global to prevent garbage collection
         windows.append(window)
         return window
-
 
     settings_drawer_ui = mset.UIDrawer(name=label)
     settings_drawer = mset.UIWindow(name="", register=False)
@@ -45,7 +47,6 @@ def add_sub_menu(parent, label: str):
     parent.addReturn()
 
     return settings_drawer
-
 
 
 def add_to_menu(parent, label: str, command: str):

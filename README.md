@@ -37,7 +37,7 @@ or json
          ]
       }
    ]
-}     
+}  
 ```
 run this to create your menu from the config
 ```python

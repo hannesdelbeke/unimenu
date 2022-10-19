@@ -16,6 +16,7 @@ DCC = namedtuple('DCC', ['name', 'module'])
 
 class DCCs:
     """DCCs supported by this module"""
+
     # dcc -> digital content creation (software)
 
     BLENDER = DCC('blender', 'bpy')
@@ -151,12 +152,7 @@ def module_setup(parent_module_name, parent_menu_name='', menu_name="", function
     data = {}
     if parent_menu_name:
         data['parent'] = parent_menu_name
-    data['items'] = [{
-        'label': menu_name or parent_module.__name__,
-        'items': items
-    }]
+    data['items'] = [{'label': menu_name or parent_module.__name__, 'items': items}]
 
     # use the generated dict to set up the menu
     return setup(data, dcc)
-
-

@@ -24,11 +24,12 @@ def _setup_menu_items(parent_menu, items: list):
             add_to_menu(parent_menu, name, command)
         else:  # submenu
             items = item.get('items', [])
-            sub_menu = parent_menu.add_sub_menu(owner=parent_menu.menu_name,
-                                                section_name="PythonTools",
-                                                name=name,
-                                                label=name,  # todo add label support
-                                                )
+            sub_menu = parent_menu.add_sub_menu(
+                owner=parent_menu.menu_name,
+                section_name="PythonTools",
+                name=name,
+                label=name,  # todo add label support
+            )
             _setup_menu_items(sub_menu, items)
 
 

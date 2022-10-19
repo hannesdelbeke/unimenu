@@ -9,6 +9,7 @@ from PySide2.QtWidgets import QMenu, QApplication
 # since this is native qt, it's nearly identical to the krita implementation
 # TODO can we make a generic qt implementation?
 
+
 def setup_menu(data):
 
     # get the raw qt menu

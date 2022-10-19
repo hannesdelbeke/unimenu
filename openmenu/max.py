@@ -21,6 +21,7 @@
 # 3ds max
 
 from pymxs import runtime as rt
+
 menuMan = rt.menuMan
 
 
@@ -101,6 +102,7 @@ def create_macro(label, command):
 def breakdown():
     """remove from menu"""
     raise NotImplementedError("not yet implemented")
+
 
 # menu man pymxs official https://help.autodesk.com/view/MAXDEV/2022/ENU/?guid=Max_Python_API_using_pymxs_pymxs_macroscripts_menus_html
 # maxscript menuman ref https://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=__files_GUID_258F6015_6B45_4A87_A7F5_BB091A2AE065_htm
