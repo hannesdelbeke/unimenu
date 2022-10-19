@@ -5,6 +5,7 @@ from collections import namedtuple
 import importlib
 import pkgutil
 import contextlib
+from typing import Union
 
 
 # name: the name of the dcc, and also the name of the menu module
@@ -30,9 +31,7 @@ class DCCs:
 
 
 def detect_dcc() -> DCC:
-    """
-    detect which dcc is currently running
-    """
+    """detect which dcc is currently running"""
     for dcc in DCCs.ALL:
         with contextlib.suppress(ImportError):
             __import__(dcc.module)
@@ -41,16 +40,14 @@ def detect_dcc() -> DCC:
     warnings.warn("OPENMENU: no supported DCC detected")
 
 
-def config_setup(path: (str, Path), dcc=None):
-    """setup menu"""
+def config_setup(path: Union[str, Path], dcc=None):
+    """setup menu in dcc from a json or yaml config file"""
     data = get_json_data(path) or get_yaml_data(path)
     return setup(data, dcc)
 
 
 def setup(data, dcc=None):
-    """
-    run  setup_menu() on the dcc submodule
-    """
+    """run setup_menu() on the dcc submodule"""
     dcc = dcc or detect_dcc()
     module = importlib.import_module(f'openmenu.{dcc.name}')
     return module.setup_menu(data)
@@ -79,7 +76,7 @@ def get_yaml_data(config_path):
 
 
 def breakdown():
-    """remove from menu"""
+    """remove the create menu"""
     raise NotImplementedError("not yet implemented")
 
 
@@ -94,12 +91,9 @@ def getattr_recursive(obj, attr):
     return obj
 
 
-# load all modules in a folder
-# let user choose a function name to run on these modules
-# hookup module and function name as callback to menu item
-def module_setup(parent_module_name, parent_menu_name='', function_name='main', dcc=None):
+def module_setup(parent_module_name, parent_menu_name='', menu_name="", function_name='main', dcc=None):
     """
-    create a menu for all modules in a folder,
+    Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
 
     note: ensure the folder is importable and in your environment path
@@ -110,6 +104,7 @@ def module_setup(parent_module_name, parent_menu_name='', function_name='main', 
                    ├─ __init__.py   (import cool_tools)
                    ├─ tool1.py      (import cool_tools.tool1)
                    └─ tool2.py      (import cool_tools.tool2)
+    menu_name: optional kwars to overwrite the name of the menu to create, defaults to module name
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
     dcc: the dcc that contains the menu. if None, will try to detect dcc
@@ -157,7 +152,7 @@ def module_setup(parent_module_name, parent_menu_name='', function_name='main', 
     if parent_menu_name:
         data['parent'] = parent_menu_name
     data['items'] = [{
-        'label': parent_module.__name__,
+        'label': menu_name or parent_module.__name__,
         'items': items
     }]
 
