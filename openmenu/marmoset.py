@@ -19,7 +19,6 @@ def _setup_menu_items(parent_menu, items: list):
         print(item, label)
         command = item.get('command', None)
         if command:
-            pass
             add_to_menu(parent_menu, label, command)
         else:  # submenu
             items = item.get('items', [])

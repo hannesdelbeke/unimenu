@@ -1,23 +1,3 @@
-# """
-# if True:
-#     ## add to path
-#     import sys
-#     sys.path.append(r'C:\Users\hanne\OneDrive\Documents\repos\openmenu')
-#     sys.path.append(r'C:\Users\hanne\OneDrive\Documents\repos\BlenderTools\modules\vendor')  # yaml
-#
-#     cfg = r"C:\Users\hanne\OneDrive\Documents\repos\openmenu\samples\config.json"
-#     import openmenu
-#     import openmenu.core as c
-#
-#     import openmenu.max as b
-#     from importlib import reload
-#     reload(b)
-#     reload(c)
-#     reload(openmenu)
-#
-#     openmenu.config_setup(cfg)
-# """
-
 # 3ds max
 
 from pymxs import runtime as rt
@@ -40,7 +20,6 @@ def _setup_menu_items(parent, items: list):
         tooltip = item.get('tooltip')
         command = item.get('command', None)
         if command:
-            pass
             add_to_menu(parent, label, command, tooltip)
         else:  # submenu
             items = item.get('items', [])

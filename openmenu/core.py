@@ -5,7 +5,7 @@ from collections import namedtuple
 import importlib
 import pkgutil
 import contextlib
-from typing import Union
+from typing import Union, Optional
 
 
 # name: the name of the dcc, and also the name of the menu module
@@ -31,7 +31,7 @@ class DCCs:
     ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
 
 
-def detect_dcc() -> DCC:
+def detect_dcc() -> Optional[DCC]:
     """detect which dcc is currently running"""
     for dcc in DCCs.ALL:
         with contextlib.suppress(ImportError):
