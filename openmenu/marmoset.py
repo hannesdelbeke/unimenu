@@ -16,7 +16,6 @@ def _setup_menu_items(parent_menu, items: list):
     """
     for item in items:
         label = item.get('label')
-        print(item, label)
         command = item.get('command', None)
         if command:
             add_to_menu(parent_menu, label, command)

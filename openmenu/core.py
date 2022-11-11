@@ -7,7 +7,6 @@ import pkgutil
 import contextlib
 from typing import Union, Optional
 
-
 # name: the name of the dcc, and also the name of the menu module
 # name of module: a unique python module only available in that dcc
 # callback: not sure if we need this
@@ -31,7 +30,7 @@ class DCCs:
     ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
 
 
-def detect_dcc() -> Optional[DCC]:
+def _detect_dcc() -> Optional[DCC]:
     """detect which dcc is currently running"""
     for dcc in DCCs.ALL:
         with contextlib.suppress(ImportError):
@@ -41,20 +40,8 @@ def detect_dcc() -> Optional[DCC]:
     warnings.warn("OPENMENU: no supported DCC detected")
 
 
-def config_setup(path: Union[str, Path], dcc=None):
-    """setup menu in dcc from a json or yaml config file"""
-    data = get_json_data(path) or get_yaml_data(path)
-    return setup(data, dcc)
-
-
-def setup(data, dcc=None):
-    """run setup_menu() on the dcc submodule"""
-    dcc = dcc or detect_dcc()
-    module = importlib.import_module(f'openmenu.{dcc.name}')
-    return module.setup_menu(data)
-
-
-def get_json_data(config_path):
+def _get_json_data(config_path):
+    """get json data from a file path, return None if not json"""
     path = str(config_path)
     if not path.lower().endswith('.json'):
         return
@@ -64,7 +51,8 @@ def get_json_data(config_path):
     return data
 
 
-def get_yaml_data(config_path):
+def _get_yaml_data(config_path):
+    """get yaml data from a file path, return None if not yaml"""
     path = str(config_path)
     if not path.lower().endswith('.yaml'):
         return
@@ -76,15 +64,10 @@ def get_yaml_data(config_path):
     return data
 
 
-def breakdown():
-    """remove the create menu"""
-    raise NotImplementedError("not yet implemented")
-
-
-def getattr_recursive(obj, attr):
+def _getattr_recursive(obj, attr: str):
     """
     getattr but recursive, supports nested attributes
-    provide multiple attributes separated by a dot
+    attr: provide either 1 attribute, or multiple separated by a dot
     """
     attributes = attr.split('.')
     for attribute in attributes:
@@ -92,7 +75,20 @@ def getattr_recursive(obj, attr):
     return obj
 
 
-def module_setup(parent_module_name, parent_menu_name='', menu_name="", function_name='main', dcc=None):
+def setup_config(path: Union[str, Path], dcc=None):
+    """menu setup from a json or yaml file"""
+    data = _get_json_data(path) or _get_yaml_data(path)
+    return setup(data, dcc)
+
+
+def setup_dict(data, dcc=None):
+    """menu setup from a dict"""
+    dcc = dcc or _detect_dcc()
+    module = importlib.import_module(f'openmenu.{dcc.name}')
+    return module.setup_menu(data)
+
+
+def setup_module(parent_module_name, parent_menu_name='', menu_name="", function_name='main', dcc=None):
     """
     Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
@@ -100,16 +96,16 @@ def module_setup(parent_module_name, parent_menu_name='', menu_name="", function
     note: ensure the folder is importable and in your environment path
 
     Args:
-    parent_module: the module that contains all tools. e.g.:
-                   cool_tools
-                   ├─ __init__.py   (import cool_tools)
-                   ├─ tool1.py      (import cool_tools.tool1)
-                   └─ tool2.py      (import cool_tools.tool2)
+    parent_module_name: the name of the module that contains all tools. e.g.: "cool_tools"
+                        cool_tools
+                        ├─ __init__.py   (import cool_tools)
+                        ├─ tool1.py      (import cool_tools.tool1)
+                        └─ tool2.py      (import cool_tools.tool2)
+    parent_menu_name: the name of the parent menu to add our menu entries to
     menu_name: optional kwars to overwrite the name of the menu to create, defaults to module name
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
     dcc: the dcc that contains the menu. if None, will try to detect dcc
-
     """
 
     parent_module = importlib.import_module(parent_module_name)
@@ -138,7 +134,7 @@ def module_setup(parent_module_name, parent_menu_name='', menu_name="", function
 
             # run the user-provided function on the module, or call the module directly
             if _function_name:
-                function = getattr_recursive(submodule, _function_name)
+                function = _getattr_recursive(submodule, _function_name)
                 function()
             else:
                 submodule()
@@ -156,3 +152,42 @@ def module_setup(parent_module_name, parent_menu_name='', menu_name="", function
 
     # use the generated dict to set up the menu
     return setup(data, dcc)
+
+
+def add_menu_entry(label, command, parent=None, icon_name=None):
+    """
+    add a menu entry to the dcc menu
+
+    Args:
+        label: the label of the menu entry, defaults to None
+        command: the command to run when the menu entry is clicked, defaults to None
+                 some dccs support callbacks, but most use string commands
+        parent: the parent menu name to add the entry to, defaults to None
+        icon_name: the name of the icon to use, defaults to None
+    """
+    data = {
+        "items": [
+            {
+                "label": label,
+                "command": command,
+            }
+        ]
+    }
+    if icon_name:
+        data['items'][0]['icon'] = icon_name
+    if parent:
+        data['parent_menu'] = parent
+    return setup(data)
+
+
+def breakdown():
+    """remove the create menu"""
+    # todo module.breakdown()
+    raise NotImplementedError("not yet implemented")
+
+
+# backwards compatibility
+setup = setup_dict
+module_setup = setup_module
+config_setup = setup_config
+
