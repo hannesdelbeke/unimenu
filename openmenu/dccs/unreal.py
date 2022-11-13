@@ -61,6 +61,13 @@ def add_sub_menu(script_menu, label: str) -> unreal.ToolMenu:
     )
 
 
+def add_separator(script_menu) -> None:  # todo not working yet
+    """add a separator to the script menu"""
+    # see https://docs.unrealengine.com/4.27/en-US/PythonAPI/class/ToolMenu.html
+    # todo what is diff with dynamic section?
+    return script_menu.add_section(section_name="Test", label="World")
+
+
 def teardown():
     """remove from menu"""
     raise NotImplementedError("not yet implemented")
