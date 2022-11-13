@@ -151,7 +151,7 @@ def _setup_menu_items(parent: bpy.types.Operator, items: list):
 
         # check if item is not a divider
         if item == "---":  # todo add divider support to all other dccs
-            add_divider(parent)
+            add_separator(parent)
             continue
 
         label = item.get("label")
@@ -179,6 +179,6 @@ def add_to_menu(parent: bpy.types.Operator, label: str, command: str):
     return operator_wrapper(parent, label, command)
 
 
-def add_divider(parent: bpy.types.Operator):
+def add_separator(parent: bpy.types.Operator):
     """blender dividers dont support labels"""
     parent.append(lambda self, context: self.layout.separator())
