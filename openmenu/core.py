@@ -7,6 +7,18 @@ import pkgutil
 import contextlib
 from typing import Union, Optional
 
+__all__ = [
+    'DCC',
+    'DCCs',
+    # 'setup',
+    'setup_config',
+    'setup_dict',
+    'setup_module',
+    'add_item',
+    # 'breakdown',
+    ]
+
+
 # name: the name of the dcc, and also the name of the menu module
 # name of module: a unique python module only available in that dcc
 # callback: not sure if we need this
