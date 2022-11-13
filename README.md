@@ -3,14 +3,17 @@ A pure python module to add python commands to the menu.
 
 Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max, Marmoset
 
-<img src="samples/menu_screen_maya.jpg" width="400"/>
-<img src="samples/menu_screen_unreal5.jpg" width="400"/>
-<img src="samples/menu_screen_krita.jpg" width="400"/>
-<img src="samples/menu_screen_substance_painter.jpg" width="400"/>
+<img src="samples/menu_screen_maya.jpg" width="400"/> <img src="samples/menu_screen_unreal5.jpg" width="400"/> <img src="samples/menu_screen_krita.jpg" width="400"/> <img src="samples/menu_screen_substance_painter.jpg" width="400"/>
 
 # how to use
 
-create your config in yaml
+you can make your menu(s):
+- from a config
+- from a dict
+- with explicit code
+- from a folder of scripts
+
+### load from config (YAML & JSON)
 ```yaml
 items:
   - name: my menu
@@ -18,32 +21,38 @@ items:
       - name: my item
         command: print("Hello World")
 ```
-or json
-```json
-{
-   "name":"my menu",
-   "items":[
-      {
-         "name":"my item",
-         "command":"print(\"Hello World\")"
-      },
-      {
-         "name":"my sub menu",
-         "items":[
-            {
-               "name":"sub item 1",
-               "command":"print(\"Hello World\")"
-            }
-         ]
-      }
-   ]
-}  
-```
-run this to create your menu from the config
 ```python
 import openmenu
-openmenu.config_setup(config_path)
+openmenu.setup_config(config_path)
 ```
+
+### load from dynamic dict 
+
+```python
+import openmenu
+data = {"items": [{"label": test,"command": 'print("hello world")'}]}
+openmenu.setup_dict(data)
+```
+
+
+### with code
+
+```python
+import openmenu
+openmenu.add_menu_entry(label="my submenu")  # create a submenu, parent defaults to the menu bar
+openmenu.add_menu_entry(label="hello", command='print("hello world")', parent="OPENMENU_MT_my_submenu")  # add menu item to our submenu
+```
+
+### from a folder of scripts (module)
+
+great for a folder full of tools that need launching when clicking a button.
+1. ensure the folder is importable (in the sys.path)
+2. create a menthod in all submodules with the same name, e.g. def show()
+```python
+import openmenu
+openmenu.module_setup('name_of_folder', function_name='show', menu_name="My tools")
+```
+
 
 ## When to use
 
