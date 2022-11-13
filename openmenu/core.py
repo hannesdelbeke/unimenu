@@ -118,7 +118,18 @@ def add_item(label, command=None, parent=None, icon_name=None):
     return setup_dict(data)
 
 
-def breakdown():
-    """remove the create menu"""
-    # todo module.breakdown()
-    raise NotImplementedError("not yet implemented")
+def teardown_config(config_path):
+    """remove the created menu"""
+    # get all entries from a config, assume they are setup, and attempt a teardown
+    data = get_json_data(config_path) or get_yaml_data(config_path)
+    return teardown_dict(data)
+
+
+def teardown_dict(data, dcc=None):
+    """remove the created menu"""
+    # get all entries from a dict, assume they are setup, and attempt a teardown
+    dcc = dcc or detect_dcc()
+    module = importlib.import_module(f'openmenu.dccs.{dcc.name}')
+    return module.teardown_menu(data)
+
+
