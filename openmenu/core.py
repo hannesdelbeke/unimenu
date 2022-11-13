@@ -90,7 +90,7 @@ def _getattr_recursive(obj, attr: str):
 def setup_config(path: Union[str, Path], dcc=None):
     """menu setup from a json or yaml file"""
     data = _get_json_data(path) or _get_yaml_data(path)
-    return setup(data, dcc)
+    return setup_dict(data, dcc)
 
 
 def setup_dict(data, dcc=None):
@@ -163,7 +163,7 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     data['items'] = [{'label': menu_name or parent_module.__name__, 'items': items}]
 
     # use the generated dict to set up the menu
-    return setup(data, dcc)
+    return setup_dict(data, dcc)
 
 
 def add_item(label, command=None, parent=None, icon_name=None):
@@ -192,17 +192,10 @@ def add_item(label, command=None, parent=None, icon_name=None):
         data['items'][0]['command'] = command
     if parent:
         data['parent_menu'] = parent
-    return setup(data)
+    return setup_dict(data)
 
 
 def breakdown():
     """remove the create menu"""
     # todo module.breakdown()
     raise NotImplementedError("not yet implemented")
-
-
-# backwards compatibility
-setup = setup_dict
-module_setup = setup_module
-config_setup = setup_config
-
