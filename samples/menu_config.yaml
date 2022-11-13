@@ -7,6 +7,7 @@ items:
         items:
           - label: Hello
             command: print("Hello")
+          - ---  # separator
           - label: World
             command: print("World")
       - label: Print sys version

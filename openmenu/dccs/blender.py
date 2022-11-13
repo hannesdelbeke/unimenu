@@ -148,6 +148,12 @@ def _setup_menu_items(parent: bpy.types.Operator, items: list):
     operators = []
 
     for item in items:
+
+        # check if item is not a divider
+        if item == "---":  # todo add divider support to all other dccs
+            add_divider(parent)
+            continue
+
         label = item.get("label")
         command = item.get("command", None)
 
