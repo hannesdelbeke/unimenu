@@ -17,9 +17,9 @@ def setup_dict(data, dcc: DCC = None):
     return module.setup_menu(data)
 
 
-def setup_config(path: Union[str, Path], dcc: DCC = None):
+def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     """menu setup from a json or yaml file"""
-    data = get_json_data(path) or get_yaml_data(path)
+    data = get_json_data(config_path) or get_yaml_data(config_path)
     return setup_dict(data, dcc)
 
 
