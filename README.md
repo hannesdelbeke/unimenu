@@ -39,8 +39,8 @@ openmenu.setup_dict(data)
 
 ```python
 import openmenu
-openmenu.add_menu_entry(label="my submenu")  # create a submenu, parent defaults to the menu bar
-openmenu.add_menu_entry(label="hello", command='print("hello world")', parent="OPENMENU_MT_my_submenu")  # add menu item to our submenu
+openmenu.add_item(label="my submenu")  # create a submenu, parent defaults to the menu bar
+openmenu.add_item(label="hello", command='print("hello world")', parent="OPENMENU_MT_my_submenu")  # add menu item to our submenu
 ```
 
 ### from a folder of scripts (module)

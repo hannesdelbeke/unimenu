@@ -154,7 +154,7 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     return setup(data, dcc)
 
 
-def add_menu_entry(label, command=None, parent=None, icon_name=None):
+def add_item(label, command=None, parent=None, icon_name=None):
     """
     add a menu entry to the dcc menu
 
