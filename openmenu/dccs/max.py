@@ -86,7 +86,7 @@ def create_macro(label, command):
     return macro_name, macro_category
 
 
-def breakdown():
+def teardown():
     """remove from menu"""
 
     # todo remove dynamically created macros
@@ -101,7 +101,7 @@ def breakdown():
     raise NotImplementedError("not yet implemented")
 
 
-def breakdown_by_name(name):
+def teardown_by_name(name):
     # todo since this is based on remove menu by name, ensure we don't remove default max menus.
     #  use some kind of openmenu append to name on creation
     #  also handle duplicate names

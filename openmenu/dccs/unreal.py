@@ -61,6 +61,6 @@ def add_sub_menu(script_menu, label: str) -> unreal.ToolMenu:
     )
 
 
-def breakdown():
+def teardown():
     """remove from menu"""
     raise NotImplementedError("not yet implemented")

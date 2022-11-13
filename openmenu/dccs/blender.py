@@ -8,11 +8,15 @@ import bpy
 from typing import Union, Callable
 
 
+registered_operators = set()
+
+
 def setup_menu(data):
     """
     setup menu from data
     return all created operators
     """
+    global registered_operators
 
     # get data
     items = data.get("items")
@@ -20,17 +24,23 @@ def setup_menu(data):
     parent = getattr(bpy.types, parent_name)
 
     operators = _setup_menu_items(parent, items)
+    registered_operators.update(operators)
     return operators
 
 
-def breakdown_menu(operators, parent_name="TOPBAR_MT_editor_menus"):
-    """remove from menu"""
+def teardown_menu(data):  #operators=None, parent_name="TOPBAR_MT_editor_menus"):
+    """
+    remove from menu
+    if no operators are passed, remove all operators
+    """
 
-    raise NotImplementedError
+    # todo add support for data, atm removes everything
 
-    # for op in operators:
-    #     bpy.utils.unregister_class(op)
-    #
+    global registered_operators
+    # operators = operators or registered_operators
+    for op in registered_operators:
+        bpy.utils.unregister_class(op)
+
     # # add root menu to menu
     # parent = getattr(bpy.types, parent_name)
     # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
