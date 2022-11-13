@@ -154,7 +154,7 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     return setup(data, dcc)
 
 
-def add_menu_entry(label, command, parent=None, icon_name=None):
+def add_menu_entry(label, command=None, parent=None, icon_name=None):
     """
     add a menu entry to the dcc menu
 
@@ -162,19 +162,22 @@ def add_menu_entry(label, command, parent=None, icon_name=None):
         label: the label of the menu entry, defaults to None
         command: the command to run when the menu entry is clicked, defaults to None
                  some dccs support callbacks, but most use string commands
+                 if None, the menu is seen as a submenu.
         parent: the parent menu name to add the entry to, defaults to None
         icon_name: the name of the icon to use, defaults to None
+        todo add menu entry name support, defaults to using label, so no duplicate names currently
     """
     data = {
         "items": [
             {
                 "label": label,
-                "command": command,
             }
         ]
     }
     if icon_name:
         data['items'][0]['icon'] = icon_name
+    if command:
+        data['items'][0]['command'] = command
     if parent:
         data['parent_menu'] = parent
     return setup(data)
