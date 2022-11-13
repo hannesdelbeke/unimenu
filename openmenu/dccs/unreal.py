@@ -18,18 +18,14 @@ def _setup_menu_items(parent_menu, items: list):
     # go over all items in the menu and add them to the menu
     # if there are subitems, call self on data recursively
     for item in items:
-        name = item.get('name')
+        label = item.get('label')
+        name = item.get('name', label)
         command = item.get('command', None)
         if command:
             add_to_menu(parent_menu, name, command)
         else:  # submenu
             items = item.get('items', [])
-            sub_menu = parent_menu.add_sub_menu(
-                owner=parent_menu.menu_name,
-                section_name="PythonTools",
-                name=name,
-                label=name,  # todo add label support
-            )
+            sub_menu = add_sub_menu(parent_menu, label)
             _setup_menu_items(sub_menu, items)
 
 
@@ -47,6 +43,14 @@ def add_to_menu(script_menu, label: str, command: str):
         custom_type=unreal.Name("_placeholder_"),
     )  # hack: unsure what custom_type does, but it's needed
     script_menu.add_menu_entry("Scripts", entry)
+def add_sub_menu(script_menu, label: str) -> unreal.ToolMenu:
+    """add a submenu to the script menu"""
+    return script_menu.add_sub_menu(
+        owner=script_menu.menu_name,
+        section_name="PythonTools",
+        name=label,  # todo check if needs to be uniqye like in add_to_menu
+        label=label,  # todo add label support
+    )
 
 
 def breakdown():
