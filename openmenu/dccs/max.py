@@ -1,14 +1,20 @@
-# 3ds max
+"""
+generate menus in 3ds max
+
+generated menus are persistent between sessions!
+"""
 
 from pymxs import runtime as rt
+from pathlib import Path
 
-menuMan = rt.menuMan
+
+counter = -1
 
 
 def setup_menu(data):
-    mainMenuBar = menuMan.getMainMenuBar()
+    mainMenuBar = rt.menuMan.getMainMenuBar()
     _setup_menu_items(mainMenuBar, data.get('items'))
-    menuMan.updateMenuBar()
+    rt.menuMan.updateMenuBar()
 
 
 def _setup_menu_items(parent, items: list):
@@ -28,19 +34,21 @@ def _setup_menu_items(parent, items: list):
 
 
 def add_sub_menu(parent, label):
-    sub_menu = menuMan.createMenu(label)
-    sub_menu_item = menuMan.createSubMenuItem(label, sub_menu)
+    sub_menu = rt.menuMan.createMenu(label)
+    sub_menu_item = rt.menuMan.createSubMenuItem(label, sub_menu)
     parent.addItem(sub_menu_item, -1)
     return sub_menu
 
 
 def add_to_menu(parent, label: str, command: str, tooltip: str = ''):
+    # todo generated menus are persistent between sessions!
+    #  this does not match the behavior of other DCCs currently
+    #  a macro is created at C:\Users\hanne\AppData\Local\Autodesk\3dsMax\2024 - 64bit\ENU\usermacros\
     macro_name, macro_category = create_macro(label, command)
+    # todo handle case when we create a macro with the same name as an existing macro
+    # since actionitems are based of macro names, we can't have two actionitems with the same name
     item = rt.menuMan.createActionItem(macro_name, macro_category)
     parent.addItem(item, -1)  # item index
-
-
-counter = -1
 
 
 def add_callable_to_maxscript(command):
@@ -80,8 +88,25 @@ def create_macro(label, command):
 
 def breakdown():
     """remove from menu"""
+
+    # todo remove dynamically created macros
+    macros_path = Path(rt.pathConfig.getDir(rt.name('Additional Macros')))
+    # delete all files containing openmenu in their name, in the folder with path macros_path
+    for file in macros_path.glob('openmenu*'):
+        file.unlink()
+
+    # get info from macros and remove from menu
+    # track submenus created, across sessions
+
     raise NotImplementedError("not yet implemented")
 
+
+def breakdown_by_name(name):
+    # todo since this is based on remove menu by name, ensure we don't remove default max menus.
+    #  use some kind of openmenu append to name on creation
+    #  also handle duplicate names
+    menu_interface = rt.menuMan.findMenu(name)
+    rt.menuMan.unRegisterMenu(menu_interface)
 
 # menu man pymxs official https://help.autodesk.com/view/MAXDEV/2022/ENU/?guid=Max_Python_API_using_pymxs_pymxs_macroscripts_menus_html
 # maxscript menuman ref https://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=__files_GUID_258F6015_6B45_4A87_A7F5_BB091A2AE065_htm
