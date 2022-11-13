@@ -171,3 +171,8 @@ def add_sub_menu(parent: bpy.types.Operator, label: str):
 
 def add_to_menu(parent: bpy.types.Operator, label: str, command: str):
     return operator_wrapper(parent, label, command)
+
+
+def add_divider(parent: bpy.types.Operator):
+    """blender dividers dont support labels"""
+    parent.append(lambda self, context: self.layout.separator())
