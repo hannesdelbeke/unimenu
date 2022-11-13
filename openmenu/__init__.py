@@ -1,9 +1,11 @@
+"""
+Create custom menus in a uniform way between multiple DCCs.
+"""
+
 from openmenu.core import *
 
 
 __all__ = [
-    'DCC',
-    'SupportedDCCs',
     # 'setup',
     'setup_config',
     'setup_dict',

@@ -1,3 +1,7 @@
+"""
+This submodule contains the dcc-specific implementations of the menu setup.
+"""
+
 import warnings
 from collections import namedtuple
 import contextlib

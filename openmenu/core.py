@@ -1,3 +1,7 @@
+"""
+Core methods to generate custom menus.
+"""
+
 from pathlib import Path
 import importlib
 import pkgutil
@@ -6,17 +10,17 @@ from openmenu.dccs import detect_dcc, DCC
 from openmenu.utils import get_json_data, get_yaml_data, getattr_recursive
 
 
-def setup_config(path: Union[str, Path], dcc: DCC = None):
-    """menu setup from a json or yaml file"""
-    data = get_json_data(path) or get_yaml_data(path)
-    return setup_dict(data, dcc)
-
-
 def setup_dict(data, dcc: DCC = None):
     """menu setup from a dict"""
     dcc = dcc or detect_dcc()
     module = importlib.import_module(f'openmenu.dccs.{dcc.name}')
     return module.setup_menu(data)
+
+
+def setup_config(path: Union[str, Path], dcc: DCC = None):
+    """menu setup from a json or yaml file"""
+    data = get_json_data(path) or get_yaml_data(path)
+    return setup_dict(data, dcc)
 
 
 def setup_module(parent_module_name, parent_menu_name='', menu_name="", function_name='main', dcc=None):
