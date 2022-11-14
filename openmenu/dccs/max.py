@@ -22,6 +22,12 @@ def _setup_menu_items(parent, items: list):
     recursively add all menu items and submenus
     """
     for item in items:
+
+        # check if item is not a divider
+        if item == "---":  # todo add divider support to all other dccs
+            add_separator(parent)
+            continue
+
         label = item.get('label')
         tooltip = item.get('tooltip')
         command = item.get('command', None)
@@ -48,6 +54,11 @@ def add_to_menu(parent, label: str, command: str, tooltip: str = ''):
     # todo handle case when we create a macro with the same name as an existing macro
     # since actionitems are based of macro names, we can't have two actionitems with the same name
     item = rt.menuMan.createActionItem(macro_name, macro_category)
+    parent.addItem(item, -1)  # item index
+
+
+def add_separator(parent):
+    item = rt.menuMan.createSeparatorItem()
     parent.addItem(item, -1)  # item index
 
 
