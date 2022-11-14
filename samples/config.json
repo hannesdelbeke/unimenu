@@ -13,7 +13,9 @@
                "items":[
                   {
                      "label":" World",
-                     "command":"print(\" World\")"
+                     "command":"print(\" World\")",
+                     "tooltip":"Prints World",
+                     "icon":"unreal"
                   },
                   "---",
                   {
