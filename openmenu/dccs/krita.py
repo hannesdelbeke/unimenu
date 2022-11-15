@@ -1,7 +1,7 @@
 # Krita has native PyQt5 support
 import PyQt5.QtWidgets as QtWidgets
 from PyQt5.QtWidgets import QMenu, QApplication
-from openmenu.dccs._abstract import AbstractMenuMaker
+from openmenu.dccs._abstract_qt import AbstractMenuMaker
 
 
 class MenuMaker(AbstractMenuMaker):
@@ -18,24 +18,5 @@ class MenuMaker(AbstractMenuMaker):
             parent = main_window.findChild(QtWidgets.QMenuBar)
 
         return cls._setup_menu_items(parent, data.get('items'))
-
-    @classmethod
-    def add_sub_menu(cls, parent: QMenu, label: str) -> QMenu:
-        return parent.addMenu(label)
-
-    @classmethod
-    def add_to_menu(cls, parent: QMenu, label: str, command, icon: str = None, tooltip: str = None):
-        if isinstance(command, str):
-            return parent.addAction(label, lambda: exec(command))
-        else:  # callable
-            return parent.addAction(label, lambda: command())
-
-    @classmethod
-    def add_separator(cls, parent) -> "QAction":
-        return parent.addSeparator()
-
-    @classmethod
-    def teardown_menu(cls):
-        raise NotImplementedError("not yet implemented")
 
 setup_menu = MenuMaker.setup_menu
