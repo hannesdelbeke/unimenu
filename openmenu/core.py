@@ -23,7 +23,7 @@ def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     return setup_dict(data, dcc)
 
 
-def setup_module(parent_module_name, parent_menu_name='', menu_name="", function_name='main', icon='', tooltip='', dcc=None):
+def setup_module(module, parent_menu='', menu_name="", function_name='main', icon='', tooltip='', dcc=None):
     """
     Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
@@ -31,12 +31,12 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     note: ensure the folder is importable and in your environment path
 
     Args:
-    parent_module_name: the name of the module that contains all tools. e.g.: "cool_tools"
+    module: the name of the module that contains all tools. e.g.: "cool_tools"
                         cool_tools
                         ├─ __init__.py   (import cool_tools)
                         ├─ tool1.py      (import cool_tools.tool1)
                         └─ tool2.py      (import cool_tools.tool2)
-    parent_menu_name: the name of the parent menu to add our menu entries to
+    parent_menu: the name of the parent menu to add our menu entries to
     menu_name: optional kwars to overwrite the name of the menu to create, defaults to module name
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
@@ -44,7 +44,7 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     dcc: the dcc that contains the menu. if None, will try to detect dcc
     """
 
-    parent_module = importlib.import_module(parent_module_name)
+    parent_module = importlib.import_module(module)
 
     # create dict for every module in the folder
     # label: the name of the module
@@ -86,8 +86,8 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
         items.append(submodule_dict)
 
     data = {}
-    if parent_menu_name:
-        data['parent'] = parent_menu_name
+    if parent_menu:
+        data['parent'] = parent_menu
     data['items'] = [{'label': menu_name or parent_module.__name__, 'items': items}]
 
     # use the generated dict to set up the menu
