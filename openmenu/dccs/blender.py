@@ -119,7 +119,7 @@ def menu_wrapper(parent: bpy.types.Operator, label: str):
     # todo we dont need to set both class and bl_idname
 
     name = "OPENMENU_MT_" + label.replace(" ", "_")
-    id_name = name.replace("_MT_", ".").lower()
+    id_name = name
 
     class MenuWrapper(bpy.types.Menu):
         bl_label = label
