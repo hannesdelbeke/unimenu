@@ -13,8 +13,7 @@ from openmenu.utils import get_json_data, get_yaml_data, getattr_recursive
 def setup_dict(data, dcc: DCC = None):
     """menu setup from a dict"""
     dcc = dcc or detect_dcc()
-    module = importlib.import_module(f'openmenu.dccs.{dcc.name}')
-    return module.setup_menu(data)
+    return dcc.menu_module.setup_menu(data)
 
 
 def setup_config(config_path: Union[str, Path], dcc: DCC = None):
@@ -144,7 +143,6 @@ def teardown_dict(data, dcc=None):
     """remove the created menu"""
     # get all entries from a dict, assume they are setup, and attempt a teardown
     dcc = dcc or detect_dcc()
-    module = importlib.import_module(f'openmenu.dccs.{dcc.name}')
-    return module.teardown_menu(data)
+    return dcc.menu_module.teardown_menu(data)
 
 

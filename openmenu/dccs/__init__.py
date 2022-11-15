@@ -7,12 +7,28 @@ from collections import namedtuple
 import contextlib
 from typing import Optional
 import logging
+import importlib
 
 
-# name: the name of the dcc, and also the name of the menu module
-# name of module: a unique python module only available in that dcc
-# callback: not sure if we need this
-DCC = namedtuple('DCC', ['name', 'module'])
+class DCC:
+    """
+    Args:
+    name: the name of the dcc, and also the name of the menu module.
+    module: a unique python module only available in that dcc.
+    """
+    name = None
+    module = None
+
+    def __init__(self, name, module):
+        self.name = name  # name of the openmenu module
+        self.module = module  # a unique module only importable in the dcc
+
+    @property
+    def menu_module(self):
+        """
+        the dcc-specific menu module, lazy import prevents import issues with other dccs
+        """
+        return importlib.import_module(f'openmenu.dccs.{self.name}')
 
 
 class SupportedDCCs:
