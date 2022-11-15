@@ -94,6 +94,14 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     return setup_dict(data, dcc)
 
 
+def add_separator(parent):
+    data = {
+        "items": ['---'],
+        'parent': parent,
+    }
+    return setup_dict(data)
+
+
 def add_item(label, command=None, parent=None, icon_name=None, tooltip=None):
     """
     add a menu entry to the dcc menu
