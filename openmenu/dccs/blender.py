@@ -6,44 +6,58 @@
 """
 import bpy
 from typing import Union, Callable
+from openmenu.dccs._abstract import AbstractMenuMaker
 
 
-registered_operators = set()
+class MenuMaker(AbstractMenuMaker):
+    registered_operators = set()
 
+    @classmethod
+    def setup_menu(cls, data):
+        """
+        setup menu from data
+        return all created operators
+        """
+        # global registered_operators
 
-def setup_menu(data):
-    """
-    setup menu from data
-    return all created operators
-    """
-    global registered_operators
+        # get data
+        items = data.get("items")
+        parent_name = data.get("parent_menu") or "TOPBAR_MT_editor_menus"
+        parent = getattr(bpy.types, parent_name)
 
-    # get data
-    items = data.get("items")
-    parent_name = data.get("parent_menu") or "TOPBAR_MT_editor_menus"
-    parent = getattr(bpy.types, parent_name)
+        operators = cls._setup_menu_items(parent, items)
+        cls.registered_operators.update(operators)
+        return operators
 
-    operators = _setup_menu_items(parent, items)
-    registered_operators.update(operators)
-    return operators
+    @classmethod
+    def teardown_menu(cls, data):  #operators=None, parent_name="TOPBAR_MT_editor_menus"):
+        """
+        remove from menu
+        if no operators are passed, remove all operators
+        """
 
+        # todo add support for data, atm removes everything
 
-def teardown_menu(data):  #operators=None, parent_name="TOPBAR_MT_editor_menus"):
-    """
-    remove from menu
-    if no operators are passed, remove all operators
-    """
+        # global registered_operators
+        # operators = operators or registered_operators
+        for op in cls.registered_operators:
+            bpy.utils.unregister_class(op)
 
-    # todo add support for data, atm removes everything
+        # # add root menu to menu
+        # parent = getattr(bpy.types, parent_name)
+        # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
 
-    global registered_operators
-    # operators = operators or registered_operators
-    for op in registered_operators:
-        bpy.utils.unregister_class(op)
+    @classmethod
+    def add_sub_menu(cls, parent: bpy.types.Operator, label: str):
+        return menu_wrapper(parent, label)
 
-    # # add root menu to menu
-    # parent = getattr(bpy.types, parent_name)
-    # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
+    @classmethod
+    def add_to_menu(cls, parent: bpy.types.Operator, label: str, command: str, icon="NONE", tooltip=''):
+        return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
+
+    @classmethod
+    def add_separator(cls, parent: bpy.types.Operator):
+        parent.append(lambda self, context: self.layout.separator())
 
 
 def operator_wrapper(
@@ -96,6 +110,9 @@ def operator_wrapper(
     # register
     bpy.utils.register_class(OperatorWrapper)
 
+    # ensure None was not accidentally passed
+    icon_name = icon_name or "NONE"
+
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
         self.layout.operator(id_name, icon=icon_name)
@@ -143,45 +160,4 @@ def menu_wrapper(parent: bpy.types.Operator, label: str):
     return MenuWrapper
 
 
-def _setup_menu_items(parent: bpy.types.Operator, items: list):
-    """
-    recursively add all menu items and submenus
-    """
-    operators = []
-
-    for item in items:
-
-        # check if item is not a separator
-        if item == "---":  # todo add separator support to all other dccs
-            add_separator(parent)
-            continue
-
-        label = item.get("label")
-        command = item.get("command", None)
-        icon = item.get("icon", "NONE")
-        tooltip = item.get("tooltip", '')
-
-        if command:
-            menu_item = add_to_menu(parent, label, command, icon, tooltip)
-            operators.append(menu_item)
-        else:  # submenu
-            items = item.get("items", [])
-            sub_menu = add_sub_menu(parent, label)
-            operators.append(sub_menu)
-
-            result = _setup_menu_items(sub_menu, items)
-            operators.extend(result)
-
-    return operators
-
-
-def add_sub_menu(parent: bpy.types.Operator, label: str):
-    return menu_wrapper(parent, label)
-
-
-def add_to_menu(parent: bpy.types.Operator, label: str, command: str, icon="NONE", tooltip=''):
-    return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
-
-
-def add_separator(parent: bpy.types.Operator):
-    parent.append(lambda self, context: self.layout.separator())
+setup_menu = AbstractMenuMaker.setup_menu
