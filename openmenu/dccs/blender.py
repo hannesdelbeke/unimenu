@@ -151,8 +151,8 @@ def _setup_menu_items(parent: bpy.types.Operator, items: list):
 
     for item in items:
 
-        # check if item is not a divider
-        if item == "---":  # todo add divider support to all other dccs
+        # check if item is not a separator
+        if item == "---":  # todo add separator support to all other dccs
             add_separator(parent)
             continue
 
@@ -183,5 +183,5 @@ def add_to_menu(parent: bpy.types.Operator, label: str, command: str, icon="NONE
     return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
 
 
-def add_divider(parent: bpy.types.Operator):
+def add_separator(parent: bpy.types.Operator):
     parent.append(lambda self, context: self.layout.separator())
