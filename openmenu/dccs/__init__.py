@@ -6,6 +6,7 @@ import warnings
 from collections import namedtuple
 import contextlib
 from typing import Optional
+import logging
 
 
 # name: the name of the dcc, and also the name of the menu module
@@ -35,7 +36,7 @@ def detect_dcc() -> Optional[DCC]:
     """detect which dcc is currently running"""
     for dcc in SupportedDCCs.ALL:
         with contextlib.suppress(ImportError):
+            logging.debug(f"OPENMENU: detected {dcc.name}")
             __import__(dcc.module)
-            print(f"OPENMENU: detected {dcc.name}")
             return dcc
     warnings.warn("OPENMENU: no supported DCC detected")
