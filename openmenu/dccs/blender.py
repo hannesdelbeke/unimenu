@@ -51,7 +51,7 @@ def operator_wrapper(
     label: str,
     command: Union[str, Callable],
     icon_name="NONE",
-):
+    tooltip=''):
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
 
@@ -90,6 +90,8 @@ def operator_wrapper(
             return {"RUNNING_MODAL"}
 
     OperatorWrapper.__name__ = name
+    if tooltip:
+        OperatorWrapper.__doc__ = tooltip
 
     # register
     bpy.utils.register_class(OperatorWrapper)
@@ -156,9 +158,11 @@ def _setup_menu_items(parent: bpy.types.Operator, items: list):
 
         label = item.get("label")
         command = item.get("command", None)
+        icon = item.get("icon", "NONE")
+        tooltip = item.get("tooltip", '')
 
         if command:
-            menu_item = add_to_menu(parent, label, command)
+            menu_item = add_to_menu(parent, label, command, icon, tooltip)
             operators.append(menu_item)
         else:  # submenu
             items = item.get("items", [])
@@ -175,10 +179,9 @@ def add_sub_menu(parent: bpy.types.Operator, label: str):
     return menu_wrapper(parent, label)
 
 
-def add_to_menu(parent: bpy.types.Operator, label: str, command: str):
-    return operator_wrapper(parent, label, command)
+def add_to_menu(parent: bpy.types.Operator, label: str, command: str, icon="NONE", tooltip=''):
+    return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
 
 
-def add_separator(parent: bpy.types.Operator):
-    """blender dividers dont support labels"""
+def add_divider(parent: bpy.types.Operator):
     parent.append(lambda self, context: self.layout.separator())

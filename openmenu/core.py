@@ -23,7 +23,7 @@ def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     return setup_dict(data, dcc)
 
 
-def setup_module(parent_module_name, parent_menu_name='', menu_name="", function_name='main', dcc=None):
+def setup_module(parent_module_name, parent_menu_name='', menu_name="", function_name='main', icon='', tooltip='', dcc=None):
     """
     Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
@@ -40,6 +40,7 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     menu_name: optional kwars to overwrite the name of the menu to create, defaults to module name
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
+    icon: the icon name to use for the menu entry, defaults to ''
     dcc: the dcc that contains the menu. if None, will try to detect dcc
     """
 
@@ -78,6 +79,10 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
             'label': submodule_name,
             'command': callback,  # todo ensure this also works for dccs that only support strings
         }
+        if icon:
+            submodule_dict['icon'] = icon
+        if tooltip:
+            submodule_dict['tooltip'] = tooltip
         items.append(submodule_dict)
 
     data = {}
@@ -89,7 +94,7 @@ def setup_module(parent_module_name, parent_menu_name='', menu_name="", function
     return setup_dict(data, dcc)
 
 
-def add_item(label, command=None, parent=None, icon_name=None):
+def add_item(label, command=None, parent=None, icon_name=None, tooltip=None):
     """
     add a menu entry to the dcc menu
 
@@ -115,6 +120,8 @@ def add_item(label, command=None, parent=None, icon_name=None):
         data['items'][0]['command'] = command
     if parent:
         data['parent_menu'] = parent
+    if tooltip:
+        data['items'][0]['tooltip'] = tooltip
     return setup_dict(data)
 
 
