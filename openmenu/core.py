@@ -130,7 +130,7 @@ def add_item(label, command=None, parent=None, icon_name=None, tooltip=None):
         data['parent_menu'] = parent
     if tooltip:
         data['items'][0]['tooltip'] = tooltip
-    return setup_dict(data)
+    return setup_dict(data)[0]
 
 
 def teardown_config(config_path):
