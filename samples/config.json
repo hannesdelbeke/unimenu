@@ -3,24 +3,28 @@
    [
       {
          "label":"my menu",
+         "tooltip":"test tip",
          "items":[
             {
                "label":"Hello ",
-               "command":"print(\"Hello\")"
+               "command":"print(\"Hello\")",
+               "tooltip":"Prints Hello"
             },
             {
                "label":"my sub menu",
                "items":[
                   {
-                     "label":" World",
-                     "command":"print(\" World\")",
-                     "tooltip":"Prints World",
+                     "label":" Hello",
+                     "command":"print(\" Hello\")",
+                     "tooltip":"Prints Hello",
                      "icon":"unreal"
                   },
                   "---",
                   {
                      "label":" World",
-                     "command":"print(\" World\")"
+                     "command":"print(\" World\")",
+                     "tooltip":"Prints World",
+                     "icon":"MODIFIER"
                   }
                ]
             }

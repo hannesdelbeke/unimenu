@@ -50,5 +50,4 @@ def create_test_menus():
     # [Python] RuntimeError: Internal C++ object (PySide2.QtWidgets.QAction) already deleted.
 
 
-# if __name__ == "__main__":
-#     run_tests()
+create_test_menus()
