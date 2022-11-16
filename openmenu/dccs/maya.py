@@ -35,8 +35,9 @@ def add_sub_menu(parent, label: str):
     return pm.menuItem(subMenu=True, label=label, parent=parent)
 
 
-def add_to_menu(parent, label: str, command: str):
-    return pm.menuItem(label=label, command=command, parent=parent)
+# https://help.autodesk.com/cloudhelp/2018/JPN/Maya-Tech-Docs/PyMel/generated/functions/pymel.core.windows/pymel.core.windows.menuItem.html
+def add_to_menu(parent, label: str, command: str, icon: str = "", tooltip: str = ""):
+    return pm.menuItem(label=label, command=command, parent=parent, icon=icon, toolTip=tooltip)
 
 
 def breakdown():
