@@ -1,54 +1,27 @@
 # substance painter has native PySide2 support
 import PySide2.QtWidgets as QtWidgets
 from PySide2.QtWidgets import QMenu, QApplication
+from openmenu.dccs._abstract_qt import AbstractMenuMaker
 
-# qwidgets are not exposed in substance it seems
+# it seems substance's native UI qwidgets aren't accessible
 # substance_painter.ui.ApplicationMenu is not a QMenu
 
 
-# since this is native qt, it's nearly identical to the krita implementation
-# TODO can we make a generic qt implementation?
+class MenuMaker(AbstractMenuMaker):
+    @classmethod
+    def setup_menu(cls, data):
+        parent = data.get("parent_menu")
+
+        if not parent:
+            # get the raw qt menu
+            main_menu = None
+            for widget in QApplication.topLevelWidgets():
+                if isinstance(widget, QMenu):
+                    if widget.objectName() == "edit":
+                        main_menu = widget.parent()
+            parent = main_menu
+
+        return cls._setup_menu_items(parent, data.get('items'))
 
 
-def setup_menu(data):
-
-    # get the raw qt menu
-    main_menu = None
-    for widget in QApplication.topLevelWidgets():
-        if isinstance(widget, QMenu):
-            if widget.objectName() == "edit":
-                main_menu = widget.parent()
-
-    _setup_menu_items(main_menu, data.get('items'))
-
-
-def _setup_menu_items(parent_menu, items: list):
-    """
-    recursively add all menu items and submenus
-    """
-    for item in items:
-        label = item.get('label')
-        print(item, label)
-        command = item.get('command', None)
-        if command:
-            add_to_menu(parent_menu, label, command)
-        else:  # submenu
-            items = item.get('items', [])
-            sub_menu = add_sub_menu(parent_menu, label)
-            _setup_menu_items(sub_menu, items)
-
-
-def add_sub_menu(parent: QMenu, label: str) -> QMenu:
-    return parent.addMenu(label)
-
-
-def add_to_menu(parent: QMenu, label: str, command):
-    if isinstance(command, str):
-        return parent.addAction(label, lambda: exec(command))
-    else:  # callable
-        return parent.addAction(label, lambda: command())
-
-
-def breakdown():
-    """remove from menu"""
-    raise NotImplementedError("not yet implemented")
+setup_menu = MenuMaker.setup_menu
