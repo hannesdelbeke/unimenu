@@ -41,12 +41,12 @@ class AbstractMenuMaker(ABC):
 
     @classmethod
     @abstractmethod
-    def add_sub_menu(cls, parent, label: str):
+    def add_sub_menu(cls, parent, label: str, tool_tip: str = ""):
         pass
 
     @classmethod
     @abstractmethod
-    def add_to_menu(cls, parent, label: str, command: str, icon: str, tooltip: str):
+    def add_to_menu(cls, parent, label: str, command: str, icon: str = "", tooltip: str = ""):
         pass
 
     @classmethod
