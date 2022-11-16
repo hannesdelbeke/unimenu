@@ -1,5 +1,12 @@
 from openmenu.dccs._abstract import AbstractMenuMaker
 from abc import abstractmethod
+import contextlib
+
+
+with contextlib.suppress(ImportError):
+    from PySide2.QtGui import QIcon
+with contextlib.suppress(ImportError):
+    from PyQt5.QtGui import QIcon
 
 
 class AbstractMenuMaker(AbstractMenuMaker):
@@ -22,6 +29,11 @@ class AbstractMenuMaker(AbstractMenuMaker):
         if tooltip:
             parent.setToolTipsVisible(True)
             action.setToolTip(tooltip)
+
+        if icon:
+            # todo test this, krita doesnt support icons
+            action.setIconVisibleInMenu(True)
+            action.setIcon(QIcon(icon))
 
         return action
 
