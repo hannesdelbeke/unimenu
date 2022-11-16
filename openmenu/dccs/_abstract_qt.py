@@ -15,9 +15,15 @@ class AbstractMenuMaker(AbstractMenuMaker):
     @classmethod
     def add_to_menu(cls, parent: "QMenu", label: str, command, icon: str = None, tooltip: str = None):
         if isinstance(command, str):
-            return parent.addAction(label, lambda: exec(command))
+            action = parent.addAction(label, lambda: exec(command))
         else:  # callable
-            return parent.addAction(label, lambda: command())
+            action = parent.addAction(label, lambda: command())
+
+        if tooltip:
+            parent.setToolTipsVisible(True)
+            action.setToolTip(tooltip)
+
+        return action
 
     @classmethod
     def add_separator(cls, parent) -> "QAction":
