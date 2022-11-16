@@ -4,6 +4,10 @@ import contextlib
 
 
 with contextlib.suppress(ImportError):
+    from PySide6.QtGui import QIcon
+with contextlib.suppress(ImportError):
+    from PyQt6.QtGui import QIcon
+with contextlib.suppress(ImportError):
     from PySide2.QtGui import QIcon
 with contextlib.suppress(ImportError):
     from PyQt5.QtGui import QIcon
