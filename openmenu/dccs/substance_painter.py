@@ -21,7 +21,7 @@ class MenuMaker(AbstractMenuMaker):
                         main_menu = widget.parent()
             parent = main_menu
 
-        return cls._setup_menu_items(parent, data.get('items'))
+        return cls._setup_menu_items(parent, data.get("items"))
 
 
 setup_menu = MenuMaker.setup_menu

@@ -16,6 +16,7 @@ class DCC:
     name: the name of the dcc, and also the name of the menu module.
     module: a unique python module only available in that dcc.
     """
+
     name = None
     module = None
 
@@ -28,7 +29,7 @@ class DCC:
         """
         the dcc-specific menu module, lazy import prevents import issues with other dccs
         """
-        return importlib.import_module(f'openmenu.dccs.{self.name}')
+        return importlib.import_module(f"openmenu.dccs.{self.name}")
 
 
 class SupportedDCCs:
@@ -36,14 +37,14 @@ class SupportedDCCs:
 
     # dcc -> digital content creation (software)
 
-    BLENDER = DCC('blender', 'bpy')
-    MAYA = DCC('maya', 'maya')  # pymel can be slow to import
-    UNREAL = DCC('unreal', 'unreal')
-    MAX = DCC('max', 'pymxs')
-    KRITA = DCC('krita', 'krita')
-    SUBSTANCE_DESIGNER = DCC('substance_designer', 'pysbs')
-    SUBSTANCE_PAINTER = DCC('substance_painter', 'substance_painter')
-    MARMOSET = DCC('marmoset', 'mset')
+    BLENDER = DCC("blender", "bpy")
+    MAYA = DCC("maya", "maya")  # pymel can be slow to import
+    UNREAL = DCC("unreal", "unreal")
+    MAX = DCC("max", "pymxs")
+    KRITA = DCC("krita", "krita")
+    SUBSTANCE_DESIGNER = DCC("substance_designer", "pysbs")
+    SUBSTANCE_PAINTER = DCC("substance_painter", "substance_painter")
+    MARMOSET = DCC("marmoset", "mset")
 
     ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
 

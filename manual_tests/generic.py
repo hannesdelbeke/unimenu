@@ -11,6 +11,7 @@ a test entry should appear in the menu, click it to run the test
 """
 
 import sys
+
 sys.path.append(r"C:\Users\hanne\OneDrive\Documents\repos\openmenu")
 
 import openmenu
@@ -22,7 +23,6 @@ from pathlib import Path
 def create_test_menus():
     dcc = detect_dcc()
     reload(dcc.menu_module)
-
 
     config = Path(openmenu.__file__).parent.parent / "samples/config.json"
     # in substance painter, Path(openmenu.__file__) does not return this file's location but instead:

@@ -22,7 +22,7 @@ def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     return setup_dict(data, dcc)
 
 
-def setup_module(module, parent_menu='', menu_name="", function_name='main', icon='', tooltip='', dcc=None):
+def setup_module(module, parent_menu="", menu_name="", function_name="main", icon="", tooltip="", dcc=None):
     """
     Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
@@ -55,7 +55,7 @@ def setup_module(module, parent_menu='', menu_name="", function_name='main', ico
     for module_finder, submodule_name, ispkg in pkgutil.iter_modules(parent_module.__path__):
 
         # skip private modules
-        if submodule_name.startswith('_'):
+        if submodule_name.startswith("_"):
             continue
 
         # to prevent issues with late binding
@@ -75,19 +75,19 @@ def setup_module(module, parent_menu='', menu_name="", function_name='main', ico
                 submodule()
 
         submodule_dict = {
-            'label': submodule_name,
-            'command': callback,  # todo ensure this also works for dccs that only support strings
+            "label": submodule_name,
+            "command": callback,  # todo ensure this also works for dccs that only support strings
         }
         if icon:
-            submodule_dict['icon'] = icon
+            submodule_dict["icon"] = icon
         if tooltip:
-            submodule_dict['tooltip'] = tooltip
+            submodule_dict["tooltip"] = tooltip
         items.append(submodule_dict)
 
     data = {}
     if parent_menu:
-        data['parent'] = parent_menu
-    data['items'] = [{'label': menu_name or parent_module.__name__, 'items': items}]
+        data["parent"] = parent_menu
+    data["items"] = [{"label": menu_name or parent_module.__name__, "items": items}]
 
     # use the generated dict to set up the menu
     return setup_dict(data, dcc)
@@ -95,8 +95,8 @@ def setup_module(module, parent_menu='', menu_name="", function_name='main', ico
 
 def add_separator(parent):
     data = {
-        "items": ['---'],
-        'parent': parent,
+        "items": ["---"],
+        "parent": parent,
     }
     return setup_dict(data)
 
@@ -122,13 +122,13 @@ def add_item(label, command=None, parent=None, icon_name=None, tooltip=None):
         ]
     }
     if icon_name:
-        data['items'][0]['icon'] = icon_name
+        data["items"][0]["icon"] = icon_name
     if command:
-        data['items'][0]['command'] = command
+        data["items"][0]["command"] = command
     if parent:
-        data['parent_menu'] = parent
+        data["parent_menu"] = parent
     if tooltip:
-        data['items'][0]['tooltip'] = tooltip
+        data["items"][0]["tooltip"] = tooltip
     return setup_dict(data)[0]
 
 
@@ -144,5 +144,3 @@ def teardown_dict(data, dcc=None):
     # get all entries from a dict, assume they are setup, and attempt a teardown
     dcc = dcc or detect_dcc()
     return dcc.menu_module.teardown_menu(data)
-
-

@@ -2,7 +2,6 @@ from abc import abstractmethod, ABC
 
 
 class AbstractMenuMaker(ABC):
-
     @classmethod
     def _setup_menu_items(cls, parent_menu, items: list):
         """
@@ -17,17 +16,17 @@ class AbstractMenuMaker(ABC):
                 continue
 
             # get data
-            label = item.get('label')
-            command = item.get('command', None)
-            tooltip = item.get('tooltip', None)
-            icon = item.get('icon', None)
+            label = item.get("label")
+            command = item.get("command", None)
+            tooltip = item.get("tooltip", None)
+            icon = item.get("icon", None)
 
             if command:
                 menu_item = cls.add_to_menu(parent_menu, label, command, icon, tooltip)
                 created.append(menu_item)
 
             else:  # submenu
-                items = item.get('items', [])
+                items = item.get("items", [])
                 sub_menu = cls.add_sub_menu(parent_menu, label)
                 cls._setup_menu_items(sub_menu, items)
                 created.append(sub_menu)
@@ -61,4 +60,4 @@ class AbstractMenuMaker(ABC):
 
     @staticmethod
     def _is_separator(item):
-        return item == '---'
+        return item == "---"

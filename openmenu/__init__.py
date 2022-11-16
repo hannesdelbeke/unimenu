@@ -7,12 +7,12 @@ from openmenu.core import *
 
 __all__ = [
     # 'setup',
-    'setup_config',
-    'setup_dict',
-    'setup_module',
-    'add_item',
+    "setup_config",
+    "setup_dict",
+    "setup_module",
+    "add_item",
     # 'breakdown',
-    ]
+]
 
 
 # main menu is the main menu bar

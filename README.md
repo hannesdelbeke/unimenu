@@ -26,7 +26,7 @@ import openmenu
 openmenu.setup_config(config_path)
 ```
 
-### load from dynamic dict 
+### load from dynamic dict
 
 ```python
 import openmenu

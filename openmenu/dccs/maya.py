@@ -2,8 +2,8 @@ import pymel.core as pm  # todo replace with cmds because it's faster
 
 
 def setup_menu(data):
-    menu = create_root_menu('OpenMenu')
-    _setup_menu_items(menu, data.get('items'))
+    menu = create_root_menu("OpenMenu")
+    _setup_menu_items(menu, data.get("items"))
 
 
 def _setup_menu_items(parent_menu, items: list):
@@ -11,17 +11,17 @@ def _setup_menu_items(parent_menu, items: list):
     recursively add all menu items and submenus
     """
     for item in items:
-        label = item.get('label')
-        command = item.get('command', None)
+        label = item.get("label")
+        command = item.get("command", None)
         if command:
             add_to_menu(parent_menu, label, command)
         else:  # submenu
-            items = item.get('items', [])
+            items = item.get("items", [])
             sub_menu = add_sub_menu(parent_menu, label)
             _setup_menu_items(sub_menu, items)
 
 
-def create_root_menu(label, window_name='gMainWindow'):
+def create_root_menu(label, window_name="gMainWindow"):
     """
     Create a root menu in Maya
     label: str, the label of the menu

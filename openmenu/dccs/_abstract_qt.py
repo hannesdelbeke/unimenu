@@ -3,7 +3,6 @@ from abc import abstractmethod
 
 
 class AbstractMenuMaker(AbstractMenuMaker):
-
     @classmethod
     @abstractmethod
     def setup_menu(cls, data):
@@ -27,5 +26,3 @@ class AbstractMenuMaker(AbstractMenuMaker):
     @classmethod
     def teardown_menu(cls):
         raise NotImplementedError("not yet implemented")
-
-

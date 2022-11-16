@@ -7,7 +7,7 @@ import mset
 
 
 def setup_menu(data):
-    _setup_menu_items(None, data.get('items'))
+    _setup_menu_items(None, data.get("items"))
 
 
 def _setup_menu_items(parent_menu, items: list):
@@ -15,12 +15,12 @@ def _setup_menu_items(parent_menu, items: list):
     recursively add all menu items and submenus
     """
     for item in items:
-        label = item.get('label')
-        command = item.get('command', None)
+        label = item.get("label")
+        command = item.get("command", None)
         if command:
             add_to_menu(parent_menu, label, command)
         else:  # submenu
-            items = item.get('items', [])
+            items = item.get("items", [])
             sub_menu = add_sub_menu(parent_menu, label)
             _setup_menu_items(sub_menu, items)
 

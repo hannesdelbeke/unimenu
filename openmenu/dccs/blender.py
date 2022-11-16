@@ -30,7 +30,7 @@ class MenuMaker(AbstractMenuMaker):
         return operators
 
     @classmethod
-    def teardown_menu(cls, data):  #operators=None, parent_name="TOPBAR_MT_editor_menus"):
+    def teardown_menu(cls, data):  # operators=None, parent_name="TOPBAR_MT_editor_menus"):
         """
         remove from menu
         if no operators are passed, remove all operators
@@ -52,7 +52,7 @@ class MenuMaker(AbstractMenuMaker):
         return menu_wrapper(parent, label)
 
     @classmethod
-    def add_to_menu(cls, parent: bpy.types.Operator, label: str, command: str, icon="NONE", tooltip=''):
+    def add_to_menu(cls, parent: bpy.types.Operator, label: str, command: str, icon="NONE", tooltip=""):
         return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
 
     @classmethod
@@ -61,11 +61,8 @@ class MenuMaker(AbstractMenuMaker):
 
 
 def operator_wrapper(
-    parent: bpy.types.Operator,
-    label: str,
-    command: Union[str, Callable],
-    icon_name="NONE",
-    tooltip=''):
+    parent: bpy.types.Operator, label: str, command: Union[str, Callable], icon_name="NONE", tooltip=""
+):
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
 

@@ -17,6 +17,7 @@ class MenuMaker(AbstractMenuMaker):
                     break
             parent = main_window.findChild(QtWidgets.QMenuBar)
 
-        return cls._setup_menu_items(parent, data.get('items'))
+        return cls._setup_menu_items(parent, data.get("items"))
+
 
 setup_menu = MenuMaker.setup_menu

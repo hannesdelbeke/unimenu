@@ -13,7 +13,7 @@ counter = -1
 
 def setup_menu(data):
     mainMenuBar = rt.menuMan.getMainMenuBar()
-    _setup_menu_items(mainMenuBar, data.get('items'))
+    _setup_menu_items(mainMenuBar, data.get("items"))
     rt.menuMan.updateMenuBar()
 
 
@@ -28,13 +28,13 @@ def _setup_menu_items(parent, items: list):
             add_separator(parent)
             continue
 
-        label = item.get('label')
-        tooltip = item.get('tooltip')
-        command = item.get('command', None)
+        label = item.get("label")
+        tooltip = item.get("tooltip")
+        command = item.get("command", None)
         if command:
             add_to_menu(parent, label, command, tooltip)
         else:  # submenu
-            items = item.get('items', [])
+            items = item.get("items", [])
             sub_menu = add_sub_menu(parent, label)
             _setup_menu_items(sub_menu, items)
 
@@ -46,7 +46,7 @@ def add_sub_menu(parent, label):
     return sub_menu
 
 
-def add_to_menu(parent, label: str, command: str, tooltip: str = ''):
+def add_to_menu(parent, label: str, command: str, tooltip: str = ""):
     # todo generated menus are persistent between sessions!
     #  this does not match the behavior of other DCCs currently
     #  a macro is created at C:\Users\hanne\AppData\Local\Autodesk\3dsMax\2024 - 64bit\ENU\usermacros\
@@ -76,7 +76,7 @@ def add_callable_to_maxscript(command):
         else:
             command()
 
-    cmd_name = f'openmenu_{counter}'
+    cmd_name = f"openmenu_{counter}"
     setattr(rt, cmd_name, _execute_command)  # add to runtime, creating a callable var in maxscript
 
     return cmd_name
@@ -89,10 +89,10 @@ def create_macro(label, command):
     cmd_name = add_callable_to_maxscript(command)
 
     macro_name = cmd_name
-    macro_category = 'OpenMenu'
-    macro_tooltip = 'This is a tooltip'  # TODO this doesn't work
+    macro_category = "OpenMenu"
+    macro_tooltip = "This is a tooltip"  # TODO this doesn't work
     macro_text = label
-    macro_content = cmd_name + '()'
+    macro_content = cmd_name + "()"
     macro_id = rt.macros.new(macro_category, macro_name, macro_tooltip, macro_text, macro_content)
     return macro_name, macro_category
 
@@ -101,9 +101,9 @@ def teardown():
     """remove from menu"""
 
     # todo remove dynamically created macros
-    macros_path = Path(rt.pathConfig.getDir(rt.name('Additional Macros')))
+    macros_path = Path(rt.pathConfig.getDir(rt.name("Additional Macros")))
     # delete all files containing openmenu in their name, in the folder with path macros_path
-    for file in macros_path.glob('openmenu*'):
+    for file in macros_path.glob("openmenu*"):
         file.unlink()
 
     # get info from macros and remove from menu
@@ -118,6 +118,7 @@ def teardown_by_name(name):
     #  also handle duplicate names
     menu_interface = rt.menuMan.findMenu(name)
     rt.menuMan.unRegisterMenu(menu_interface)
+
 
 # menu man pymxs official https://help.autodesk.com/view/MAXDEV/2022/ENU/?guid=Max_Python_API_using_pymxs_pymxs_macroscripts_menus_html
 # maxscript menuman ref https://help.autodesk.com/view/3DSMAX/2017/ENU/?guid=__files_GUID_258F6015_6B45_4A87_A7F5_BB091A2AE065_htm
