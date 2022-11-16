@@ -36,21 +36,25 @@ class AbstractMenuMaker(ABC):
     @classmethod
     @abstractmethod
     def setup_menu(cls, data):
+        # return an object that represents the menu item created, and can be parented too
         pass
 
     @classmethod
     @abstractmethod
     def add_sub_menu(cls, parent, label: str, tool_tip: str = ""):
+        # return an object that represents the menu item created, and can be parented too
         pass
 
     @classmethod
     @abstractmethod
     def add_to_menu(cls, parent, label: str, command: str, icon: str = "", tooltip: str = ""):
+        # return an object that represents the menu item created, and can be parented too
         pass
 
     @classmethod
     @abstractmethod
     def add_separator(cls, parent):
+        # no need to return separator object, but return it if possible to future-proof
         pass
 
     @classmethod
