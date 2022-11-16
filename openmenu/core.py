@@ -101,7 +101,7 @@ def add_separator(parent):
     return setup_dict(data)
 
 
-def add_item(label, command=None, parent=None, icon_name=None, tooltip=None):
+def add_item(label, command=None, parent=None, icon=None, tooltip=None):
     """
     add a menu entry to the dcc menu
 
@@ -121,8 +121,8 @@ def add_item(label, command=None, parent=None, icon_name=None, tooltip=None):
             }
         ]
     }
-    if icon_name:
-        data["items"][0]["icon"] = icon_name
+    if icon:
+        data["items"][0]["icon"] = icon
     if command:
         data["items"][0]["command"] = command
     if parent:
