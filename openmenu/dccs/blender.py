@@ -157,4 +157,4 @@ def menu_wrapper(parent: bpy.types.Operator, label: str):
     return MenuWrapper
 
 
-setup_menu = AbstractMenuMaker.setup_menu
+setup_menu = MenuMaker.setup_menu
