@@ -5,7 +5,6 @@ from openmenu.dccs._abstract import AbstractMenuMaker
 
 
 class MenuMaker(AbstractMenuMaker):
-
     @classmethod
     def setup_menu(cls, data):
         menu = cls.create_root_menu("OpenMenu")
@@ -36,5 +35,6 @@ class MenuMaker(AbstractMenuMaker):
     def teardown_menu(cls):
         """remove from menu"""
         raise NotImplementedError("not yet implemented")
+
 
 setup_menu = MenuMaker.setup_menu

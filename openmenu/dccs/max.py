@@ -14,13 +14,11 @@ counter = -1
 
 
 class MenuMaker(AbstractMenuMaker):
-
     @classmethod
     def setup_menu(cls, data):
         mainMenuBar = rt.menuMan.getMainMenuBar()
         cls._setup_menu_items(mainMenuBar, data.get("items"))
         rt.menuMan.updateMenuBar()
-
 
     # @classmethod
     # def _setup_menu_items(cls, parent, items: list):
@@ -44,14 +42,12 @@ class MenuMaker(AbstractMenuMaker):
     #             sub_menu = cls.add_sub_menu(parent, label)
     #             cls._setup_menu_items(sub_menu, items)
 
-
     @classmethod
     def add_sub_menu(cls, parent, label):
         sub_menu = rt.menuMan.createMenu(label)
         sub_menu_item = rt.menuMan.createSubMenuItem(label, sub_menu)
         parent.addItem(sub_menu_item, -1)
         return sub_menu
-
 
     @classmethod
     def add_to_menu(cls, parent, label: str, command: str, tooltip: str = ""):
@@ -64,12 +60,10 @@ class MenuMaker(AbstractMenuMaker):
         item = rt.menuMan.createActionItem(macro_name, macro_category)
         parent.addItem(item, -1)  # item index
 
-
     @classmethod
     def add_separator(cls, parent):
         item = rt.menuMan.createSeparatorItem()
         parent.addItem(item, -1)  # item index
-
 
     @classmethod
     def add_callable_to_maxscript(cls, command):
@@ -91,7 +85,6 @@ class MenuMaker(AbstractMenuMaker):
 
         return cmd_name
 
-
     @classmethod
     def create_macro(cls, label, command):
         """
@@ -107,7 +100,6 @@ class MenuMaker(AbstractMenuMaker):
         macro_id = rt.macros.new(macro_category, macro_name, macro_tooltip, macro_text, macro_content)
         return macro_name, macro_category
 
-
     @classmethod
     def teardown(cls):
         """remove from menu"""
@@ -122,7 +114,6 @@ class MenuMaker(AbstractMenuMaker):
         # track submenus created, across sessions
 
         raise NotImplementedError("not yet implemented")
-
 
     @classmethod
     def teardown_by_name(cls, name):
