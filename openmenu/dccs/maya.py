@@ -10,7 +10,13 @@ def _setup_menu_items(parent_menu, items: list):
     """
     recursively add all menu items and submenus
     """
+    print("items, ", items)
     for item in items:
+
+        # check if item is a dict, the divider is a str
+        if not isinstance(item, dict):
+            continue
+
         label = item.get("label")
         command = item.get("command", None)
         if command:
@@ -37,7 +43,9 @@ def add_sub_menu(parent, label: str):
 
 # https://help.autodesk.com/cloudhelp/2018/JPN/Maya-Tech-Docs/PyMel/generated/functions/pymel.core.windows/pymel.core.windows.menuItem.html
 def add_to_menu(parent, label: str, command: str, icon: str = "", tooltip: str = ""):
-    return pm.menuItem(label=label, command=command, parent=parent, icon=icon, toolTip=tooltip)
+    # menuItem doesn't support tooltip.
+    # could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
+    return pm.menuItem(label=label, command=command, parent=parent, image=icon)
 
 
 def breakdown():
