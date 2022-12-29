@@ -4,7 +4,7 @@ so we create windows with buttons instead, submenus create new windows
 """
 
 import mset
-from openmenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker
 
 
 windows = []

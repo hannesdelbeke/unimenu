@@ -6,8 +6,8 @@ from pathlib import Path
 import importlib
 import pkgutil
 from typing import Union
-from openmenu.dccs import detect_dcc, DCC
-from openmenu.utils import get_json_data, get_yaml_data, getattr_recursive
+from unimenu.dccs import detect_dcc, DCC
+from unimenu.utils import get_json_data, get_yaml_data, getattr_recursive
 
 
 def setup_dict(data, dcc: DCC = None):

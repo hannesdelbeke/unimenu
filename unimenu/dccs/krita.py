@@ -1,7 +1,7 @@
 # Krita has native PyQt5 support
 import PyQt5.QtWidgets as QtWidgets
 from PyQt5.QtWidgets import QMenu, QApplication
-from openmenu.dccs._abstract_qt import AbstractMenuMaker
+from unimenu.dccs._abstract_qt import AbstractMenuMaker
 
 
 class MenuMaker(AbstractMenuMaker):

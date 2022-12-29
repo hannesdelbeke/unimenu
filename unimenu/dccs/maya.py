@@ -1,13 +1,13 @@
 import pymel.core as pm  # todo replace with cmds because it's faster
 
 
-from openmenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker
 
 
 class MenuMaker(AbstractMenuMaker):
     @classmethod
     def setup_menu(cls, data):
-        menu = cls.create_root_menu("OpenMenu")
+        menu = cls.create_root_menu("UniMenu")
         cls._setup_menu_items(menu, data.get("items"))
 
     @classmethod

@@ -21,7 +21,7 @@ class DCC:
     module = None
 
     def __init__(self, name, module):
-        self.name = name  # name of the openmenu module
+        self.name = name  # name of the unimenu module
         self.module = module  # a unique module only importable in the dcc
 
     @property
@@ -29,7 +29,7 @@ class DCC:
         """
         the dcc-specific menu module, lazy import prevents import issues with other dccs
         """
-        return importlib.import_module(f"openmenu.dccs.{self.name}")
+        return importlib.import_module(f"unimenu.dccs.{self.name}")
 
 
 class SupportedDCCs:
@@ -53,7 +53,7 @@ def detect_dcc() -> Optional[DCC]:
     """detect which dcc is currently running"""
     for dcc in SupportedDCCs.ALL:
         with contextlib.suppress(ImportError):
-            logging.debug(f"OPENMENU: detected {dcc.name}")
+            logging.debug(f"UNIMENU: detected {dcc.name}")
             __import__(dcc.module)
             return dcc
-    warnings.warn("OPENMENU: no supported DCC detected")
+    warnings.warn("UNIMENU: no supported DCC detected")

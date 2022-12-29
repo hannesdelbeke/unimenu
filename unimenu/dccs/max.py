@@ -7,7 +7,7 @@ generated menus are persistent between sessions!
 from pymxs import runtime as rt
 from pathlib import Path
 
-from openmenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker
 
 
 counter = -1
@@ -80,7 +80,7 @@ class MenuMaker(AbstractMenuMaker):
             else:
                 command()
 
-        cmd_name = f"openmenu_{counter}"
+        cmd_name = f"unimenu_{counter}"
         setattr(rt, cmd_name, _execute_command)  # add to runtime, creating a callable var in maxscript
 
         return cmd_name
@@ -93,7 +93,7 @@ class MenuMaker(AbstractMenuMaker):
         cmd_name = cls.add_callable_to_maxscript(command)
 
         macro_name = cmd_name
-        macro_category = "OpenMenu"
+        macro_category = "UniMenu"
         macro_tooltip = "This is a tooltip"  # TODO this doesn't work
         macro_text = label
         macro_content = cmd_name + "()"
@@ -106,8 +106,8 @@ class MenuMaker(AbstractMenuMaker):
 
         # todo remove dynamically created macros
         macros_path = Path(rt.pathConfig.getDir(rt.name("Additional Macros")))
-        # delete all files containing openmenu in their name, in the folder with path macros_path
-        for file in macros_path.glob("openmenu*"):
+        # delete all files containing unimenu in their name, in the folder with path macros_path
+        for file in macros_path.glob("unimenu*"):
             file.unlink()
 
         # get info from macros and remove from menu
@@ -118,7 +118,7 @@ class MenuMaker(AbstractMenuMaker):
     @classmethod
     def teardown_by_name(cls, name):
         # todo since this is based on remove menu by name, ensure we don't remove default max menus.
-        #  use some kind of openmenu append to name on creation
+        #  use some kind of unimenu append to name on creation
         #  also handle duplicate names
         menu_interface = rt.menuMan.findMenu(name)
         rt.menuMan.unRegisterMenu(menu_interface)

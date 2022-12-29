@@ -6,7 +6,7 @@
 """
 import bpy
 from typing import Union, Callable
-from openmenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker
 
 
 class MenuMaker(AbstractMenuMaker):
@@ -72,11 +72,11 @@ def operator_wrapper(
     """
 
     # handle name
-    # class: OPENMENU_OT_my_operator
-    # id: openmenu.my_operator
+    # class: UNIMENU_OT_my_operator
+    # id: unimenu.my_operator
     #  todo add support dupe names
-    name = "OPENMENU_OT_" + label.replace(" ", "_")
-    id_name = name.replace("OPENMENU_OT_", "openmenu.").lower()
+    name = "UNIMENU_OT_" + label.replace(" ", "_")
+    id_name = name.replace("UNIMENU_OT_", "unimenu.").lower()
 
     # create
     class OperatorWrapper(bpy.types.Operator):
@@ -128,11 +128,11 @@ def menu_wrapper(parent: bpy.types.Operator, label: str):
 
     # todo add support dupe names
     # handle name
-    # class: OPENMENU_OT_my_operator
-    # id: openmenu.my_operator
+    # class: UNIMENU_OT_my_operator
+    # id: unimenu.my_operator
     # todo we dont need to set both class and bl_idname
 
-    name = "OPENMENU_MT_" + label.replace(" ", "_")
+    name = "UNIMENU_MT_" + label.replace(" ", "_")
     id_name = name
 
     class MenuWrapper(bpy.types.Menu):

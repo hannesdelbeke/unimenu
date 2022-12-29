@@ -1,6 +1,6 @@
 import unreal
 import warnings
-from openmenu.dccs._abstract_qt import AbstractMenuMaker
+from unimenu.dccs._abstract_qt import AbstractMenuMaker
 
 
 class MenuMaker(AbstractMenuMaker):

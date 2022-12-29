@@ -2,7 +2,7 @@
 Create custom menus in a uniform way between multiple DCCs.
 """
 
-from openmenu.core import *
+from unimenu.core import *
 
 
 __all__ = [

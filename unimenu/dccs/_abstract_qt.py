@@ -1,4 +1,4 @@
-from openmenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker
 from abc import abstractmethod
 import contextlib
 
