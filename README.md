@@ -1,4 +1,4 @@
-# unimenu
+# unimenu (Universal Menu)
 A pure python module to add python commands to the menu.
 
 Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max, Marmoset
