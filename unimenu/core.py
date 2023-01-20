@@ -22,7 +22,7 @@ def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     return setup_dict(data, dcc)
 
 
-def setup_module(module, parent_menu="", menu_name="", function_name="main", icon="", tooltip="", dcc=None):
+def setup_module(module, parent_menu="", menu_name="", function_name="main", icon="", tooltip="", dcc=None, smart_spaces=True):
     """
     Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
@@ -74,8 +74,11 @@ def setup_module(module, parent_menu="", menu_name="", function_name="main", ico
             else:
                 submodule()
 
+        # add spaces to the label. e.g.: "my_tool" -> "My Tool"
+        submodule_label = submodule_name.replace('_', ' ').title() if smart_spaces else submodule_name
+
         submodule_dict = {
-            "label": submodule_name,
+            "label": submodule_label,
             "command": callback,  # todo ensure this also works for dccs that only support strings
         }
         if icon:
