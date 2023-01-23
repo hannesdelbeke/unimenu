@@ -13,11 +13,11 @@ with contextlib.suppress(ImportError):
     from PyQt5.QtGui import QIcon
 
 
-class AbstractMenuMaker(AbstractMenuMaker):
+class QtMenuMaker(AbstractMenuMaker):
     @classmethod
     @abstractmethod
-    def setup_menu(cls, data):
-        pass
+    def setup_menu(cls, data, parent):
+        return cls._setup_menu_items(parent, data.get("items"))
 
     @classmethod
     def add_sub_menu(cls, parent: "QMenu", label: str) -> "QMenu":

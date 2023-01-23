@@ -1,9 +1,9 @@
 import unreal
 import warnings
-from unimenu.dccs._abstract_qt import AbstractMenuMaker
+from unimenu.dccs.qt import QtMenuMaker
 
 
-class MenuMaker(AbstractMenuMaker):
+class MenuMaker(QtMenuMaker):  # todo believe this doesnt need qt, but can use normal menumaker
     @classmethod
     def setup_menu(cls, data):
         parent_menu_name = data.get("parent", "LevelEditor.MainMenu")

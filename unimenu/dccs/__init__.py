@@ -46,6 +46,8 @@ class SupportedDCCs:
     SUBSTANCE_PAINTER = DCC("substance_painter", "substance_painter")
     MARMOSET = DCC("marmoset", "mset")
 
+    QT = DCC("qt", None)
+
     ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
 
 
