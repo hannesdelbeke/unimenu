@@ -10,18 +10,18 @@ from unimenu.dccs._abstract_qt import AbstractMenuMaker
 class MenuMaker(AbstractMenuMaker):
     @classmethod
     def setup_menu(cls, data):
-        parent = data.get("parent_menu")
-
-        if not parent:
-            # get the raw qt menu
-            main_menu = None
-            for widget in QApplication.topLevelWidgets():
-                if isinstance(widget, QMenu):
-                    if widget.objectName() == "edit":
-                        main_menu = widget.parent()
-            parent = main_menu
-
+        parent = data.get("parent_menu") or main_menu_bar()
         return cls._setup_menu_items(parent, data.get("items"))
 
 
 setup_menu = MenuMaker.setup_menu
+
+
+def main_menu_bar() -> QtWidgets.QMenuBar:
+    # get the raw qt menu
+    main_menu = None
+    for widget in QApplication.topLevelWidgets():
+        if isinstance(widget, QMenu):
+            if widget.objectName() == "edit":
+                main_menu = widget.parent()
+    return main_menu
