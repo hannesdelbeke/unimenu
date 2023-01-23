@@ -22,7 +22,7 @@ class MenuMaker(AbstractMenuMaker):
 
         # get data
         items = data.get("items")
-        parent_name = data.get("parent_menu") or "TOPBAR_MT_editor_menus"
+        parent_name = data.get("parent") or "TOPBAR_MT_editor_menus"
         parent = getattr(bpy.types, parent_name)
 
         operators = cls._setup_menu_items(parent, items)

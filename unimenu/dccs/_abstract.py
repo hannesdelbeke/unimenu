@@ -3,7 +3,7 @@ from abc import abstractmethod, ABC
 
 class AbstractMenuMaker(ABC):
     @classmethod
-    def _setup_menu_items(cls, parent_menu, items: list):
+    def _setup_menu_items(cls, parent, items: list):
         """
         recursively add all menu items and submenus
         """
@@ -12,7 +12,7 @@ class AbstractMenuMaker(ABC):
         for item in items:
 
             if cls._is_separator(item):
-                cls.add_separator(parent_menu)
+                cls.add_separator(parent)
                 continue
 
             # get data
@@ -22,12 +22,12 @@ class AbstractMenuMaker(ABC):
             icon = item.get("icon", None)
 
             if command:
-                menu_item = cls.add_to_menu(parent_menu, label, command, icon, tooltip)
+                menu_item = cls.add_to_menu(parent, label, command, icon, tooltip)
                 created.append(menu_item)
 
             else:  # submenu
                 items = item.get("items", [])
-                sub_menu = cls.add_sub_menu(parent_menu, label)
+                sub_menu = cls.add_sub_menu(parent, label)
                 cls._setup_menu_items(sub_menu, items)
                 created.append(sub_menu)
 

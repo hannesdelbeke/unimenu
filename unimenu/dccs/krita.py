@@ -7,7 +7,7 @@ from unimenu.dccs.qt import QtMenuMaker
 class MenuMaker(QtMenuMaker):
     @classmethod
     def setup_menu(cls, data):
-        parent = data.get("parent_menu") or krita_main_menu_bar()
+        parent = data.get("parent") or krita_main_menu_bar()
         return cls._setup_menu_items(parent, data.get("items"))
 
 

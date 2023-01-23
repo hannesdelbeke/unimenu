@@ -16,7 +16,7 @@ class MenuMaker(AbstractMenuMaker):
         cls._setup_menu_items(None, data.get("items"))
 
     # @classmethod
-    # def _setup_menu_items(cls, parent_menu, items: list):
+    # def _setup_menu_items(cls, parent, items: list):
     #     """
     #     recursively add all menu items and submenus
     #     """
@@ -24,10 +24,10 @@ class MenuMaker(AbstractMenuMaker):
     #         label = item.get("label")
     #         command = item.get("command", None)
     #         if command:
-    #             cls.add_to_menu(parent_menu, label, command)
+    #             cls.add_to_menu(parent, label, command)
     #         else:  # submenu
     #             items = item.get("items", [])
-    #             sub_menu = cls.add_sub_menu(parent_menu, label)
+    #             sub_menu = cls.add_sub_menu(parent, label)
     #             cls._setup_menu_items(sub_menu, items)
 
     @classmethod

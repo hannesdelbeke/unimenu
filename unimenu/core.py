@@ -35,7 +35,7 @@ def setup_module(module, parent_menu="", menu_name="", function_name="main", ico
                         ├─ __init__.py   (import cool_tools)
                         ├─ tool1.py      (import cool_tools.tool1)
                         └─ tool2.py      (import cool_tools.tool2)
-    parent_menu: the name of the parent menu to add our menu entries to
+    parent: the name of the parent menu to add our menu entries to
     menu_name: optional kwars to overwrite the name of the menu to create, defaults to module name
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
@@ -129,7 +129,7 @@ def add_item(label, command=None, parent=None, icon=None, tooltip=None):
     if command:
         data["items"][0]["command"] = command
     if parent:
-        data["parent_menu"] = parent
+        data["parent"] = parent
     if tooltip:
         data["items"][0]["tooltip"] = tooltip
     return setup_dict(data)[0]
