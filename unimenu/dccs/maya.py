@@ -40,5 +40,9 @@ class MenuMaker(AbstractMenuMaker):
         """remove from menu"""
         raise NotImplementedError("not yet implemented")
 
+    @classmethod
+    def add_separator(cls, parent):
+        return pm.menuItem(divider=True, parent=parent)
+
 
 setup_menu = MenuMaker.setup_menu
