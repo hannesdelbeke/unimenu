@@ -16,9 +16,9 @@ you can make your menu(s):
 ### load from config (YAML & JSON)
 ```yaml
 items:
-  - name: my menu
+  - label: my menu
     items:
-      - name: my item
+      - label: my item
         command: print("Hello World")
 ```
 ```python
