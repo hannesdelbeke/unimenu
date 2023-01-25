@@ -4,10 +4,11 @@ from unimenu.dccs._abstract import AbstractMenuMaker
 
 class MenuMaker(AbstractMenuMaker):
     @classmethod
-    def setup_menu(cls, data):
+    def setup_menu(cls, data) -> pm.menu:
         label = data.get("label") or "UniMenu"
-        menu = cls.create_root_menu(label)  # todo name
+        menu = cls.create_root_menu(label)
         cls._setup_menu_items(menu, data.get("items"))
+        return menu
 
     @classmethod
     def create_root_menu(cls, label, window_name=None):
@@ -35,9 +36,10 @@ class MenuMaker(AbstractMenuMaker):
         #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
 
     @classmethod
-    def teardown_menu(cls):
+    def teardown_menu(cls, name: str):
         """remove from menu"""
-        raise NotImplementedError("not yet implemented")
+        # see https://stackoverflow.com/questions/44142119/remove-menu-item-in-maya-using-python
+        pm.deleteUI(name, menu=True)
 
     @classmethod
     def add_separator(cls, parent, label: str = None):
@@ -45,3 +47,4 @@ class MenuMaker(AbstractMenuMaker):
 
 
 setup_menu = MenuMaker.setup_menu
+teardown_menu = MenuMaker.teardown_menu

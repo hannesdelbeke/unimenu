@@ -148,15 +148,22 @@ def add_item(label, command=None, parent=None, icon=None, tooltip=None):
     return setup_dict(data)[0]
 
 
-def teardown_config(config_path):
-    """remove the created menu"""
-    # get all entries from a config, assume they are setup, and attempt a teardown
-    data = get_json_data(config_path) or get_yaml_data(config_path)
-    return teardown_dict(data)
+# def teardown_config(config_path):
+#     """remove the created menu"""
+#     # get all entries from a config, assume they are setup, and attempt a teardown
+#     data = get_json_data(config_path) or get_yaml_data(config_path)
+#     return teardown_dict(data)
 
 
-def teardown_dict(data, dcc=None):
+# def teardown_dict(data, dcc=None):
+#     """remove the created menu"""
+#     # get all entries from a dict, assume they are setup, and attempt a teardown
+#     dcc = dcc or detect_dcc()
+#     return dcc.menu_module.teardown_menu(data)
+
+
+def teardown_menu(name, dcc=None):
     """remove the created menu"""
-    # get all entries from a dict, assume they are setup, and attempt a teardown
+    # get the top menu with name X, and delete it and all submenus
     dcc = dcc or detect_dcc()
-    return dcc.menu_module.teardown_menu(data)
+    return dcc.menu_module.teardown_menu(name)

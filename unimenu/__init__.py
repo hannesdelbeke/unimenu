@@ -11,6 +11,7 @@ __all__ = [
     "setup_dict",
     "setup_module",
     "add_item",
+    "teardown_menu",
     # 'breakdown',
 ]
 
