@@ -27,6 +27,9 @@ class MenuMaker(AbstractMenuMaker):
 
     @classmethod
     def add_to_menu(cls, parent, label: str, command: str, icon: str = None, tooltip: str = None):
+        icon = icon or ""
+        tooltip = tooltip or ""
+
         return pm.menuItem(label=label, command=command, parent=parent, image=icon)
         # todo menuItem doesn't support tooltip.
         #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
