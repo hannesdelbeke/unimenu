@@ -7,7 +7,8 @@ from unimenu.dccs._abstract import AbstractMenuMaker
 class MenuMaker(AbstractMenuMaker):
     @classmethod
     def setup_menu(cls, data):
-        menu = cls.create_root_menu("UniMenu")
+        label = data.get("label") or "UniMenu"
+        menu = cls.create_root_menu(label)  # todo name
         cls._setup_menu_items(menu, data.get("items"))
 
     @classmethod
