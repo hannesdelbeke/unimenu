@@ -19,7 +19,9 @@
                      "tooltip":"Prints Hello",
                      "icon":"unreal"
                   },
-                  "---",
+                  {
+                     "separator":""
+                  },
                   {
                      "label":" World",
                      "command":"print(\" World\")",
