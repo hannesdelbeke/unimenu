@@ -52,7 +52,10 @@ class MenuMaker(AbstractMenuMaker):
         return menu_wrapper(parent, label)
 
     @classmethod
-    def add_to_menu(cls, parent: bpy.types.Operator, label: str, command: str, icon="NONE", tooltip=""):
+    def add_to_menu(cls, parent: bpy.types.Operator, label: str, command: str, icon=None, tooltip=None):
+        icon = icon or "NONE"
+        tooltip = tooltip or ""
+
         return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
 
     @classmethod
@@ -61,7 +64,7 @@ class MenuMaker(AbstractMenuMaker):
 
 
 def operator_wrapper(
-    parent: bpy.types.Operator, label: str, command: Union[str, Callable], icon_name="NONE", tooltip=""
+    parent: bpy.types.Operator, label: str, command: Union[str, Callable], icon_name=None, tooltip=None
 ):
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
@@ -70,6 +73,9 @@ def operator_wrapper(
     2 register class
     3 add to (sub)menu (parent operator)
     """
+
+    icon_name = icon_name or "NONE"
+    tooltip = tooltip or ""
 
     # handle name
     # class: UNIMENU_OT_my_operator

@@ -41,13 +41,13 @@ class AbstractMenuMaker(ABC):
 
     @classmethod
     @abstractmethod
-    def add_sub_menu(cls, parent, label: str, tool_tip: str = ""):
+    def add_sub_menu(cls, parent, label: str, tool_tip: str = None):
         # return an object that represents the menu item created, and can be parented too
         pass
 
     @classmethod
     @abstractmethod
-    def add_to_menu(cls, parent, label: str, command: str, icon: str = "", tooltip: str = ""):
+    def add_to_menu(cls, parent, label: str, command: str, icon: str = None, tooltip: str = None):
         # return an object that represents the menu item created, and can be parented too
         pass
 

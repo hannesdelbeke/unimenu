@@ -50,7 +50,10 @@ class MenuMaker(AbstractMenuMaker):
         return sub_menu
 
     @classmethod
-    def add_to_menu(cls, parent, label: str, command: str, tooltip: str = ""):
+    def add_to_menu(cls, parent, label: str, command: str, tooltip: str = None):
+
+        tooltip = tooltip or ""
+
         # todo generated menus are persistent between sessions!
         #  this does not match the behavior of other DCCs currently
         #  a macro is created at C:\Users\hanne\AppData\Local\Autodesk\3dsMax\2024 - 64bit\ENU\usermacros\
