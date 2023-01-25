@@ -10,12 +10,14 @@ class MenuMaker(AbstractMenuMaker):
         cls._setup_menu_items(menu, data.get("items"))
 
     @classmethod
-    def create_root_menu(cls, label, window_name="gMainWindow"):
+    def create_root_menu(cls, label, window_name=None):
         """
         Create a root menu in Maya
         label: str, the label of the menu
         window_name: str, the name of the window to attach the menu to
         """
+        window_name = window_name or "gMainWindow"  # default value
+
         maya_window = pm.language.melGlobals[window_name]
         return pm.menu(label, parent=maya_window, tearOff=True)
 

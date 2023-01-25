@@ -22,7 +22,15 @@ def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     return setup_dict(data, dcc)
 
 
-def setup_module(module, parent_menu="", menu_name="", function_name="main", icon="", tooltip="", dcc=None, smart_spaces=True):
+def setup_module(module,
+                 parent_menu: str = None,
+                 menu_name: str = None,
+                 function_name: str = None,
+                 icon: str = None,
+                 tooltip: str = None,
+                 dcc=None,
+                 smart_spaces=True,
+                 ):
     """
     Create a menu from a folder with modules,
     automatically keep your menu up to date with all tools in that folder
@@ -42,6 +50,9 @@ def setup_module(module, parent_menu="", menu_name="", function_name="main", ico
     icon: the icon name to use for the menu entry, defaults to ''
     dcc: the dcc that contains the menu. if None, will try to detect dcc
     """
+
+    if not function_name:
+        function_name = "main"
 
     parent_module = importlib.import_module(module)
 
