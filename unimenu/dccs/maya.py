@@ -26,7 +26,11 @@ class MenuMaker(AbstractMenuMaker):
 
     # https://help.autodesk.com/cloudhelp/2018/JPN/Maya-Tech-Docs/PyMel/generated/functions/pymel.core.windows/pymel.core.windows.menuItem.html
     @classmethod
-    def add_to_menu(cls, parent, label: str, command: str, icon: str = "", tooltip: str = ""):
+    def add_to_menu(cls, parent, label: str, command: str, icon: str = None, tooltip: str = None):
+        # default kwarg values set here, since when set in the function signature we get bugs.
+        icon = icon or ""
+        tooltip = tooltip or ""
+
         # menuItem doesn't support tooltip.
         # could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
         return pm.menuItem(label=label, command=command, parent=parent, image=icon)
