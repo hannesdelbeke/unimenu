@@ -42,8 +42,10 @@ class QtMenuMaker(AbstractMenuMaker):
         return action
 
     @classmethod
-    def add_separator(cls, parent) -> "QAction":
+    def add_separator(cls, parent, label: str = None) -> "QAction":
         return parent.addSeparator()
+        # todo add label support,
+        #  see https://stackoverflow.com/questions/33820789/create-a-separator-with-a-text-in-the-menubar
 
     @classmethod
     def teardown_menu(cls):

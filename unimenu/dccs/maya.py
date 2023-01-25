@@ -1,6 +1,4 @@
 import pymel.core as pm  # todo replace with cmds because it's faster
-
-
 from unimenu.dccs._abstract import AbstractMenuMaker
 
 
@@ -25,16 +23,11 @@ class MenuMaker(AbstractMenuMaker):
     def add_sub_menu(cls, parent, label: str):
         return pm.menuItem(subMenu=True, label=label, parent=parent, tearOff=True)
 
-    # https://help.autodesk.com/cloudhelp/2018/JPN/Maya-Tech-Docs/PyMel/generated/functions/pymel.core.windows/pymel.core.windows.menuItem.html
     @classmethod
     def add_to_menu(cls, parent, label: str, command: str, icon: str = None, tooltip: str = None):
-        # default kwarg values set here, since when set in the function signature we get bugs.
-        icon = icon or ""
-        tooltip = tooltip or ""
-
-        # menuItem doesn't support tooltip.
-        # could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
         return pm.menuItem(label=label, command=command, parent=parent, image=icon)
+        # todo menuItem doesn't support tooltip.
+        #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
 
     @classmethod
     def teardown_menu(cls):
@@ -42,8 +35,8 @@ class MenuMaker(AbstractMenuMaker):
         raise NotImplementedError("not yet implemented")
 
     @classmethod
-    def add_separator(cls, parent):
-        return pm.menuItem(divider=True, parent=parent)
+    def add_separator(cls, parent, label: str = None):
+        return pm.menuItem(divider=True, parent=parent, dividerLabel=label)
 
 
 setup_menu = MenuMaker.setup_menu

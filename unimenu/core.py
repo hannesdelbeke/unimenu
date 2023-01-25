@@ -96,17 +96,19 @@ def setup_module(module, parent_menu="", menu_name="", function_name="main", ico
     return setup_dict(data, dcc)
 
 
-def add_separator(parent):
-    data = {
-        "items": ["---"],
-        "parent": parent,
-    }
-    return setup_dict(data)
+# def add_separator(parent, label: str = None):
+#     # todo explain what this does
+#     data = {
+#         "items": ["---"],
+#         "parent": parent,
+#         "label": label,
+#     }
+#     return setup_dict(data)
 
 
 def add_item(label, command=None, parent=None, icon=None, tooltip=None):
     """
-    add a menu entry to the dcc menu
+    add a single menu entry to the dcc menu
 
     Args:
         label: the label of the menu entry, defaults to None

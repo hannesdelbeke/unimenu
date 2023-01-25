@@ -64,7 +64,7 @@ class MenuMaker(AbstractMenuMaker):
         parent.addItem(item, -1)  # item index
 
     @classmethod
-    def add_separator(cls, parent):
+    def add_separator(cls, parent, label:str = None):
         item = rt.menuMan.createSeparatorItem()
         parent.addItem(item, -1)  # item index
 

@@ -11,15 +11,19 @@ class AbstractMenuMaker(ABC):
 
         for item in items:
 
+            try:  # this fails to run on strings (separators)
+                label = item.get("label")
+            except:
+                label = None
+
             if cls._is_separator(item):
-                cls.add_separator(parent)
+                cls.add_separator(parent, label=label)
                 continue
 
             # get data
-            label = item.get("label")
+            icon = item.get("icon", None)
             command = item.get("command", None)
             tooltip = item.get("tooltip", None)
-            icon = item.get("icon", None)
 
             if command:
                 menu_item = cls.add_to_menu(parent, label, command, icon, tooltip)
@@ -53,7 +57,7 @@ class AbstractMenuMaker(ABC):
 
     @classmethod
     @abstractmethod
-    def add_separator(cls, parent):
+    def add_separator(cls, parent, label: str = None):
         # no need to return separator object, but return it if possible to future-proof
         pass
 
@@ -64,4 +68,4 @@ class AbstractMenuMaker(ABC):
 
     @staticmethod
     def _is_separator(item):
-        return item == "---"
+        return item == "---" or item.get("separator", False)

@@ -59,7 +59,7 @@ class MenuMaker(AbstractMenuMaker):
         return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
 
     @classmethod
-    def add_separator(cls, parent: bpy.types.Operator):
+    def add_separator(cls, parent: bpy.types.Operator, label: str = None):
         parent.append(lambda self, context: self.layout.separator())
 
 

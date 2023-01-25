@@ -60,7 +60,7 @@ class MenuMaker(QtMenuMaker):  # todo believe this doesnt need qt, but can use n
         )
 
     @classmethod
-    def add_separator(cls, parent) -> None:  # todo not working yet
+    def add_separator(cls, parent, label: str = None) -> None:  # todo not working yet
         """add a separator to the script menu"""
         # see https://docs.unrealengine.com/4.27/en-US/PythonAPI/class/ToolMenu.html
         # todo what is diff with dynamic section?
