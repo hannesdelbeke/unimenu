@@ -18,11 +18,11 @@ class MenuMaker(AbstractMenuMaker):
         window_name: str, the name of the window to attach the menu to
         """
         maya_window = pm.language.melGlobals[window_name]
-        return pm.menu(label, parent=maya_window)
+        return pm.menu(label, parent=maya_window, tearOff=True)
 
     @classmethod
     def add_sub_menu(cls, parent, label: str):
-        return pm.menuItem(subMenu=True, label=label, parent=parent)
+        return pm.menuItem(subMenu=True, label=label, parent=parent, tearOff=True)
 
     # https://help.autodesk.com/cloudhelp/2018/JPN/Maya-Tech-Docs/PyMel/generated/functions/pymel.core.windows/pymel.core.windows.menuItem.html
     @classmethod
