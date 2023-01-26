@@ -25,6 +25,11 @@ def get_yaml_data(config_path):
     return data
 
 
+def get_config_data(config_path):
+    """get data from a JSON or YAML config"""
+    return get_json_data(config_path) or get_yaml_data(config_path)
+
+
 def getattr_recursive(obj, attr: str):
     """
     getattr but recursive, supports nested attributes
