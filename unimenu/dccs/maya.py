@@ -5,7 +5,14 @@ from unimenu.dccs._abstract import AbstractMenuMaker
 class MenuMaker(AbstractMenuMaker):
     @classmethod
     def setup_menu(cls, data) -> pm.menu:
-        label = data.get("label") or "UniMenu"
+        label = data.get("label")  # root menu name
+        parent = data.get("parent")  # todo parent
+
+        # todo parent logic currently is re implemented in every dcc module
+        #  can we move it to the abstract class?
+        # if we provide a parent in the config, we might want to parent to a submenu
+
+
         menu = cls.create_root_menu(label)
         cls._setup_menu_items(menu, data.get("items"))
         return menu
