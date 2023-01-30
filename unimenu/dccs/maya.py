@@ -1,5 +1,7 @@
 import pymel.core as pm  # todo replace with cmds because it's faster
 from unimenu.dccs._abstract import AbstractMenuMaker
+import maya.mel
+import maya.cmds
 
 
 class MenuMaker(AbstractMenuMaker):
@@ -11,9 +13,11 @@ class MenuMaker(AbstractMenuMaker):
         # todo parent logic currently is re implemented in every dcc module
         #  can we move it to the abstract class?
         # if we provide a parent in the config, we might want to parent to a submenu
+        if parent:
+            menu = find_menu(parent)
+        else:
+            menu = cls.create_root_menu(label)
 
-
-        menu = cls.create_root_menu(label)
         cls._setup_menu_items(menu, data.get("items"))
         return menu
 
@@ -27,11 +31,11 @@ class MenuMaker(AbstractMenuMaker):
         window_name = window_name or "gMainWindow"  # default value
 
         maya_window = pm.language.melGlobals[window_name]
-        return pm.menu(label, parent=maya_window, tearOff=True)
+        return pm.menu(label, parent=maya_window, tearOff=True)  # todo garantuee uniqye name
 
     @classmethod
     def add_sub_menu(cls, parent, label: str):
-        return pm.menuItem(subMenu=True, label=label, parent=parent, tearOff=True)
+        return pm.menuItem(label, subMenu=True, label=label, parent=parent, tearOff=True)
 
     @classmethod
     def add_to_menu(cls, parent, label: str, command: str, icon: str = None, tooltip: str = None):
@@ -51,6 +55,19 @@ class MenuMaker(AbstractMenuMaker):
     @classmethod
     def add_separator(cls, parent, label: str = None):
         return pm.menuItem(divider=True, parent=parent, dividerLabel=label)
+
+
+def find_menu(name):
+    gMainWindow = maya.mel.eval('$temp=$gMainWindow')
+    # get all the menus that are children of the main menu
+    mainWindowMenus = maya.cmds.window(gMainWindow, query=True, menuArray=True)
+    for menu in mainWindowMenus:
+        print(menu)
+        if menu.lower() == name.lower():
+            return menu
+
+        # TODO get their children recursively
+
 
 
 setup_menu = MenuMaker.setup_menu
