@@ -1,14 +1,13 @@
+label: Custom Menu
 items:
-  - label: Custom Menu
+  - label: Test Qt
+    command: import PyQt5.QtWidgets as QtWidgets; QtWidgets.QMessageBox.information(None, "Test", "Test")
+  - label: my sub menu
     items:
-      - label: Test Qt
-        command: import PyQt5.QtWidgets as QtWidgets; QtWidgets.QMessageBox.information(None, "Test", "Test")
-      - label: my sub menu
-        items:
-          - label: Hello
-            command: print("Hello")
-          - separator: ---
-          - label: World
-            command: print("World")
-      - label: Print sys version
-        command: import sys; print(sys.version)
+      - label: Hello
+        command: print("Hello")
+      - separator: ---
+      - label: World
+        command: print("World")
+  - label: Print sys version
+    command: import sys; print(sys.version)
