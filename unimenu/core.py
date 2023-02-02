@@ -7,7 +7,7 @@ import importlib
 import pkgutil
 from typing import Union
 from unimenu.dccs import detect_dcc, DCC
-from unimenu.utils import get_json_data, get_yaml_data, getattr_recursive
+from unimenu.utils import load_json, load_yaml, getattr_recursive
 
 
 def setup_dict(data, dcc: DCC = None):
@@ -18,7 +18,7 @@ def setup_dict(data, dcc: DCC = None):
 
 def setup_config(config_path: Union[str, Path], dcc: DCC = None):
     """menu setup from a json or yaml file"""
-    data = get_json_data(config_path) or get_yaml_data(config_path)
+    data = load_json(config_path) or load_yaml(config_path)
     return setup_dict(data, dcc)
 
 
