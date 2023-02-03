@@ -7,6 +7,8 @@
 import bpy
 from typing import Union, Callable
 from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract, MenuNode
+import unimenu.dccs
+
 
 # we have #todo
 # - menu nodes
@@ -176,6 +178,7 @@ setup_menu = MenuMaker.setup_menu
 
 
 class MenuNodeBlender(MenuNodeAbstract):
+    app = unimenu.dccs.blender
     # @property
     # def _default_root_parent(self):
     #     return None
