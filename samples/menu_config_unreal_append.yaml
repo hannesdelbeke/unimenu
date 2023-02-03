@@ -1,4 +1,4 @@
-parent: LevelEditor.MainMenu.Custom Menu  # set parent to the menu from the previous example
+parent_path: LevelEditor.MainMenu.Custom Menu  # set parent to the menu from the previous example
 label: Custom Menu  # this is now a submenu instead of a top level menu
 items:
   - label: Test

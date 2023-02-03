@@ -1,4 +1,4 @@
-parent: LevelEditor.MainMenu  # this is optional
+parent_path: LevelEditor.MainMenu  # this is optional
 
 label: Custom Menu
 items:

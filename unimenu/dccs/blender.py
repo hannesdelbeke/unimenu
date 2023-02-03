@@ -6,7 +6,12 @@
 """
 import bpy
 from typing import Union, Callable
-from unimenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker, MenuNode
+
+# we have #todo
+# - menu nodes
+# - unique dcc menu nodes, e.g. QMenu, bpy.types.Menu, ...
+# - menu root names in config parent
 
 
 class MenuMaker(AbstractMenuMaker):
@@ -20,12 +25,16 @@ class MenuMaker(AbstractMenuMaker):
         """
         # global registered_operators
 
-        # get data
-        items = data.get("items")
-        parent_name = data.get("parent") or "TOPBAR_MT_editor_menus"
-        parent = getattr(bpy.types, parent_name)
+        menu_node = MenuNode(**data)
 
-        operators = cls._setup_menu_items(parent, items)
+        # get data
+        # items = data.get("items")
+        parent_path = menu_node.parent_path or "TOPBAR_MT_editor_menus"
+        # get app-parent-node
+        parent = getattr(bpy.types, parent_path)  # get the parent from blender by name
+
+        # create app menu-nodes
+        operators = cls._setup_menu_items(parent, items=menu_node.items)
         cls.registered_operators.update(operators)
         return operators
 

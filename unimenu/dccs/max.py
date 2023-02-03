@@ -17,7 +17,7 @@ class MenuMaker(AbstractMenuMaker):
     @classmethod
     def setup_menu(cls, data):
         mainMenuBar = rt.menuMan.getMainMenuBar()
-        cls._setup_menu_items(mainMenuBar, data.get("items"))
+        cls._setup_menu_items(mainMenuBar, [data])
         rt.menuMan.updateMenuBar()
 
     # @classmethod
