@@ -54,24 +54,26 @@ class QtMenuMaker(AbstractMenuMaker):
 
 class QtMenuNode(MenuNodeAbstract):
     # def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-    #              parent=None, parent_path=None, app_menu_node=None):
+    #              parent=None, parent_path=None, app_node=None):
     #     super().__init__(label=label, command=command, icon=icon, tooltip=tooltip, separator=separator, items=items,
-    #                      parent=parent, parent_path=parent_path, app_menu_node=app_menu_node)
+    #                      parent=parent, parent_path=parent_path, app_node=app_node)
 
-    # def _parent_app_node(self):
-    #     """parent self.app_menu_node to parent.app_menu_node"""
-    #     pass
+    # def _parent_app_node(self, parent_app_node=None):
+    #     """parent self.app_node to parent.app_node"""
+    #     parent_app_node.addMenu(self.app_node)
 
-    def _setup_sub_menu(self):
+    def _setup_sub_menu(self, parent_app_node=None):
         menu = QtWidgets.QMenu(title=self.label)  # parent
+        if parent_app_node:
+            parent_app_node.addMenu(menu)
         return menu
 
-        # self.parent.app_menu_node.addMenu(self.label)
+        # self.parent.app_node.addMenu(self.label)
 
-    def _setup_menu_item(self):
+    def _setup_menu_item(self, parent_app_node=None):
         """create a QAction from the MenuNode data"""
         command = self.command
-        # parent = self.parent.app_menu_node
+        # parent = self.parent.app_node
         icon = self.icon
         tooltip = self.tooltip
 
@@ -103,9 +105,12 @@ class QtMenuNode(MenuNodeAbstract):
             action.setIconVisibleInMenu(True)
             action.setIcon(QtGui.QIcon(icon))
 
+        if parent_app_node:
+            parent_app_node.addAction(action)
+
         return action
 
-    def _setup_separator(self):
+    def _setup_separator(self, parent_app_node=None):
         """
         instantiate a separator object
         """

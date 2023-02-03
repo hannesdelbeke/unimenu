@@ -33,7 +33,7 @@ window = QtWidgets.QMainWindow()
 menu = window.menuBar()
 
 # create the Qt menu & add it to the menu bar
-menu_node.setup(parent=menu)
+menu_node.setup(parent_app_node=menu)
 
 # todo parent
 

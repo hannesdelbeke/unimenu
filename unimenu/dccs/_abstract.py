@@ -87,7 +87,7 @@ class MenuNode(object):
     data class for menu items, this can be loaded in python in any app
     """
     def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-                 parent=None, parent_path=None, app_menu_node=None):
+                 parent=None, parent_path=None, app_node=None):
 
         # config data
         self.label = label or ""
@@ -97,14 +97,19 @@ class MenuNode(object):
         self.separator = separator or False
         items = items or []
         self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
+
         # self.config_parent = parent or config.get("parent")  # parent from config, not to confuse with MenuNode parent
         # only top node can have parent in config, so this is not needed
         self.parent_path = parent_path  # only the root node needs this
+        # todo get parent path method
 
         # helpers
         self.parent: MenuNode = parent  # some implicit code use, pay attention to parent
-        self.app_menu_node = app_menu_node  # the app menu node created by this MenuNode instance
         self.config_path = None  # the path to the config file that created this node
+        
+        # todo move to abstract
+        self.app_node = app_node  # the app menu node created by this MenuNode instance
+        self.app_node_parent = None  # root node only
 
     @property
     def children(self):
@@ -172,7 +177,7 @@ class MenuNodeAbstract(MenuNode, ABC):
     Abstract class for app menu creation from a MenuNode tree
     """
 
-    def setup(self, parent=None):
+    def setup(self, parent_app_node=None):
         """
         Instantiate a menu item in the app from the menu node data
         parent: app menu to parent to, not a MenuNode!
@@ -180,20 +185,20 @@ class MenuNodeAbstract(MenuNode, ABC):
         # todo if not parent get default parent
 
         # create the menu item
-
+        
         if self.separator:
-            self.app_menu_node = self._setup_separator()
+            self.app_node = self._setup_separator(parent_app_node=parent_app_node)
 
         elif self.command:  # menu item
-            self.app_menu_node = self._setup_menu_item()
+            self.app_node = self._setup_menu_item(parent_app_node=parent_app_node)
 
         elif self.items:  # submenu
-            self.app_menu_node = self._setup_sub_menu()
+            self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
             for item in self.items:
-                item.setup()  # todo parent
+                item.setup(parent_app_node=self.app_node)  # todo parent
 
         # parent the menu item
-        self._parent_app_node()
+        # self._parent_app_node(parent_app_node=parent_app_node)
 
         #     # parent to parent.app_menu
         #     # if root, use parent_path if set
@@ -203,23 +208,23 @@ class MenuNodeAbstract(MenuNode, ABC):
     #     # return an object that represents the menu item created, and can be parented too
     #     pass
 
-    @abstractmethod
-    def _parent_app_node(self):
-        """parent self.app_menu_node to parent.app_menu_node"""
-        pass
+    # @abstractmethod
+    # def _parent_app_node(self, parent_app_node):
+    #     """parent self.app_node to parent.app_node"""
+    #     pass
 
     @abstractmethod
-    def _setup_sub_menu(self):
+    def _setup_sub_menu(self, parent_app_node=None):
         # return an object that represents the menu item created, and can be parented too
         pass
 
     @abstractmethod
-    def _setup_menu_item(self):
+    def _setup_menu_item(self, parent_app_node=None):
         # return an object that represents the menu item created, and can be parented too
         pass
 
     @abstractmethod
-    def _setup_separator(self):
+    def _setup_separator(self, parent_app_node=None):
         """
         instantiate a separator object
         """
