@@ -35,7 +35,7 @@ data = {
 }
 
 # setup tools menu from config
-menu_node = unimenu.dccs.qt.QtMenuNode(**data)
+menu_node = unimenu.dccs.qt.MenuNodeQt(**data)
 menu_node.print_tree()
 # Tools
 #   tool1

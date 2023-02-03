@@ -51,7 +51,7 @@ class QtMenuMaker(AbstractMenuMaker):
         raise NotImplementedError("not yet implemented")
 
 
-class QtMenuNode(MenuNodeAbstract):
+class MenuNodeQt(MenuNodeAbstract):
 
     def _setup_sub_menu(self, parent_app_node=None):
         menu = QtWidgets.QMenu(title=self.label)  # parent
