@@ -1,5 +1,6 @@
 from abc import abstractmethod, ABC
 import unimenu.utils
+from pathlib import Path
 
 
 class AbstractMenuMaker(ABC):
@@ -162,7 +163,19 @@ class MenuNode(object):
             self.command()
 
     @classmethod
-    def load(cls, config_path):
+    def load(cls, arg):
+        # if arg is a Path or string, load from config
+        if isinstance(arg, (str, Path)):
+            return cls.load_config(arg)
+        # if arg is a dict, create a menu node from it
+        elif isinstance(arg, dict):
+            return cls(**arg)
+        # if arg is a MenuNode, copy it
+        elif isinstance(arg, MenuNode):
+            return cls(**arg.__dict__())
+
+    @classmethod
+    def load_config(cls, config_path):
         data = unimenu.utils.load_config(config_path)
         menu_node = cls(**data)
         menu_node.config_path = config_path
