@@ -6,7 +6,7 @@
 """
 import bpy
 from typing import Union, Callable
-from unimenu.dccs._abstract import AbstractMenuMaker, MenuNode
+from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract, MenuNode
 
 # we have #todo
 # - menu nodes
@@ -173,3 +173,27 @@ def menu_wrapper(parent: bpy.types.Operator, label: str):
 
 
 setup_menu = MenuMaker.setup_menu
+
+
+class MenuNodeBlender(MenuNodeAbstract):
+    # @property
+    # def _default_root_parent(self):
+    #     return None
+
+    def _setup_sub_menu(self, parent_app_node=None):
+        MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label)
+
+    def _setup_menu_item(self, parent_app_node=None):
+        MenuMaker.add_to_menu(
+            parent=parent_app_node,
+            label=self.label,
+            command=self.command,
+            icon=self.icon,
+            tooltip=self.tooltip,
+        )
+
+    def _setup_separator(self, parent_app_node=None):
+        MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+
+    def _teardown(self):
+        MenuMaker.teardown_menu(data=None)
