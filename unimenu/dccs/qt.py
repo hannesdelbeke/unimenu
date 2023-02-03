@@ -1,4 +1,4 @@
-from unimenu.dccs._abstract import AbstractMenuMaker, MenuNode
+from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract
 from abc import abstractmethod
 import contextlib
 
@@ -52,7 +52,7 @@ class QtMenuMaker(AbstractMenuMaker):
         raise NotImplementedError("not yet implemented")
 
 
-class QtMenuNode(MenuNode):
+class QtMenuNode(MenuNodeAbstract):
     # def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
     #              parent=None, parent_path=None, app_menu_node=None):
     #     super().__init__(label=label, command=command, icon=icon, tooltip=tooltip, separator=separator, items=items,
@@ -113,6 +113,6 @@ class QtMenuNode(MenuNode):
         action.setSeparator(True)
         return action
 
-    # @abstractmethod
-    # def _teardown(self):
-    #     pass
+    def _teardown(self):
+        raise NotImplementedError("not yet implemented")
+        pass

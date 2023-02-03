@@ -23,16 +23,20 @@ data = {
 # setup tools menu from config
 menu_node = unimenu.dccs.qt.QtMenuNode(**data)
 menu_node.print_tree()
+# Tools
+#   tool1
+#   tool2
 
-# create placeholder qt window
+# create qt window for demo
 app = QtWidgets.QApplication([])
 window = QtWidgets.QMainWindow()
 menu = window.menuBar()
 
-# setup menu and parent to window
+# create the Qt menu & add it to the menu bar
 menu_node.setup(parent=menu)
 
 # todo parent
 
+# run demo
 window.show()
 app.exec_()

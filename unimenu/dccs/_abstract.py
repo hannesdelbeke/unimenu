@@ -96,7 +96,7 @@ class MenuNode(object):
         self.tooltip = tooltip or ""
         self.separator = separator or False
         items = items or []
-        self.items: list[MenuNode] = [MenuNode(**item) for item in items]
+        self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
         # self.config_parent = parent or config.get("parent")  # parent from config, not to confuse with MenuNode parent
         # only top node can have parent in config, so this is not needed
         self.parent_path = parent_path  # only the root node needs this
@@ -167,14 +167,17 @@ class MenuNode(object):
             item.print_tree(indent + 1)
 
 
-
 class MenuNodeAbstract(MenuNode, ABC):
     """
     Abstract class for app menu creation from a MenuNode tree
     """
 
-    def setup(self):
-        """Instantiate a menu item in the app from the menu node data"""
+    def setup(self, parent=None):
+        """
+        Instantiate a menu item in the app from the menu node data
+        parent: app menu to parent to, not a MenuNode!
+        """
+        # todo if not parent get default parent
 
         # create the menu item
 
@@ -194,8 +197,6 @@ class MenuNodeAbstract(MenuNode, ABC):
 
         #     # parent to parent.app_menu
         #     # if root, use parent_path if set
-
-
 
     # @abstractmethod
     # def setup_menu(self):
