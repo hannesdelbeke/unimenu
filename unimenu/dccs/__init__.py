@@ -2,8 +2,6 @@
 This submodule contains the dcc-specific implementations of the menu setup.
 """
 
-import warnings
-from collections import namedtuple
 import contextlib
 from typing import Optional
 import logging
@@ -55,7 +53,9 @@ def detect_dcc() -> Optional[DCC]:
     """detect which dcc is currently running"""
     for dcc in SupportedDCCs.ALL:
         with contextlib.suppress(ImportError):
-            logging.debug(f"UNIMENU: detected {dcc.name}")
             __import__(dcc.module)
+            logging.debug(f"UNIMENU: detected {dcc.name}")
             return dcc
-    warnings.warn("UNIMENU: no supported DCC detected")
+    logging.warning("UNIMENU: no supported DCC detected, falling back to QT")
+    return SupportedDCCs.QT
+
