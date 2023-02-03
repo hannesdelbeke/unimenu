@@ -66,21 +66,6 @@ class AbstractMenuMaker(ABC):
     def _is_separator(item):
         return item.get("separator", False)
 
-# 1. load all config files -> nodes
-# 2. setup menu from nodes
-
-
-# class Config():
-#     def __init__(self, config_file):
-#         self.config_file = config_file
-#         self.parent = config_file.get("parent", None)
-#         self.items = config_file.get("items", [])  # todo remove top items
-#
-#     @classmethod
-#     def load(cls, config_path):
-#         data = unimenu.utils.load_config(config_path)
-#         return cls(data)
-
 
 class MenuNode(object):
     """
@@ -98,7 +83,6 @@ class MenuNode(object):
         items = items or []
         self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
 
-        # self.config_parent = parent or config.get("parent")  # parent from config, not to confuse with MenuNode parent
         # only top node can have parent in config, so this is not needed
         self.parent_path = parent_path  # only the root node needs this
         # todo get parent path method
@@ -184,8 +168,6 @@ class MenuNodeAbstract(MenuNode, ABC):
         """
         # todo if not parent get default parent
 
-        # create the menu item
-        
         if self.separator:
             self.app_node = self._setup_separator(parent_app_node=parent_app_node)
 
@@ -195,84 +177,23 @@ class MenuNodeAbstract(MenuNode, ABC):
         elif self.items:  # submenu
             self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
             for item in self.items:
-                item.setup(parent_app_node=self.app_node)  # todo parent
-
-        # parent the menu item
-        # self._parent_app_node(parent_app_node=parent_app_node)
-
-        #     # parent to parent.app_menu
-        #     # if root, use parent_path if set
-
-    # @abstractmethod
-    # def setup_menu(self):
-    #     # return an object that represents the menu item created, and can be parented too
-    #     pass
-
-    # @abstractmethod
-    # def _parent_app_node(self, parent_app_node):
-    #     """parent self.app_node to parent.app_node"""
-    #     pass
+                item.setup(parent_app_node=self.app_node)
 
     @abstractmethod
     def _setup_sub_menu(self, parent_app_node=None):
-        # return an object that represents the menu item created, and can be parented too
+        """instantiate & parent a sub menu"""
         pass
 
     @abstractmethod
     def _setup_menu_item(self, parent_app_node=None):
-        # return an object that represents the menu item created, and can be parented too
+        """instantiate & parent a menu item"""
         pass
 
     @abstractmethod
     def _setup_separator(self, parent_app_node=None):
-        """
-        instantiate a separator object
-        """
+        """instantiate & parent a separator"""
         pass
 
     @abstractmethod
     def _teardown(self):
         pass
-
-# class MenuItem(Menu):
-#     pass
-
-# def _is_separator(item):
-#     return item.get("separator", False)
-
-
-# def load_menu(parent, items: list):
-#     created = []
-#
-#     for item in items:
-#         menu = MenuNode(config=item)
-#
-#
-#
-#
-#         label = item.get("label")
-#
-#         if cls._is_separator(item):
-#             cls.add_separator(parent, label=label)
-#             continue
-#
-#         # get data
-#         icon = item.get("icon", None)
-#         command = item.get("command", None)
-#         tooltip = item.get("tooltip", None)
-#
-#         if command:
-#             menu_item = cls.add_to_menu(parent, label, command, icon, tooltip)
-#             created.append(menu_item)
-#
-#         else:  # submenu
-#             items = item.get("items", [])
-#             sub_menu = cls.add_sub_menu(parent, label)
-#             cls._setup_menu_items(sub_menu, items)
-#             created.append(sub_menu)
-#
-#     return created  # only return top items, not submenus
-
-
-
-

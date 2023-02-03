@@ -1,5 +1,4 @@
 from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract
-from abc import abstractmethod
 import contextlib
 
 
@@ -53,14 +52,6 @@ class QtMenuMaker(AbstractMenuMaker):
 
 
 class QtMenuNode(MenuNodeAbstract):
-    # def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-    #              parent=None, parent_path=None, app_node=None):
-    #     super().__init__(label=label, command=command, icon=icon, tooltip=tooltip, separator=separator, items=items,
-    #                      parent=parent, parent_path=parent_path, app_node=app_node)
-
-    # def _parent_app_node(self, parent_app_node=None):
-    #     """parent self.app_node to parent.app_node"""
-    #     parent_app_node.addMenu(self.app_node)
 
     def _setup_sub_menu(self, parent_app_node=None):
         menu = QtWidgets.QMenu(title=self.label)  # parent
@@ -68,14 +59,8 @@ class QtMenuNode(MenuNodeAbstract):
             parent_app_node.addMenu(menu)
         return menu
 
-        # self.parent.app_node.addMenu(self.label)
-
     def _setup_menu_item(self, parent_app_node=None):
         """create a QAction from the MenuNode data"""
-        command = self.command
-        # parent = self.parent.app_node
-        icon = self.icon
-        tooltip = self.tooltip
 
         # A PySide.QtGui.QAction may contain an icon, menu text (label), a shortcut, status text,
         # “What’s This?” text, and a tooltip
@@ -89,21 +74,18 @@ class QtMenuNode(MenuNodeAbstract):
         action = QtWidgets.QAction(self.label)
 
         # qt accepts callable commands, not just string commands
-        if isinstance(command, str):
-            action.triggered.connect(lambda: exec(command))
-            # action = parent.addAction(label, lambda: exec(command))
+        if isinstance(self.command, str):
+            action.triggered.connect(lambda: exec(self.command))
         else:  # callable
-            # action = parent.addAction(label, lambda: command())
-            action.triggered.connect(lambda: command())
+            action.triggered.connect(lambda: self.command())
 
-        if tooltip:
-            # parent.setToolTipsVisible(True)
-            action.setToolTip(tooltip)
+        if self.tooltip:
+            action.setToolTip(self.tooltip)
 
-        if icon:
+        if self.icon:
             # todo test this, krita doesnt support icons
             action.setIconVisibleInMenu(True)
-            action.setIcon(QtGui.QIcon(icon))
+            action.setIcon(QtGui.QIcon(self.icon))
 
         if parent_app_node:
             parent_app_node.addAction(action)
