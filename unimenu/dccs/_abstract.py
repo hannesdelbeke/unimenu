@@ -103,6 +103,7 @@ class MenuNode(object):
         # helpers
         self.parent: MenuNode = parent  # some implicit code use, pay attention to parent
         self.app_menu_node = app_menu_node  # the app menu node created by this MenuNode instance
+        self.config_path = None  # the path to the config file that created this node
 
     @property
     def children(self):
@@ -150,6 +151,13 @@ class MenuNode(object):
             lambda: exec(self.command)
         else:  # callable
             self.command()
+
+    @classmethod
+    def load(cls, config_path):
+        data = unimenu.utils.load_config(config_path)
+        menu_node = cls(**data)
+        menu_node.config_path = config_path
+        return menu_node
 
 
 class MenuNodeAbstract(MenuNode, ABC):
