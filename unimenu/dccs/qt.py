@@ -71,8 +71,7 @@ class QtMenuNode(MenuNode):
     def _setup_menu_item(self):
         """create a QAction from the MenuNode data"""
         command = self.command
-        parent = self.parent.app_menu_node
-        label = self.label
+        # parent = self.parent.app_menu_node
         icon = self.icon
         tooltip = self.tooltip
 
@@ -85,14 +84,18 @@ class QtMenuNode(MenuNode):
         #  PySide.QtGui.QAction.setWhatsThis()
         #  PySide.QtGui.QAction.setFont()
 
+        action = QtWidgets.QAction(self.label)
+
         # qt accepts callable commands, not just string commands
         if isinstance(command, str):
-            action = parent.addAction(label, lambda: exec(command))
+            action.triggered.connect(lambda: exec(command))
+            # action = parent.addAction(label, lambda: exec(command))
         else:  # callable
-            action = parent.addAction(label, lambda: command())
+            # action = parent.addAction(label, lambda: command())
+            action.triggered.connect(lambda: command())
 
         if tooltip:
-            parent.setToolTipsVisible(True)
+            # parent.setToolTipsVisible(True)
             action.setToolTip(tooltip)
 
         if icon:
