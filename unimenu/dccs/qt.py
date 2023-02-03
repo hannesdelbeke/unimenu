@@ -89,6 +89,9 @@ class QtMenuNode(MenuNodeAbstract):
 
         if parent_app_node:
             parent_app_node.addAction(action)
+            action.setParent(parent_app_node)
+            # bug? add action doesn't set parent, but addMenu does
+            # this makes actions prone to unwanted garbage collection
 
         return action
 

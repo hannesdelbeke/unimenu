@@ -16,6 +16,20 @@ data = {
             {
                 'command': 'print("hello 2")',
                 'label': 'tool2'
+            },
+            {
+                'label': 'Tools',
+                'items':
+                    [
+                        {
+                            'command': 'print("hello 1")',
+                            'label': 'tool1'
+                        },
+                        {
+                            'command': 'print("hello 2")',
+                            'label': 'tool2'
+                        }
+                    ]
             }
         ]
 }
@@ -33,9 +47,11 @@ window = QtWidgets.QMainWindow()
 menu = window.menuBar()
 
 # create the Qt menu & add it to the menu bar
-menu_node.setup(parent_app_node=menu)
+a = menu_node.setup(parent_app_node=menu)
 
-# todo parent
+b = menu_node.setup()
+b.setTitle("Tools2")
+menu.addMenu(b)
 
 # run demo
 window.show()

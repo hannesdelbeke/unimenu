@@ -179,6 +179,8 @@ class MenuNodeAbstract(MenuNode, ABC):
             for item in self.items:
                 item.setup(parent_app_node=self.app_node)
 
+        return self.app_node
+
     @abstractmethod
     def _setup_sub_menu(self, parent_app_node=None):
         """instantiate & parent a sub menu"""
@@ -196,4 +198,5 @@ class MenuNodeAbstract(MenuNode, ABC):
 
     @abstractmethod
     def _teardown(self):
+        """teardown the menu item"""
         pass
