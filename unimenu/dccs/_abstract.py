@@ -166,7 +166,7 @@ class MenuNodeAbstract(MenuNode, ABC):
         Instantiate a menu item in the app from the menu node data
         parent: app menu to parent to, not a MenuNode!
         """
-        # todo if not parent get default parent
+        parent_app_node = parent_app_node or self._default_root_parent
 
         if self.separator:
             self.app_node = self._setup_separator(parent_app_node=parent_app_node)
@@ -180,6 +180,11 @@ class MenuNodeAbstract(MenuNode, ABC):
                 item.setup(parent_app_node=self.app_node)
 
         return self.app_node
+
+    @property
+    def _default_root_parent(self):
+        """get the default parent for the root node, optional method"""
+        return None
 
     @abstractmethod
     def _setup_sub_menu(self, parent_app_node=None):
