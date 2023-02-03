@@ -103,6 +103,15 @@ class MenuNode(object):
     def children(self, value):
         self.items = value
 
+    @property
+    def all_children(self):
+        """return all children recursively"""
+        children = []
+        for child in self.children:
+            children.append(child)
+            children.extend(child.all_children)
+        return children
+
     def root(self):
         """Return the root node of the menu-tree"""
         # we use isinstance since sometimes parent is a string (or other type)
