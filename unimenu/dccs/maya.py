@@ -1,5 +1,5 @@
 import pymel.core as pm  # todo replace with cmds because it's faster
-from unimenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract
 import maya.mel
 import maya.cmds
 
@@ -72,3 +72,29 @@ def find_menu(name):
 
 setup_menu = MenuMaker.setup_menu
 teardown_menu = MenuMaker.teardown_menu
+
+
+class MenuNodeMaya(MenuNodeAbstract):
+
+    @property
+    def _default_root_parent(self):
+
+        # todo parent logic currently is re implemented in every dcc module
+        #  can we move it to the abstract class?
+        # if we provide a parent in the config, we might want to parent to a submenu
+        if self.parent_path:
+            menu = find_menu(self.parent_path)
+        else:
+            menu = MenuMaker.create_root_menu(self.label)
+
+    def _setup_sub_menu(self, parent_app_node=None):
+        MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label)
+
+    def _setup_menu_item(self, parent_app_node=None):
+        MenuMaker.add_to_menu(parent=parent_app_node, label=self.label, command=self.command, icon=self.icon, tooltip=self.tooltip)
+
+    def _setup_separator(self, parent_app_node=None):
+        MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+
+    def _teardown(self):
+        MenuMaker.teardown_menu(self.label)
