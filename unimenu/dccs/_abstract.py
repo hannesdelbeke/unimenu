@@ -112,6 +112,16 @@ class MenuNode(object):
             children.extend(child.all_children)
         return children
 
+    @property
+    def all_commands(self):
+        """return all commands recursively"""
+        commands = []
+        for child in self.children:
+            if child.command:
+                commands.append(child.command)
+            commands.extend(child.all_commands)
+        return commands
+
     def root(self):
         """Return the root node of the menu-tree"""
         # we use isinstance since sometimes parent is a string (or other type)
