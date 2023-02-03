@@ -1,6 +1,7 @@
 import unreal
 import warnings
 from unimenu.dccs.qt import QtMenuMaker
+from unimenu.dccs._abstract import MenuNodeAbstract
 
 
 class MenuMaker(QtMenuMaker):  # todo believe this doesnt need qt, but can use normal menumaker
@@ -70,3 +71,23 @@ class MenuMaker(QtMenuMaker):  # todo believe this doesnt need qt, but can use n
     def teardown(cls):
         """remove from menu"""
         raise NotImplementedError("not yet implemented")
+
+
+class MenuNodeUnreal(MenuNodeAbstract):
+
+    # @property
+    # def _default_root_parent(self):
+    #     """get the default parent for the root node, optional method"""
+    #     return None
+
+    def _setup_sub_menu(self, parent_app_node=None):
+        return MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label, tool_tip=self.tooltip)
+
+    def _setup_menu_item(self, parent_app_node=None):
+        return MenuMaker.add_to_menu(parent=parent_app_node, label=self.label, command=self.command, icon=self.icon, tooltip=self.tooltip)
+
+    def _setup_separator(self, parent_app_node=None):
+        return MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+
+    def _teardown(self):
+        return MenuMaker.teardown()
