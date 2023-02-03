@@ -95,7 +95,8 @@ class MenuNode(object):
         self.icon = icon or ""
         self.tooltip = tooltip or ""
         self.separator = separator or False
-        self.items = [MenuNode(**item) for item in items]
+        items = items or []
+        self.items: list[MenuNode] = [MenuNode(**item) for item in items]
         # self.config_parent = parent or config.get("parent")  # parent from config, not to confuse with MenuNode parent
         # only top node can have parent in config, so this is not needed
         self.parent_path = parent_path  # only the root node needs this
@@ -158,6 +159,13 @@ class MenuNode(object):
         menu_node = cls(**data)
         menu_node.config_path = config_path
         return menu_node
+
+    def print_tree(self, indent=0):
+        """print a tree of the menu node labels"""
+        print("  " * indent + self.label)
+        for item in self.items:
+            item.print_tree(indent + 1)
+
 
 
 class MenuNodeAbstract(MenuNode, ABC):
