@@ -113,13 +113,13 @@ class MenuNode(object):
         return children
 
     @property
-    def all_commands(self):
-        """return all commands recursively"""
+    def all_command_nodes(self):
+        """return every menu entry that has a command"""
         commands = []
         for child in self.children:
             if child.command:
-                commands.append(child.command)
-            commands.extend(child.all_commands)
+                commands.append(child)
+            commands.extend(child.all_command_nodes)
         return commands
 
     def root(self):
