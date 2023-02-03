@@ -6,6 +6,8 @@ from pathlib import Path
 import importlib
 import pkgutil
 from typing import Union
+
+import unimenu.dccs._abstract
 from unimenu.dccs import detect_dcc, DCC
 from unimenu.utils import load_json, load_yaml, getattr_recursive
 
@@ -107,14 +109,13 @@ def setup_module(module,
     return setup_dict(data, dcc)
 
 
-# def add_separator(parent, label: str = None):
-#     # todo explain what this does
-#     data = {
-#         "items": ["---"],
-#         "parent": parent,
-#         "label": label,
-#     }
-#     return setup_dict(data)
+def setup(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
+    """
+    smart menu setup from a dict, config file or module
+    arg: dict, str or module
+    """
+    dcc = dcc or detect_dcc()
+    return dcc.menu_node_class.load(arg)
 
 
 def add_item(label, command=None, parent=None, icon=None, tooltip=None):
