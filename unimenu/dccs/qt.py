@@ -4,13 +4,13 @@ import contextlib
 
 
 with contextlib.suppress(ImportError):
-    from PySide6 import QtGui
+    from PySide6 import QtGui, QtWidgets
 with contextlib.suppress(ImportError):
-    from PyQt6 import QtGui
+    from PyQt6 import QtGui, QtWidgets
 with contextlib.suppress(ImportError):
-    from PySide2 import QtGui
+    from PySide2 import QtGui, QtWidgets
 with contextlib.suppress(ImportError):
-    from PyQt5 import QtGui
+    from PyQt5 import QtGui, QtWidgets
 
 
 class QtMenuMaker(AbstractMenuMaker):
@@ -20,11 +20,11 @@ class QtMenuMaker(AbstractMenuMaker):
         return cls._setup_menu_items(parent, [data])
 
     @classmethod
-    def add_sub_menu(cls, parent: "QMenu", label: str) -> "QMenu":
+    def add_sub_menu(cls, parent: QtWidgets.QMenu, label: str) -> QtWidgets.QMenu:
         return parent.addMenu(label)
 
     @classmethod
-    def add_to_menu(cls, parent: "QMenu", label: str, command, icon: str = None, tooltip: str = None):
+    def add_to_menu(cls, parent: QtWidgets.QMenu, label: str, command, icon: str = None, tooltip: str = None):
         if isinstance(command, str):
             action = parent.addAction(label, lambda: exec(command))
         else:  # callable
@@ -63,7 +63,7 @@ class QtMenuNode(MenuNode):
     #     pass
 
     def _setup_sub_menu(self):
-        menu = QtGui.QMenu(title=self.label)  # parent
+        menu = QtWidgets.QMenu(title=self.label)  # parent
         return menu
 
         # self.parent.app_menu_node.addMenu(self.label)
