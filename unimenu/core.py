@@ -109,13 +109,22 @@ def setup_module(module,
     return setup_dict(data, dcc)
 
 
-def setup(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
+def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     """
-    smart menu setup from a dict, config file or module
+    smart menu load from a dict, config file or module
     arg: dict, str or module
     """
     dcc = dcc or detect_dcc()
     return dcc.menu_node_class.load(arg)
+
+
+def setup(arg, dcc: DCC = None):
+    """
+    smart menu setup from a dict, config file or module
+    arg: dict, str or module
+    returns the app menu node
+    """
+    return load(arg, dcc).setup()
 
 
 def add_item(label, command=None, parent=None, icon=None, tooltip=None):
