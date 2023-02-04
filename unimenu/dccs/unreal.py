@@ -1,10 +1,10 @@
 import unreal
 import warnings
-from unimenu.dccs.qt import QtMenuMaker
-from unimenu.dccs._abstract import MenuNodeAbstract
+# from unimenu.dccs.qt import QtMenuMaker
+from unimenu.dccs._abstract import MenuNodeAbstract, AbstractMenuMaker
 
 
-class MenuMaker(QtMenuMaker):  # todo believe this doesnt need qt, but can use normal menumaker
+class MenuMaker(AbstractMenuMaker):  # todo believe this doesnt need qt, but can use normal menumaker
     @classmethod
     def setup_menu(cls, data):
         parent_menu_name = data.get("parent", "LevelEditor.MainMenu")
@@ -75,10 +75,20 @@ class MenuMaker(QtMenuMaker):  # todo believe this doesnt need qt, but can use n
 
 class MenuNodeUnreal(MenuNodeAbstract):
 
-    # @property
-    # def _default_root_parent(self):
-    #     """get the default parent for the root node, optional method"""
-    #     return None
+    @property
+    def _default_root_parent(self):
+        parent_menu_name = "LevelEditor.MainMenu"
+        unreal_menus = unreal.ToolMenus.get()
+        parent_menu = unreal_menus.find_menu(parent_menu_name)
+        return parent_menu
+
+    def setup(self, parent_app_node=None):
+        super().setup(parent_app_node=parent_app_node)
+
+        # post setup
+        unreal_menus = unreal.ToolMenus.get()
+        unreal_menus.refresh_all_widgets()
+
 
     def _setup_sub_menu(self, parent_app_node=None):
         return MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label, tool_tip=self.tooltip)
