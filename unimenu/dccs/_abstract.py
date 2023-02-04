@@ -213,6 +213,9 @@ class MenuNodeAbstract(MenuNode, ABC):
 
         return self.app_node
 
+    # todo consider moving to abstract, and func isntead of property
+    # todo test with parent name in config for all apps
+    # todo test with submenu name in config for all apps
     @property
     def _default_root_parent(self):
         """get the default parent for the root node, optional method"""
