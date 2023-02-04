@@ -7,7 +7,7 @@ generated menus are persistent between sessions!
 from pymxs import runtime as rt
 from pathlib import Path
 
-from unimenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract
 
 
 counter = -1
@@ -132,3 +132,40 @@ class MenuMaker(AbstractMenuMaker):
 
 
 setup_menu = MenuMaker.setup_menu
+
+
+class MenuNodeMax(MenuNodeAbstract):
+
+    def setup(self, parent_app_node=None):
+        super().setup(parent_app_node)
+        rt.menuMan.updateMenuBar()
+
+    @property
+    def _default_root_parent(self):
+        return rt.menuMan.getMainMenuBar()
+
+    def _setup_sub_menu(self, parent_app_node=None):
+        sub_menu = rt.menuMan.createMenu(self.label)
+        sub_menu_item = rt.menuMan.createSubMenuItem(self.label, sub_menu)
+        parent_app_node.addItem(sub_menu_item, -1)
+        return sub_menu
+
+    def _setup_menu_item(self, parent_app_node=None):
+        tooltip = self.tooltip or ""
+
+        # todo generated menus are persistent between sessions!
+        #  this does not match the behavior of other DCCs currently
+        #  a macro is created at C:\Users\hanne\AppData\Local\Autodesk\3dsMax\2024 - 64bit\ENU\usermacros\
+        macro_name, macro_category = MenuMaker.create_macro(self.label, self.command)
+        # todo handle case when we create a macro with the same name as an existing macro
+        # since actionitems are based of macro names, we can't have two actionitems with the same name
+        item = rt.menuMan.createActionItem(macro_name, macro_category)
+        parent_app_node.addItem(item, -1)  # item index
+
+    def _setup_separator(self, parent_app_node=None):
+        item = rt.menuMan.createSeparatorItem()
+        parent_app_node.addItem(item, -1)  # item index
+
+    def _teardown(self):
+        pass
+
