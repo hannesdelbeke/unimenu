@@ -102,18 +102,17 @@ def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     return dcc.menu_node_class.load(arg)
 
 
-def setup(arg, dcc: DCC = None, backlink=True):
+def setup(arg, dcc: DCC = None, backlink=True, parent_app_node=None):
     """
     smart menu setup from a dict, config file or module
     arg: dict, str or module
     dcc: the dcc that contains the menu. if None, will try to detect dcc
     backlink: if True, add an attribute to the app node instance to the app node
+    parent_app_node: if provided, use this node as the app parent node instead of the default root node
     returns the app menu node
     """
     menu_node = load(arg, dcc)
-    app_node = menu_node.setup()
-    if backlink:
-        app_node.menu_node = menu_node
+    app_node = menu_node.setup(parent_app_node=parent_app_node, backlink=backlink)
     return app_node
 
 

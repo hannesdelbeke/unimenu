@@ -193,10 +193,11 @@ class MenuNodeAbstract(MenuNode, ABC):
     Abstract class for app menu creation from a MenuNode tree
     """
 
-    def setup(self, parent_app_node=None):
+    def setup(self, parent_app_node=None, backlink=True):
         """
         Instantiate a menu item in the app from the menu node data
         parent: app menu to parent to, not a MenuNode!
+        backlink: if True, add an attribute to the app node instance to the app node
         """
         parent_app_node = parent_app_node or self._default_root_parent
 
@@ -210,6 +211,9 @@ class MenuNodeAbstract(MenuNode, ABC):
             self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
             for item in self.items:
                 item.setup(parent_app_node=self.app_node)
+
+        if backlink:
+            self.app_node.menu_node = self
 
         return self.app_node
 
