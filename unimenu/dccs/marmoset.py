@@ -70,5 +70,5 @@ class MenuNode(MenuNodeAbstract):
     def _setup_separator(self, parent_app_node=None):
         return MenuMaker.add_separator(parent=parent_app_node, label=self.label)
 
-    def _teardown(self):
+    def teardown(self):
         return MenuMaker.teardown_menu()

@@ -237,6 +237,6 @@ class MenuNodeAbstract(MenuNode, ABC):
         pass
 
     @abstractmethod
-    def _teardown(self):
+    def teardown(self):
         """teardown the menu item"""
         pass

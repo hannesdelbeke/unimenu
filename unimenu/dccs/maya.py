@@ -96,5 +96,5 @@ class MenuNodeMaya(MenuNodeAbstract):
     def _setup_separator(self, parent_app_node=None):
         MenuMaker.add_separator(parent=parent_app_node, label=self.label)
 
-    def _teardown(self):
+    def teardown(self):
         MenuMaker.teardown_menu(self.label)

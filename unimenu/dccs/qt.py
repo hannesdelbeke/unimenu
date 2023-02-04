@@ -103,6 +103,6 @@ class MenuNodeQt(MenuNodeAbstract):
         action.setSeparator(True)
         return action
 
-    def _teardown(self):
+    def teardown(self):
         raise NotImplementedError("not yet implemented")
         pass

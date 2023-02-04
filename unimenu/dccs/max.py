@@ -44,7 +44,7 @@ class MenuNodeMax(MenuNodeAbstract):
         item = rt.menuMan.createSeparatorItem()
         parent_app_node.addItem(item, -1)  # item index
 
-    def _teardown(self):
+    def teardown(self):
         pass
 
     # def teardown(cls):

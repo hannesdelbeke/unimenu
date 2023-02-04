@@ -199,6 +199,21 @@ class MenuNodeBlender(MenuNodeAbstract):
 
     def _setup_separator(self, parent_app_node=None):
         return MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+    def teardown(self):
+        """
+        remove from menu
+        if no operators are passed, remove all operators
+        """
+        if self.items:
+            for item in self.items:
+                item.teardown()
 
-    def _teardown(self):
-        return MenuMaker.teardown_menu(data=None)
+        operator = self.app_node
+        if operator:
+            print("teardown", operator.bl_idname)
+            bpy.utils.unregister_class(operator)
+
+        # # add root menu to menu
+        # parent = getattr(bpy.types, parent_name)
+        # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
+
