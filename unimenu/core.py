@@ -102,13 +102,19 @@ def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     return dcc.menu_node_class.load(arg)
 
 
-def setup(arg, dcc: DCC = None):
+def setup(arg, dcc: DCC = None, backlink=True):
     """
     smart menu setup from a dict, config file or module
     arg: dict, str or module
+    dcc: the dcc that contains the menu. if None, will try to detect dcc
+    backlink: if True, add an attribute to the app node instance to the app node
     returns the app menu node
     """
-    return load(arg, dcc).setup()
+    menu_node = load(arg, dcc)
+    app_node = menu_node.setup()
+    if backlink:
+        app_node.menu_node = menu_node
+    return app_node
 
 
 # def teardown_config(config_path):
