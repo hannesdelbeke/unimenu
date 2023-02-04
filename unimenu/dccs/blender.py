@@ -178,16 +178,24 @@ setup_menu = MenuMaker.setup_menu
 
 
 class MenuNodeBlender(MenuNodeAbstract):
-    app = unimenu.dccs.blender
-    # @property
-    # def _default_root_parent(self):
-    #     return None
+    app = unimenu.dccs.SupportedDCCs.BLENDER  # helper to get matching DCC
+
+    @property
+    def _default_root_parent(self):
+        parent_path = self.parent_path or "TOPBAR_MT_editor_menus"
+        parent_node = getattr(bpy.types, parent_path)  # get the parent from blender by name
+        return parent_node
+
+        # # create app menu-nodes
+        # operators = cls._setup_menu_items(parent, items=menu_node.items)
+        # cls.registered_operators.update(operators)
+        # return operators
 
     def _setup_sub_menu(self, parent_app_node=None):
-        MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label)
+        return MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label)
 
     def _setup_menu_item(self, parent_app_node=None):
-        MenuMaker.add_to_menu(
+        return MenuMaker.add_to_menu(
             parent=parent_app_node,
             label=self.label,
             command=self.command,
@@ -196,7 +204,7 @@ class MenuNodeBlender(MenuNodeAbstract):
         )
 
     def _setup_separator(self, parent_app_node=None):
-        MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+        return MenuMaker.add_separator(parent=parent_app_node, label=self.label)
 
     def _teardown(self):
-        MenuMaker.teardown_menu(data=None)
+        return MenuMaker.teardown_menu(data=None)
