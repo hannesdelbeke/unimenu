@@ -4,7 +4,7 @@ so we create windows with buttons instead, submenus create new windows
 """
 
 import mset
-from unimenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract
 
 
 windows = []
@@ -14,21 +14,6 @@ class MenuMaker(AbstractMenuMaker):
     @classmethod
     def setup_menu(cls, data):
         cls._setup_menu_items(None, data.get("items"))
-
-    # @classmethod
-    # def _setup_menu_items(cls, parent, items: list):
-    #     """
-    #     recursively add all menu items and submenus
-    #     """
-    #     for item in items:
-    #         label = item.get("label")
-    #         command = item.get("command", None)
-    #         if command:
-    #             cls.add_to_menu(parent, label, command)
-    #         else:  # submenu
-    #             items = item.get("items", [])
-    #             sub_menu = cls.add_sub_menu(parent, label)
-    #             cls._setup_menu_items(sub_menu, items)
 
     @classmethod
     def add_sub_menu(cls, parent, label: str):
@@ -70,3 +55,20 @@ class MenuMaker(AbstractMenuMaker):
 
 
 setup_menu = MenuMaker.setup_menu
+
+
+class MenuNode(MenuNodeAbstract):
+    # @property
+    # def _default_root_parent(self):
+
+    def _setup_sub_menu(self, parent_app_node=None):
+        return MenuMaker.add_sub_menu(parent=parent_app_node, label=self.label)
+
+    def _setup_menu_item(self, parent_app_node=None):
+        return MenuMaker.add_to_menu(parent=parent_app_node, label=self.label, command=self.command)
+
+    def _setup_separator(self, parent_app_node=None):
+        return MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+
+    def _teardown(self):
+        return MenuMaker.teardown_menu()
