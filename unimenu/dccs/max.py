@@ -14,8 +14,8 @@ from unimenu.dccs._abstract import MenuNodeAbstract
 
 class MenuNodeMax(MenuNodeAbstract):
 
-    def setup(self, parent_app_node=None):
-        super().setup(parent_app_node)
+    def setup(self, parent_app_node=None, backlink=True):
+        super().setup(parent_app_node=parent_app_node, backlink=backlink)
         rt.menuMan.updateMenuBar()
 
     @property

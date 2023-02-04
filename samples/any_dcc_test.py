@@ -30,4 +30,3 @@ app_menu_node = unimenu.setup(config)
 node = unimenu.load(config)
 app_node = node.setup()
 node.teardown()
-# bug when running this twice in a row, both menus are deleted
