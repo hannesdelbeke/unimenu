@@ -1,17 +1,7 @@
 # Krita has native PyQt5 support
 import PyQt5.QtWidgets as QtWidgets
 from PyQt5.QtWidgets import QMenu, QApplication
-from unimenu.dccs.qt import QtMenuMaker, MenuNodeQt
-
-
-class MenuMaker(QtMenuMaker):
-    @classmethod
-    def setup_menu(cls, data):
-        parent = data.get("parent") or krita_main_menu_bar()
-        return cls._setup_menu_items(parent, data.get("items"))
-
-
-setup_menu = MenuMaker.setup_menu
+from unimenu.dccs.qt import MenuNodeQt
 
 
 class MenuNodeKrita(MenuNodeQt):

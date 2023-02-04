@@ -1,7 +1,7 @@
 # substance painter has native PySide2 support
 import PySide2.QtWidgets as QtWidgets
 from PySide2.QtWidgets import QMenu, QApplication
-from unimenu.dccs.qt import QtMenuMaker, MenuNodeQt
+from unimenu.dccs.qt import MenuNodeQt
 
 # it seems substance's native UI qwidgets aren't accessible
 # substance_painter.ui.ApplicationMenu is not a QMenu

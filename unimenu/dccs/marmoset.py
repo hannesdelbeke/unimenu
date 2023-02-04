@@ -48,7 +48,7 @@ class MenuNode(MenuNodeAbstract):
         return button
 
     def _setup_separator(self, parent_app_node=None):
-        return MenuMaker.add_separator(parent=parent_app_node, label=self.label)
+        raise NotImplementedError("not yet implemented")
 
     def teardown(self):
         """remove from menu"""

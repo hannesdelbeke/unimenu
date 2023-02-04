@@ -1,4 +1,4 @@
-from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract
+from unimenu.dccs._abstract import MenuNodeAbstract
 import contextlib
 
 
@@ -12,48 +12,9 @@ with contextlib.suppress(ImportError):
     from PyQt5 import QtGui, QtWidgets
 
 
-class QtMenuMaker(AbstractMenuMaker):
-
-    @classmethod
-    def setup_menu(cls, data, parent):
-        return cls._setup_menu_items(parent, [data])
-
-    @classmethod
-    def add_sub_menu(cls, parent: QtWidgets.QMenu, label: str) -> QtWidgets.QMenu:
-        return parent.addMenu(label)
-
-    @classmethod
-    def add_to_menu(cls, parent: QtWidgets.QMenu, label: str, command, icon: str = None, tooltip: str = None):
-        if isinstance(command, str):
-            action = parent.addAction(label, lambda: exec(command))
-        else:  # callable
-            action = parent.addAction(label, lambda: command())
-
-        if tooltip:
-            parent.setToolTipsVisible(True)
-            action.setToolTip(tooltip)
-
-        if icon:
-            # todo test this, krita doesnt support icons
-            action.setIconVisibleInMenu(True)
-            action.setIcon(QtGui.QIcon(icon))
-
-        return action
-
-    @classmethod
-    def add_separator(cls, parent, label: str = None) -> "QAction":
-        return parent.addSeparator()
-        # todo add label support,
-        #  see https://stackoverflow.com/questions/33820789/create-a-separator-with-a-text-in-the-menubar
-
-    @classmethod
-    def teardown_menu(cls):
-        raise NotImplementedError("not yet implemented")
-
-
 class MenuNodeQt(MenuNodeAbstract):
 
-    def _setup_sub_menu(self, parent_app_node=None):
+    def _setup_sub_menu(self, parent_app_node=None) -> QtWidgets.QMenu:
         menu = QtWidgets.QMenu(title=self.label)  # parent
         if parent_app_node:
             parent_app_node.addMenu(menu)
@@ -95,12 +56,14 @@ class MenuNodeQt(MenuNodeAbstract):
 
         return action
 
-    def _setup_separator(self, parent_app_node=None):
+    def _setup_separator(self, parent_app_node=None) -> QtWidgets.QAction:
         """
         instantiate a separator object
         """
         action = self._setup_menu_item()
         action.setSeparator(True)
+        # todo add label support,
+        #  see https://stackoverflow.com/questions/33820789/create-a-separator-with-a-text-in-the-menubar
         return action
 
     def teardown(self):
