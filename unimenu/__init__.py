@@ -6,13 +6,9 @@ from unimenu.core import *
 
 
 __all__ = [
-    # 'setup',
-    "setup_config",
-    "setup_dict",
+    'setup',
     "setup_module",
-    "add_item",
     "teardown_menu",
-    # 'breakdown',
 ]
 
 
