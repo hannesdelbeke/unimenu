@@ -1,9 +1,7 @@
 """
 This submodule contains the dcc-specific implementations of the menu setup.
 """
-
-import warnings
-from collections import namedtuple
+import types
 import contextlib
 from typing import Optional
 import logging
@@ -25,11 +23,18 @@ class DCC:
         self.module = module  # a unique module only importable in the dcc
 
     @property
-    def menu_module(self):
+    def menu_module(self) -> types.ModuleType:
         """
         the dcc-specific menu module, lazy import prevents import issues with other dccs
         """
         return importlib.import_module(f"unimenu.dccs.{self.name}")
+
+    @property
+    def menu_node_class(self) -> "unimenu.dccs._abstract.MenuNodeAbstract":  # " to avoid circular import
+        """get the dcc-specific menu node class"""
+        # lowercase underscore to camelcase
+        name = self.name.replace("_", " ").title().replace(" ", "")
+        return getattr(self.menu_module, "MenuNode" + name)
 
 
 class SupportedDCCs:
@@ -55,7 +60,9 @@ def detect_dcc() -> Optional[DCC]:
     """detect which dcc is currently running"""
     for dcc in SupportedDCCs.ALL:
         with contextlib.suppress(ImportError):
-            logging.debug(f"UNIMENU: detected {dcc.name}")
             __import__(dcc.module)
+            logging.debug(f"UNIMENU: detected {dcc.name}")
             return dcc
-    warnings.warn("UNIMENU: no supported DCC detected")
+    logging.warning("UNIMENU: no supported DCC detected, falling back to QT")
+    return SupportedDCCs.QT
+

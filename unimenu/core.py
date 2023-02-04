@@ -2,24 +2,11 @@
 Core methods to generate custom menus.
 """
 
-from pathlib import Path
 import importlib
 import pkgutil
-from typing import Union
+import unimenu.dccs._abstract
 from unimenu.dccs import detect_dcc, DCC
-from unimenu.utils import get_json_data, get_yaml_data, getattr_recursive
-
-
-def setup_dict(data, dcc: DCC = None):
-    """menu setup from a dict"""
-    dcc = dcc or detect_dcc()
-    return dcc.menu_module.setup_menu(data)
-
-
-def setup_config(config_path: Union[str, Path], dcc: DCC = None):
-    """menu setup from a json or yaml file"""
-    data = get_json_data(config_path) or get_yaml_data(config_path)
-    return setup_dict(data, dcc)
+from unimenu.utils import getattr_recursive
 
 
 def setup_module(module,
@@ -51,9 +38,7 @@ def setup_module(module,
     dcc: the dcc that contains the menu. if None, will try to detect dcc
     """
 
-    if not function_name:
-        function_name = "main"
-
+    function_name = function_name or "main"
     parent_module = importlib.import_module(module)
 
     # create dict for every module in the folder
@@ -75,7 +60,8 @@ def setup_module(module,
         def callback(self=None, _submodule_name=submodule_name, _function_name=function_name, *args, **kwargs):
 
             # only import the module after clicking in the menu
-            # so failed module imports don't break the menu setup
+            # this prevents failed module imports breaking the menu setup
+            # or menu generation taking a long time if the module imports are slow
             submodule = module_finder.find_spec(_submodule_name).loader.load_module()
 
             # run the user-provided function on the module, or call the module directly
@@ -104,48 +90,30 @@ def setup_module(module,
     data["items"] = [{"label": menu_name or parent_module.__name__, "items": items}]
 
     # use the generated dict to set up the menu
-    return setup_dict(data, dcc)
+    return setup(data, dcc)
 
 
-# def add_separator(parent, label: str = None):
-#     # todo explain what this does
-#     data = {
-#         "items": ["---"],
-#         "parent": parent,
-#         "label": label,
-#     }
-#     return setup_dict(data)
-
-
-def add_item(label, command=None, parent=None, icon=None, tooltip=None):
+def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     """
-    add a single menu entry to the dcc menu
-
-    Args:
-        label: the label of the menu entry, defaults to None
-        command: the command to run when the menu entry is clicked, defaults to None
-                 some dccs support callbacks, but most use string commands
-                 if None, the menu is seen as a submenu.
-        parent: the parent menu name to add the entry to, defaults to None
-        icon_name: the name of the icon to use, defaults to None
-        todo add menu entry name support, defaults to using label, so no duplicate names currently
+    smart menu load from a dict, config file or module
+    arg: dict, str or module
     """
-    data = {
-        "items": [
-            {
-                "label": label,
-            }
-        ]
-    }
-    if icon:
-        data["items"][0]["icon"] = icon
-    if command:
-        data["items"][0]["command"] = command
-    if parent:
-        data["parent"] = parent
-    if tooltip:
-        data["items"][0]["tooltip"] = tooltip
-    return setup_dict(data)[0]
+    dcc = dcc or detect_dcc()
+    return dcc.menu_node_class.load(arg)
+
+
+def setup(arg, dcc: DCC = None, backlink=True, parent_app_node=None):
+    """
+    smart menu setup from a dict, config file or module
+    arg: dict, str or module
+    dcc: the dcc that contains the menu. if None, will try to detect dcc
+    backlink: if True, add an attribute to the app node instance to the app node
+    parent_app_node: if provided, use this node as the app parent node instead of the default root node
+    returns the app menu node
+    """
+    menu_node = load(arg, dcc)
+    app_node = menu_node.setup(parent_app_node=parent_app_node, backlink=backlink)
+    return app_node
 
 
 # def teardown_config(config_path):

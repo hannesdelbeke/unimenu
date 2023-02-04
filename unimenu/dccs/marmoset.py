@@ -4,69 +4,52 @@ so we create windows with buttons instead, submenus create new windows
 """
 
 import mset
-from unimenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import MenuNodeAbstract
 
 
 windows = []
 
 
-class MenuMaker(AbstractMenuMaker):
-    @classmethod
-    def setup_menu(cls, data):
-        cls._setup_menu_items(None, data.get("items"))
+class MenuNode(MenuNodeAbstract):
+    # @property
+    # def _default_root_parent(self):
 
-    # @classmethod
-    # def _setup_menu_items(cls, parent, items: list):
-    #     """
-    #     recursively add all menu items and submenus
-    #     """
-    #     for item in items:
-    #         label = item.get("label")
-    #         command = item.get("command", None)
-    #         if command:
-    #             cls.add_to_menu(parent, label, command)
-    #         else:  # submenu
-    #             items = item.get("items", [])
-    #             sub_menu = cls.add_sub_menu(parent, label)
-    #             cls._setup_menu_items(sub_menu, items)
+    def _setup_sub_menu(self, parent_app_node=None):
 
-    @classmethod
-    def add_sub_menu(cls, parent, label: str):
         global windows
-        if not parent:
-            window = mset.UIWindow(label)
+        if not parent_app_node:
+            window = mset.UIWindow(self.label)
             # save window in a global to prevent garbage collection
             windows.append(window)
             return window
 
-        settings_drawer_ui = mset.UIDrawer(name=label)
+        settings_drawer_ui = mset.UIDrawer(name=self.label)
         settings_drawer = mset.UIWindow(name="", register=False)
         settings_drawer_ui.containedControl = settings_drawer
 
-        parent.addReturn()  # work vertically since else window looks bad
-        parent.addElement(settings_drawer_ui)
-        parent.addReturn()
+        parent_app_node.addReturn()  # work vertically since else window looks bad
+        parent_app_node.addElement(settings_drawer_ui)
+        parent_app_node.addReturn()
 
         return settings_drawer
 
-    @classmethod
-    def add_to_menu(cls, parent, label: str, command: str):
+    def _setup_menu_item(self, parent_app_node=None):
+
         def cmd():
-            if isinstance(command, str):
-                exec(command)
+            if isinstance(self.command, str):
+                exec(self.command)
             else:
-                command()
+                self.command()
 
         button = mset.UIButton()
-        button.text = label
+        button.text = self.label
         button.onClick = cmd
-        parent.addElement(button)
+        parent_app_node.addElement(button)
         return button
 
-    @classmethod
-    def teardown_menu(cls):
-        """remove from menu"""
+    def _setup_separator(self, parent_app_node=None):
         raise NotImplementedError("not yet implemented")
 
-
-setup_menu = MenuMaker.setup_menu
+    def teardown(self):
+        """remove from menu"""
+        raise NotImplementedError("not yet implemented")

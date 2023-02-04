@@ -1,7 +1,7 @@
 import json
 
 
-def get_json_data(config_path):
+def load_json(config_path):
     """get json data from a file path, return None if not json"""
     path = str(config_path)
     if not path.lower().endswith(".json"):
@@ -12,7 +12,7 @@ def get_json_data(config_path):
     return data
 
 
-def get_yaml_data(config_path):
+def load_yaml(config_path):
     """get yaml data from a file path, return None if not yaml"""
     path = str(config_path)
     if not path.lower().endswith(".yaml"):
@@ -25,9 +25,9 @@ def get_yaml_data(config_path):
     return data
 
 
-def get_config_data(config_path):
+def load_config(config_path):
     """get data from a JSON or YAML config"""
-    return get_json_data(config_path) or get_yaml_data(config_path)
+    return load_json(config_path) or load_yaml(config_path)
 
 
 def getattr_recursive(obj, attr: str):

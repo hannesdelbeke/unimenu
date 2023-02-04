@@ -6,66 +6,15 @@
 """
 import bpy
 from typing import Union, Callable
-from unimenu.dccs._abstract import AbstractMenuMaker
+from unimenu.dccs._abstract import MenuNodeAbstract
+import unimenu.dccs
 
 
-class MenuMaker(AbstractMenuMaker):
-    registered_operators = set()
-
-    @classmethod
-    def setup_menu(cls, data):
-        """
-        setup menu from data
-        return all created operators
-        """
-        # global registered_operators
-
-        # get data
-        items = data.get("items")
-        parent_name = data.get("parent") or "TOPBAR_MT_editor_menus"
-        parent = getattr(bpy.types, parent_name)
-
-        operators = cls._setup_menu_items(parent, items)
-        cls.registered_operators.update(operators)
-        return operators
-
-    @classmethod
-    def teardown_menu(cls, data):  # operators=None, parent_name="TOPBAR_MT_editor_menus"):
-        """
-        remove from menu
-        if no operators are passed, remove all operators
-        """
-
-        # todo add support for data, atm removes everything
-
-        # global registered_operators
-        # operators = operators or registered_operators
-        for op in cls.registered_operators:
-            bpy.utils.unregister_class(op)
-
-        # # add root menu to menu
-        # parent = getattr(bpy.types, parent_name)
-        # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
-
-    @classmethod
-    def add_sub_menu(cls, parent: bpy.types.Operator, label: str):
-        return menu_wrapper(parent, label)
-
-    @classmethod
-    def add_to_menu(cls, parent: bpy.types.Operator, label: str, command: str, icon=None, tooltip=None):
-        icon = icon or "NONE"
-        tooltip = tooltip or ""
-
-        return operator_wrapper(parent, label, command, icon_name=icon, tooltip=tooltip)
-
-    @classmethod
-    def add_separator(cls, parent: bpy.types.Operator, label: str = None):
-        parent.append(lambda self, context: self.layout.separator())
-
+counter = -1
 
 def operator_wrapper(
     parent: bpy.types.Operator, label: str, command: Union[str, Callable], icon_name=None, tooltip=None
-):
+) -> bpy.types.Operator:
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
 
@@ -74,6 +23,9 @@ def operator_wrapper(
     3 add to (sub)menu (parent operator)
     """
 
+    global counter
+    counter += 1
+
     icon_name = icon_name or "NONE"
     tooltip = tooltip or ""
 
@@ -81,7 +33,7 @@ def operator_wrapper(
     # class: UNIMENU_OT_my_operator
     # id: unimenu.my_operator
     #  todo add support dupe names
-    name = "UNIMENU_OT_" + label.replace(" ", "_")
+    name = "UNIMENU_OT_" + label.replace(" ", "_") + str(counter)
     id_name = name.replace("UNIMENU_OT_", "unimenu.").lower()
 
     # create
@@ -125,20 +77,22 @@ def operator_wrapper(
     return OperatorWrapper
 
 
-def menu_wrapper(parent: bpy.types.Operator, label: str):
+def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
     """
     1 make class
     2 register class
     3 add to (sub)menu (parent operator)
     """
 
+    global counter
+    counter += 1
     # todo add support dupe names
     # handle name
     # class: UNIMENU_OT_my_operator
     # id: unimenu.my_operator
     # todo we dont need to set both class and bl_idname
 
-    name = "UNIMENU_MT_" + label.replace(" ", "_")
+    name = "UNIMENU_MT_" + label.replace(" ", "_") + str(counter)
     id_name = name
 
     class MenuWrapper(bpy.types.Menu):
@@ -163,4 +117,47 @@ def menu_wrapper(parent: bpy.types.Operator, label: str):
     return MenuWrapper
 
 
-setup_menu = MenuMaker.setup_menu
+class MenuNodeBlender(MenuNodeAbstract):
+    app = unimenu.dccs.SupportedDCCs.BLENDER  # helper to get matching DCC
+
+    @property
+    def _default_root_parent(self):
+        parent_path = self.parent_path or "TOPBAR_MT_editor_menus"
+        parent_node = getattr(bpy.types, parent_path)  # get the parent from blender by name
+        return parent_node
+
+        # # create app menu-nodes
+        # operators = cls._setup_menu_items(parent, items=menu_node.items)
+        # cls.registered_operators.update(operators)
+        # return operators
+
+    def _setup_sub_menu(self, parent_app_node=None) -> bpy.types.Menu:
+        return menu_wrapper(parent=parent_app_node, label=self.label)
+
+    def _setup_menu_item(self, parent_app_node=None) -> bpy.types.Operator:
+        icon = self.icon or "NONE"
+        tooltip = self.tooltip or ""
+        return operator_wrapper(parent_app_node, self.label, self.command, icon_name=icon, tooltip=tooltip)
+
+    def _setup_separator(self, parent_app_node=None):
+        # todo return separator correctly
+        parent_app_node.append(lambda self, context: self.layout.separator())
+
+    def teardown(self):
+        """
+        remove from menu
+        if no operators are passed, remove all operators
+        """
+        if self.items:
+            for item in self.items:
+                item.teardown()
+
+        operator = self.app_node
+        if operator:
+            print("teardown", operator.bl_idname)
+            bpy.utils.unregister_class(operator)
+
+        # # add root menu to menu
+        # parent = getattr(bpy.types, parent_name)
+        # parent.remove(draw_menu)  # TODO somehow track draw_menu callable
+
