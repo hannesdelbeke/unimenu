@@ -10,12 +10,6 @@ from unimenu.dccs._abstract import AbstractMenuMaker, MenuNodeAbstract, MenuNode
 import unimenu.dccs
 
 
-# we have #todo
-# - menu nodes
-# - unique dcc menu nodes, e.g. QMenu, bpy.types.Menu, ...
-# - menu root names in config parent
-
-
 class MenuMaker(AbstractMenuMaker):
     registered_operators = set()
 
