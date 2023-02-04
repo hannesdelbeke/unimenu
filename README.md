@@ -23,7 +23,8 @@ items:
 ```
 ```python
 import unimenu
-unimenu.setup_config(config_path)
+config_path = "path/to/config.yaml"
+unimenu.setup(config_path)
 ```
 
 ### load from dynamic dict
@@ -31,19 +32,21 @@ unimenu.setup_config(config_path)
 ```python
 import unimenu
 data = {"items": [{"label": test,"command": 'print("hello world")'}]}
-unimenu.setup_dict(data)
+unimenu.setup(data)
 ```
 
 
 ### with code
 
 ```python
-import unimenu
-unimenu.add_item(label="my submenu")  # create a submenu, parent defaults to the menu bar
-unimenu.add_item(label="hello", command='print("hello world")', parent="UNIMENU_MT_my_submenu")  # add menu item to our submenu
+import unimenu.dccs.blender
+menu = unimenu.dccs.blender.MenuNodeBlender(label="my submenu")  # create a submenu, parent defaults to the menu bar
+item = unimenu.dccs.blender.MenuNodeBlender(label="hello", command='print("hello world")', parent="UNIMENU_MT_my_submenu")  # add menu item to our submenu
+menu.items.append(item)  # add the item to the submenu
+menu.setup()  # setup the menu
 ```
 
-### from a folder of scripts (module)
+### from a folder of scripts (module) (experimental, needs updating)
 
 great for a folder full of tools that need launching when clicking a button.
 1. ensure the folder is importable (in the sys.path)
