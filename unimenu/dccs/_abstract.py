@@ -212,8 +212,12 @@ class MenuNodeAbstract(MenuNode, ABC):
             for item in self.items:
                 item.setup(parent_app_node=self.app_node)
 
+        # some apps, e.g. unreal, don't allow adding attributes dynamically
         if backlink:
-            self.app_node.menu_node = self
+            try:
+                self.app_node.menu_node = self
+            except AttributeError:
+                pass
 
         return self.app_node
 
