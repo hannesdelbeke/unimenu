@@ -3,6 +3,8 @@ A pure python module to add python commands to the menu.
 
 Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max, Marmoset
 
+For more info you can now checkout the [wiki](https://github.com/hannesdelbeke/unimenu/wiki)
+
 <img src="samples/menu_screen_maya.jpg" width="400"/> <img src="samples/menu_screen_unreal5.jpg" width="400"/> <img src="samples/menu_screen_krita.jpg" width="400"/> <img src="samples/menu_screen_substance_painter.jpg" width="400"/>
 
 # how to use
