@@ -2,7 +2,7 @@
 # - ensure they are unique
 # - ensure they are text and numbers only
 
-parent: TOPBAR_MT_editor_menus  # this is optional
+parent_path: TOPBAR_MT_editor_menus  # this is optional
 
 label: Custom Menu
 icon: FUND
