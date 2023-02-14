@@ -119,7 +119,14 @@ class MenuNode(object):
 
     def print_tree(self, indent=0):
         """print a tree of the menu node labels"""
-        _str = self.label or "------"
+        _str = self.label
+
+        if self.separator:
+            if _str:
+                _str = f"-- {_str} --"
+            else:
+                _str = "------"
+
         print("  " * indent + _str)
         for item in self.items:
             item.print_tree(indent + 1)
