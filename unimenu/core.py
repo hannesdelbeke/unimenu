@@ -102,6 +102,11 @@ def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     return dcc.menu_node_class.load(arg)
 
 
+def Node(**kwargs):
+    """detect dcc and create a menu node from kwargs"""
+    return load(kwargs)
+
+
 def setup(arg, dcc: DCC = None, backlink=True, parent_app_node=None):
     """
     smart menu setup from a dict, config file or module
