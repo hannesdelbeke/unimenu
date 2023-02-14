@@ -10,7 +10,7 @@ from unimenu.dccs._abstract import MenuNodeAbstract
 windows = []
 
 
-class MenuNode(MenuNodeAbstract):
+class MenuNodeMarmoset(MenuNodeAbstract):
     # @property
     # def _default_root_parent(self):
 

@@ -19,7 +19,7 @@ def main_menu_bar() -> QtWidgets.QMenuBar:
     return main_menu
 
 
-class MenuNodeSubstance(MenuNodeQt):
+class MenuNodeSubstancePainter(MenuNodeQt):
     @property
     def _default_root_parent(self):
         """get the default parent for the root node, optional method"""
