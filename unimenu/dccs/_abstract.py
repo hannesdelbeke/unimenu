@@ -81,12 +81,13 @@ class MenuNode(object):
         if self.separator:
             config["separator"] = self.separator
         if self.items:
-            configs = []
+            child_configs = []
             for item in self.items:
-                config = item.__dict__()
-                config.pop("parent", None)  # we only need to save the parent for the top node
-                configs.append(config)
-        if self._parent and isinstance(self._parent, str):
+                child_config = item.__dict__()
+                child_config.pop("parent", None)  # we only need to save the parent for the top node
+                child_configs.append(child_config)
+            config["items"] = child_configs
+        if self.parent and isinstance(self.parent, str):
             config["parent_path"] = self.config_parent
         return config
 
