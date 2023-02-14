@@ -68,28 +68,6 @@ Unimenu makes menu creation less complex, e.g. in Blender.
 - support loading multiple configs. Great for a single studio config and several project configs. Or a team config.
 - support creating another config to a previously created menu, or submenu!
 
-Unreal
-- load on startup with [init_unreal.py](https://docs.unrealengine.com/4.27/en-US/ProductionPipelines/ScriptingAndAutomation/Python/#theinit_unreal.pyfile)
-
-Blender
-- load on startup with a script in the [startup folder](https://docs.blender.org/manual/en/dev/advanced/blender_directory_layout.html#path-layout)
-- support blender icons in menu (see [sample yaml](https://github.com/hannesdelbeke/unimenu/blob/main/samples/menu_config_blender.yaml))
-
-Krita
-- native PyQt5
-- print doesn't print to console
-
-Substance Painter
-- native PySide2
-- print doesn't print to console
-
-3ds Max
-- native PySide2
-
-Marmoset
-- doesn't support menu extension, so we create a window with buttons instead
-- run a script on startup with command line arguments: "toolbag.exe" "script-path" (not tested yet)
-
 ## Supports
 unimenu was tested in the following versions, and might work in other versions.
 - Unreal 5.0.2
