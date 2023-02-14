@@ -30,11 +30,10 @@ class DCC:
         return importlib.import_module(f"unimenu.dccs.{self.name}")
 
     @property
-    def menu_node_class(self) -> "unimenu.dccs._abstract.MenuNodeAbstract":  # " to avoid circular import
+    def menu_node_class(self) -> "unimenu.dccs._abstract.MenuNodeAbstract":  # " in typehint to avoid circular import
         """get the dcc-specific menu node class"""
-        # lowercase underscore to camelcase
-        name = self.name.replace("_", " ").title().replace(" ", "")
-        return getattr(self.menu_module, "MenuNode" + name)
+        name = self.name.replace("_", " ").title().replace(" ", "")  # convert lower_case to CamelCase
+        return getattr(self.menu_module, "MenuNode" + name)  # get the MenuNode class from the dcc module
 
 
 class SupportedDCCs:

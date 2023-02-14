@@ -107,7 +107,7 @@ def setup(arg, dcc: DCC = None, backlink=True, parent_app_node=None):
     smart menu setup from a dict, config file or module
     arg: dict, str or module
     dcc: the dcc that contains the menu. if None, will try to detect dcc
-    backlink: if True, add an attribute to the app node instance to the app node
+    backlink: if True, add an attribute to the app node instance to the app node, doesn't work on all apps e.g. Unreal
     parent_app_node: if provided, use this node as the app parent node instead of the default root node
     returns the app menu node
     """
