@@ -41,6 +41,8 @@ class MenuNodeQt(MenuNodeAbstract):
             action.triggered.connect(lambda: self.command())
 
         if self.tooltip:
+            if parent_app_node:
+                parent_app_node.setToolTipsVisible(True)
             action.setToolTip(self.tooltip)
 
         if self.icon:
