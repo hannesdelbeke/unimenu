@@ -44,7 +44,6 @@ class MenuNodeQt(MenuNodeAbstract):
             action.setToolTip(self.tooltip)
 
         if self.icon:
-            # todo test this, krita doesnt support icons
             action.setIconVisibleInMenu(True)
             action.setIcon(QtGui.QIcon(self.icon))
 
@@ -60,10 +59,8 @@ class MenuNodeQt(MenuNodeAbstract):
         """
         instantiate a separator object
         """
-        action = self._setup_menu_item()
+        action = self._setup_menu_item(parent_app_node=parent_app_node)
         action.setSeparator(True)
-        # todo add label support,
-        #  see https://stackoverflow.com/questions/33820789/create-a-separator-with-a-text-in-the-menubar
         return action
 
     def teardown(self):
