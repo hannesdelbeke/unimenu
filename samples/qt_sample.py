@@ -11,7 +11,15 @@ data = {
         [
             {
                 'command': 'print("hello 1")',
-                'label': 'tool1'
+                'label': 'tool1',
+                "icon": ":/qt-project.org/styles/commonstyle/images/up-32.png",
+                "tooltip": "tooltip"
+            },
+            {
+                'label': 'label',
+                'separator': True,
+                "icon": ":/qt-project.org/styles/commonstyle/images/up-32.png",
+                "tooltip": "tooltip separator"
             },
             {
                 'command': 'print("hello 2")',
