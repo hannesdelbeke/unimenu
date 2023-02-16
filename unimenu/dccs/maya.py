@@ -25,8 +25,10 @@ def create_root_menu(label, window_name=None, kwargs=None, counter=0) -> pm.menu
     window_name = window_name or "gMainWindow"  # default value
     maya_window = pm.language.melGlobals[window_name]
 
-    kwargs = {"parent": maya_window, "tearOff": True}
-    kwargs |= kwargs  # support adding custom kwargs from the config
+    # support adding custom kwargs from the config
+    kwargs = kwargs or {}
+    kwargs.setdefault("parent", maya_window)
+    kwargs.setdefault("tearOff", True)
 
     name = f"{label}_{counter}"
 
@@ -54,8 +56,13 @@ class MenuNodeMaya(MenuNodeAbstract):
         self.counter += 1
         self.name = f"{self.label}_{self.counter}"
 
-        kwargs = {"subMenu": True, "label": self.label, "parent": parent_app_node, "tearOff": True}
-        kwargs |= self.kwargs  # support adding custom kwargs from the config
+        # support adding custom kwargs from the config
+        kwargs = self.kwargs
+        kwargs.setdefault("subMenu", True)
+        kwargs.setdefault("label", self.label)
+        kwargs.setdefault("parent", parent_app_node)
+        kwargs.setdefault("tearOff", True)
+
         return pm.menuItem(self.name, **kwargs)
 
     def _setup_menu_item(self, parent_app_node=None):
@@ -65,8 +72,12 @@ class MenuNodeMaya(MenuNodeAbstract):
         # todo menuItem doesn't support tooltip.
         #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
 
-        kwargs = {"label": self.label, "command": self.command, "parent": parent_app_node, "image": icon}
-        kwargs |= self.kwargs  # support adding custom kwargs from the config
+        # support adding custom kwargs from the config
+        kwargs = self.kwargs
+        kwargs.setdefault("label", self.label)
+        kwargs.setdefault("command", self.command)
+        kwargs.setdefault("parent", parent_app_node)
+        kwargs.setdefault("image", icon)
 
         self.counter += 1
         self.name = f"{self.label}_{self.counter}"
@@ -77,8 +88,11 @@ class MenuNodeMaya(MenuNodeAbstract):
         self.counter += 1
         self.name = f"{self.label}_{self.counter}"
 
-        kwargs = {"divider": True, "dividerLabel": self.label, "parent": parent_app_node}
-        kwargs |= self.kwargs  # support adding custom kwargs from the config
+        # support adding custom kwargs from the config
+        kwargs = self.kwargs
+        kwargs.setdefault("divider", True)
+        kwargs.setdefault("dividerLabel", self.label)
+        kwargs.setdefault("parent", parent_app_node)
 
         return pm.menuItem(self.name, **kwargs)
 
