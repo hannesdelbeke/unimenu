@@ -100,7 +100,7 @@ class MenuNode(object):
                 child_configs.append(child_config)
             config["items"] = child_configs
         if self.parent and isinstance(self.parent, str):
-            config["parent_path"] = self.config_parent
+            config["parent_path"] = self.parent_path
         if self.kwargs:
             config["kwargs"] = self.kwargs
         return config
