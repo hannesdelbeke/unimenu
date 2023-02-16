@@ -40,7 +40,7 @@ def create_root_menu(label, window_name=None, kwargs=None) -> pm.menu:
     kwargs.setdefault("tearOff", True)
 
     # name = f"{label}_{get_counter()}"
-    name = label  # we require a predictable name to parent menus to from other configs
+    name = label.replace("_", " ")  # we require a predictable name to parent menus to from other configs
 
     return pm.menu(name, **kwargs)
 
