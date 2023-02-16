@@ -56,24 +56,24 @@ class MenuNodeMaya(MenuNodeAbstract):
         # if we provide a parent in the config, we might want to parent to a submenu
         if self.parent_path:
             parent_path = self.parent_path.replace(" ", "_")  # maya menu names can't have spaces
-            menu = find_menu(parent_path)
-        else:
-            menu = create_root_menu(self.label, kwargs=self.kwargs)
-        return menu
+            return find_menu(parent_path)
 
     def _setup_sub_menu(self, parent_app_node=None):
         # todo handle unique name, atm label can clash with other menu items
 
-        self.name = f"{self.label}_{get_counter()}"
-
         # support adding custom kwargs from the config
         kwargs = self.kwargs
-        kwargs.setdefault("subMenu", True)
-        kwargs.setdefault("label", self.label)
-        kwargs.setdefault("parent", parent_app_node)
         kwargs.setdefault("tearOff", True)
 
-        return pm.menuItem(self.name, **kwargs)
+        if not parent_app_node:
+            return create_root_menu(self.label, kwargs=self.kwargs)
+        else:  # make a normal sub menu
+            kwargs.setdefault("subMenu", True)
+            kwargs.setdefault("label", self.label)
+            kwargs.setdefault("parent", parent_app_node)
+
+            self.name = f"{self.label}_{get_counter()}"
+            return pm.menuItem(self.name, **kwargs)
 
     def _setup_menu_item(self, parent_app_node=None):
         icon = self.icon or ""
