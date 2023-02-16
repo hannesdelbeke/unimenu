@@ -39,8 +39,9 @@ def create_root_menu(label, window_name=None, kwargs=None) -> pm.menu:
     kwargs.setdefault("parent", maya_window)
     kwargs.setdefault("tearOff", True)
 
+    # we require a predictable name to parent menus to from other configs, so no counter
     # name = f"{label}_{get_counter()}"
-    name = label.replace("_", " ")  # we require a predictable name to parent menus to from other configs
+    name = label.replace("_", " ")  # maya menu names can't have underscores
 
     return pm.menu(name, **kwargs)
 
@@ -54,7 +55,8 @@ class MenuNodeMaya(MenuNodeAbstract):
         #  can we move it to the abstract class?
         # if we provide a parent in the config, we might want to parent to a submenu
         if self.parent_path:
-            menu = find_menu(self.parent_path)
+            parent_path = self.parent_path.replace(" ", "_")  # maya menu names can't have spaces
+            menu = find_menu(parent_path)
         else:
             menu = create_root_menu(self.label, kwargs=self.kwargs)
         return menu
