@@ -7,8 +7,21 @@ class MenuNode(object):
     """
     data class for menu items, this can be loaded in python in any app
     """
+    # when creating a MenuNode from a config, we do MenuNode(**config), see MenuNode.load()
     def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-                 parent=None, parent_path=None, app_node=None):
+                 parent=None, parent_path=None, app_node=None, kwargs=None):
+        """
+        :param label: the label of the menu item
+        :param command: the command to run when the menu item is clicked
+        :param icon: the icon of the menu item
+        :param tooltip: the tooltip of the menu item
+        :param separator: if True, this menu item will be a separator
+        :param items: a list of menu items
+        :param kwargs: the kwargs to pass to the app-node instance
+        :param parent_path: used to parent the tree to a parent, only used by the root-node
+        :param app_node: HELPER the app menu node created by a MenuNode instance, try to create a bidirectional link
+        :param parent: HELPER the parent menu item, set automatically when loading a child node from a config file
+        """
 
         # config data
         self.label = label or ""
@@ -18,8 +31,8 @@ class MenuNode(object):
         self.separator = separator or False
         items = items or []
         self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
+        self.kwargs = kwargs or {}
 
-        # only top node can have parent in config, so this is not needed
         self.parent_path = parent_path  # only the root node needs this
         # todo get parent path method
 
@@ -68,8 +81,7 @@ class MenuNode(object):
 
     def __dict__ (self):
         # used to save back to a config file
-        config = {
-        }
+        config = {}
         if self.label:
             config["label"] = self.label
         if self.command:
@@ -89,6 +101,8 @@ class MenuNode(object):
             config["items"] = child_configs
         if self.parent and isinstance(self.parent, str):
             config["parent_path"] = self.config_parent
+        if self.kwargs:
+            config["kwargs"] = self.kwargs
         return config
 
     def run(self):

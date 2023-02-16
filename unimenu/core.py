@@ -96,7 +96,7 @@ def setup_module(module,
 def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     """
     smart menu load from a dict, config file or module
-    arg: dict, str or module
+    arg: a config (dict or str) or a module (to create a menu from a folder)
     """
     dcc = dcc or detect_dcc()
     return dcc.menu_node_class.load(arg)

@@ -16,20 +16,26 @@ def find_menu(name):
         # TODO get their children recursively
 
 
-def create_root_menu(label, window_name=None) -> pm.menu:
+def create_root_menu(label, window_name=None, kwargs=None, counter=0) -> pm.menu:
     """
     Create a root menu in Maya
     label: str, the label of the menu
     window_name: str, the name of the window to attach the menu to
     """
     window_name = window_name or "gMainWindow"  # default value
-
     maya_window = pm.language.melGlobals[window_name]
-    return pm.menu(label, parent=maya_window, tearOff=True)  # todo garantuee unique name
+
+    kwargs = {"parent": maya_window, "tearOff": True}
+    kwargs |= kwargs  # support adding custom kwargs from the config
+
+    name = f"{label}_{counter}"
+
+    return pm.menu(name, **kwargs)
 
 
 class MenuNodeMaya(MenuNodeAbstract):
     counter = 0
+
     @property
     def _default_root_parent(self):
 
@@ -39,35 +45,42 @@ class MenuNodeMaya(MenuNodeAbstract):
         if self.parent_path:
             menu = find_menu(self.parent_path)
         else:
-            menu = create_root_menu(self.label)
+            menu = create_root_menu(self.label, kwargs=self.kwargs, counter=self.counter)
         return menu
 
     def _setup_sub_menu(self, parent_app_node=None):
-        # todo handle uniqyue name, atm label can clash with other menu items
+        # todo handle unique name, atm label can clash with other menu items
 
         self.counter += 1
         self.name = f"{self.label}_{self.counter}"
 
-        return pm.menuItem(self.name, subMenu=True, label=self.label, parent=parent_app_node, tearOff=True)
-
+        kwargs = {"subMenu": True, "label": self.label, "parent": parent_app_node, "tearOff": True}
+        kwargs |= self.kwargs  # support adding custom kwargs from the config
+        return pm.menuItem(self.name, **kwargs)
 
     def _setup_menu_item(self, parent_app_node=None):
         icon = self.icon or ""
-        tooltip = self.tooltip or ""
+
+        # tooltip = self.tooltip or ""
+        # todo menuItem doesn't support tooltip.
+        #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
+
+        kwargs = {"label": self.label, "command": self.command, "parent": parent_app_node, "image": icon}
+        kwargs |= self.kwargs  # support adding custom kwargs from the config
 
         self.counter += 1
         self.name = f"{self.label}_{self.counter}"
 
-        return pm.menuItem(self.name, label=self.label, command=self.command, parent=parent_app_node, image=icon)
-        # todo menuItem doesn't support tooltip.
-        #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
-
+        return pm.menuItem(self.name, **kwargs)
 
     def _setup_separator(self, parent_app_node=None):
         self.counter += 1
         self.name = f"{self.label}_{self.counter}"
 
-        return pm.menuItem(self.name, divider=True, parent=parent_app_node, dividerLabel=self.label)
+        kwargs = {"divider": True, "dividerLabel": self.label, "parent": parent_app_node}
+        kwargs |= self.kwargs  # support adding custom kwargs from the config
+
+        return pm.menuItem(self.name, **kwargs)
 
     def teardown(self):
         # see https://stackoverflow.com/questions/44142119/remove-menu-item-in-maya-using-python
