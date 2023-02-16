@@ -4,6 +4,15 @@ import maya.mel
 import maya.cmds
 
 
+counter = 0
+
+
+def get_counter():
+    global counter
+    counter += 1
+    return counter
+
+
 def find_menu(name):
     gMainWindow = maya.mel.eval('$temp=$gMainWindow')
     # get all the menus that are children of the main menu
@@ -16,7 +25,7 @@ def find_menu(name):
         # TODO get their children recursively
 
 
-def create_root_menu(label, window_name=None, kwargs=None, counter=0) -> pm.menu:
+def create_root_menu(label, window_name=None, kwargs=None) -> pm.menu:
     """
     Create a root menu in Maya
     label: str, the label of the menu
@@ -30,13 +39,12 @@ def create_root_menu(label, window_name=None, kwargs=None, counter=0) -> pm.menu
     kwargs.setdefault("parent", maya_window)
     kwargs.setdefault("tearOff", True)
 
-    name = f"{label}_{counter}"
+    name = f"{label}_{get_counter()}"
 
     return pm.menu(name, **kwargs)
 
 
 class MenuNodeMaya(MenuNodeAbstract):
-    counter = 0
 
     @property
     def _default_root_parent(self):
@@ -47,14 +55,13 @@ class MenuNodeMaya(MenuNodeAbstract):
         if self.parent_path:
             menu = find_menu(self.parent_path)
         else:
-            menu = create_root_menu(self.label, kwargs=self.kwargs, counter=self.counter)
+            menu = create_root_menu(self.label, kwargs=self.kwargs)
         return menu
 
     def _setup_sub_menu(self, parent_app_node=None):
         # todo handle unique name, atm label can clash with other menu items
 
-        self.counter += 1
-        self.name = f"{self.label}_{self.counter}"
+        self.name = f"{self.label}_{get_counter()}"
 
         # support adding custom kwargs from the config
         kwargs = self.kwargs
@@ -79,14 +86,12 @@ class MenuNodeMaya(MenuNodeAbstract):
         kwargs.setdefault("parent", parent_app_node)
         kwargs.setdefault("image", icon)
 
-        self.counter += 1
-        self.name = f"{self.label}_{self.counter}"
+        self.name = f"{self.label}_{get_counter()}"
 
         return pm.menuItem(self.name, **kwargs)
 
     def _setup_separator(self, parent_app_node=None):
-        self.counter += 1
-        self.name = f"{self.label}_{self.counter}"
+        self.name = f"{self.label}_{get_counter()}"
 
         # support adding custom kwargs from the config
         kwargs = self.kwargs
