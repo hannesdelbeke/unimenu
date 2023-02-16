@@ -15,7 +15,7 @@ with contextlib.suppress(ImportError):
 class MenuNodeQt(MenuNodeAbstract):
 
     def _setup_sub_menu(self, parent_app_node=None) -> QtWidgets.QMenu:
-        menu = QtWidgets.QMenu(title=self.label)  # parent
+        menu = QtWidgets.QMenu(title=self.label, **self.kwargs)  # parent
         if parent_app_node:
             parent_app_node.addMenu(menu)
         return menu
@@ -32,7 +32,7 @@ class MenuNodeQt(MenuNodeAbstract):
         #  PySide.QtGui.QAction.setWhatsThis()
         #  PySide.QtGui.QAction.setFont()
 
-        action = QtWidgets.QAction(self.label)
+        action = QtWidgets.QAction(self.label, **self.kwargs)
 
         # qt accepts callable commands, not just string commands
         if isinstance(self.command, str):
