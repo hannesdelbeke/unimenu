@@ -7,6 +7,8 @@ import pkgutil
 import unimenu.dccs._abstract
 from unimenu.dccs import detect_dcc, DCC
 from unimenu.utils import getattr_recursive
+import os
+from pathlib import Path
 
 
 def setup_module(module,
@@ -140,3 +142,18 @@ def teardown_menu(name, dcc=None):
     # get the top menu with name X, and delete it and all submenus
     dcc = dcc or detect_dcc()
     return dcc.menu_module.teardown_menu(name)
+
+
+def config_paths() -> "list[Path]":
+    raw_path = os.environ.get("UNIMENU_CONFIG_PATH", "")
+    return [Path(x) for x in raw_path.split(os.pathsep) if x]
+
+
+def discover_config_paths() -> "list[Path]":
+    """discover all config files in the config paths"""
+    paths = config_paths()
+    configs = []
+    for path in paths:
+        configs.extend(path.rglob("*.json"))
+        configs.extend(path.rglob("*.yaml"))
+    return configs
