@@ -2,7 +2,8 @@
 
 <!---[![Coverage Status](https://coveralls.io/repos/github/hannesdelbeke/unimenu/badge.svg?branch=main)](https://coveralls.io/github/hannesdelbeke/unimenu?branch=main)-->
 
-[![PyPI Downloads](https://img.shields.io/pypi/v/unimenu?color=s)](https://pypi.org/project/unimenu/)
+[![PyPI Downloads](https://img.shields.io/pypi/v/unimenu?color=0)](https://pypi.org/project/unimenu/)
+[![Wiki](https://img.shields.io/badge/wiki-documentation-0)](https://github.com/hannesdelbeke/unimenu/wiki)
 
 A pure python module to add python commands to the menu.
 
