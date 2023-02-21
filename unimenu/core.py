@@ -157,3 +157,10 @@ def discover_config_paths() -> "list[Path]":
         configs.extend(path.rglob("*.json"))
         configs.extend(path.rglob("*.yaml"))
     return configs
+
+
+def setup_all_configs():
+    """setup all config files in the config paths"""
+    config_path = discover_config_paths()
+    for p in config_path:
+        setup(p)
