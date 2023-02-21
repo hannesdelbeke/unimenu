@@ -1,4 +1,9 @@
 # UniMenu (Universal Menu)
+
+<!---[![Coverage Status](https://coveralls.io/repos/github/hannesdelbeke/unimenu/badge.svg?branch=main)](https://coveralls.io/github/hannesdelbeke/unimenu?branch=main)-->
+
+[![PyPI Downloads](https://img.shields.io/pypi/v/unimenu?color=s)](https://pypi.org/project/unimenu/)
+
 A pure python module to add python commands to the menu.
 
 Supports Unreal Engine, Blender, Maya, Krita, Substance Painter, 3ds Max, Marmoset
