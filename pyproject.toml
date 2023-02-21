@@ -23,8 +23,8 @@ classifiers = [
 dependencies = [
     'importlib-metadata; python_version<"3.4"',
 ]
-dynamic = ["version"]
-
+#dynamic = ["version"]
+version = "0.2.3"
 
 [project.optional-dependencies]
 yaml = ["pyyaml"]
