@@ -6,7 +6,7 @@ import importlib
 import pkgutil
 import unimenu.dccs._abstract
 from unimenu.dccs import detect_dcc, DCC
-from unimenu.utils import getattr_recursive
+from unimenu.utils import getattr_recursive, load_config
 import os
 from pathlib import Path
 
@@ -161,6 +161,22 @@ def discover_config_paths() -> "list[Path]":
 
 def setup_all_configs():
     """setup all config files in the config paths"""
-    config_path = discover_config_paths()
-    for p in config_path:
+    config_paths = discover_config_paths()
+
+    # register configs without parents first, to avoid creating the child before the parent.
+    # note that this is not a perfect solution
+
+    configs1 = []
+    configs2 = []
+
+    for config_path in config_paths:
+        config_data = load_config(config_path)
+        if not config_data.get("parent_path"):  # todo replace hard coded string, we could use Node.parent_path
+            configs1.append(config_path)
+        else:
+            configs2.append(config_path)
+
+    for p in configs1:
+        setup(p)
+    for p in configs2:
         setup(p)
