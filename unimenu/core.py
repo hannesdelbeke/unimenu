@@ -144,19 +144,29 @@ def teardown_menu(name, dcc=None):
     return dcc.menu_module.teardown_menu(name)
 
 
-def config_paths() -> "list[Path]":
+def config_dir_paths() -> "list[Path]":
     raw_path = os.environ.get("UNIMENU_CONFIG_PATH", "")
     return [Path(x) for x in raw_path.split(os.pathsep) if x]
 
 
 def discover_config_paths() -> "list[Path]":
     """discover all config files in the config paths"""
-    paths = config_paths()
+    paths = config_dir_paths()
     configs = []
     for path in paths:
         configs.extend(path.rglob("*.json"))
         configs.extend(path.rglob("*.yaml"))
     return configs
+
+
+def load_all_configs():
+    """load all config files in the config paths"""
+    nodes = []
+    config_paths = discover_config_paths()
+    for config_path in config_paths:
+        node = load(config_path)
+        nodes.append(node)
+    return nodes
 
 
 def setup_all_configs():
