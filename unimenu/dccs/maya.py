@@ -85,7 +85,7 @@ class MenuNodeMaya(MenuNodeAbstract):
         # support adding custom kwargs from the config
         kwargs = self.kwargs
         kwargs.setdefault("label", self.label)
-        kwargs.setdefault("command", self.command)
+        kwargs.setdefault("command", self.try_command)
         kwargs.setdefault("parent", parent_app_node)
         kwargs.setdefault("image", icon)
 

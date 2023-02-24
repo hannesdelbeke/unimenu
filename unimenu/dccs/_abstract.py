@@ -45,6 +45,10 @@ class MenuNode(object):
         self.app_node_parent = None  # root node only
 
     @property
+    def try_command(self):
+        return f"import unimenu.utils; unimenu.utils.try_command(r'{self.command}')"
+
+    @property
     def children(self):
         return self.items
 
