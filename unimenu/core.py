@@ -98,7 +98,7 @@ def setup_module(module,
 def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
     """
     smart menu load from a dict, config file or module
-    arg: a config (dict or str) or a module (to create a menu from a folder)
+    arg: a config (dict or str/Path) or a module (to create a menu from a folder)
     """
     dcc = dcc or detect_dcc()
     return dcc.menu_node_class.load(arg)
@@ -170,13 +170,13 @@ def setup_all_configs():
     configs2 = []
 
     for config_path in config_paths:
-        config_data = load_config(config_path)
-        if not config_data.get("parent_path"):  # todo replace hard coded string, we could use Node.parent_path
-            configs1.append(config_path)
+        config_node = load(config_path)
+        if not config_node.parent_path:
+            configs1.append(config_node)
         else:
-            configs2.append(config_path)
+            configs2.append(config_node)
 
-    for p in configs1:
-        setup(p)
-    for p in configs2:
-        setup(p)
+    for node in configs1:
+        node.setup()
+    for node in configs2:
+        node.setup()
