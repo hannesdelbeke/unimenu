@@ -18,7 +18,6 @@ def find_menu(name):
     # get all the menus that are children of the main menu
     mainWindowMenus = maya.cmds.window(gMainWindow, query=True, menuArray=True)
     for menu in mainWindowMenus:
-        print(menu)
         if menu.lower() == name.lower():
             return menu
 
