@@ -9,7 +9,7 @@ class MenuNode(object):
     """
     # when creating a MenuNode from a config, we do MenuNode(**config), see MenuNode.load()
     def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-                 parent=None, parent_path=None, app_node=None, kwargs=None):
+                 parent=None, parent_path=None, app_node=None, kwargs=None, data=None):
         """
         :param label: the label of the menu item
         :param command: the command to run when the menu item is clicked
@@ -21,6 +21,7 @@ class MenuNode(object):
         :param parent_path: used to parent the tree to a parent, only used by the root-node
         :param app_node: HELPER the app menu node created by a MenuNode instance, try to create a bidirectional link
         :param parent: HELPER the parent menu item, set automatically when loading a child node from a config file
+        :param data: custom data to store in the node, this is not used by unimenu, e.g. category, tags, etc
         """
 
         # config data
@@ -32,13 +33,14 @@ class MenuNode(object):
         items = items or []
         self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
         self.kwargs = kwargs or {}
+        self.data = data or {}
 
         self.parent_path = parent_path  # only the root node needs this
         # todo get parent path method
 
         # helpers
         self.parent: MenuNode = parent  # some implicit code use, pay attention to parent
-        self.config_path = None  # the path to the config file that created this node
+        self.config_path = None  # the path to the config file that created this node todo do non root nodes populate this?
         
         # todo move to abstract
         self.app_node = app_node  # the app menu node created by this MenuNode instance
@@ -107,6 +109,8 @@ class MenuNode(object):
             config["parent_path"] = self.parent_path
         if self.kwargs:
             config["kwargs"] = self.kwargs
+        if self.data:
+            config["data"] = self.data
         return config
 
     def run(self):
@@ -133,6 +137,8 @@ class MenuNode(object):
         data = unimenu.utils.load_config(config_path)
         menu_node = cls(**data)
         menu_node.config_path = config_path
+        for node in menu_node.all_children:
+            node.config_path = config_path
         return menu_node
 
     def print_tree(self, indent=0):
@@ -177,8 +183,9 @@ class MenuNodeAbstract(MenuNode, ABC):
         # some apps, e.g. unreal, don't allow adding attributes dynamically
         if backlink:
             try:
-                self.app_node.menu_node = self
+                self.app_node.menu_node = self  # todo setproperty qt
             except AttributeError:
+                print(f"Warning: could not set backlink on {self.app_node} to {self}")
                 pass
 
         return self.app_node
