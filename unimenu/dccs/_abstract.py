@@ -7,10 +7,12 @@ class MenuNode(object):
     """
     data class for menu items, this can be loaded in python in any app
     """
+    unigue_names = set()
     # when creating a MenuNode from a config, we do MenuNode(**config), see MenuNode.load()
     def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-                 parent=None, parent_path=None, app_node=None, kwargs=None, data=None):
+                 parent=None, parent_path=None, app_node=None, kwargs=None, data=None, id=None):
         """
+        :param id: a unique name for the menu item. e.g. ANIMATION_EXPORTER. in qt this is objectName
         :param label: the label of the menu item
         :param command: the command to run when the menu item is clicked
         :param icon: the icon of the menu item
@@ -18,10 +20,10 @@ class MenuNode(object):
         :param separator: if True, this menu item will be a separator
         :param items: a list of menu items
         :param kwargs: the kwargs to pass to the app-node instance
-        :param parent_path: used to parent the tree to a parent, only used by the root-node
-        :param app_node: HELPER the app menu node created by a MenuNode instance, try to create a bidirectional link
-        :param parent: HELPER the parent menu item, set automatically when loading a child node from a config file
         :param data: custom data to store in the node, this is not used by unimenu, e.g. category, tags, etc
+        :param parent_path: used to parent the tree to a parent, only used by the root-node
+        :param app_node: HELPER linking the app menu node created by a MenuNode instance, tries to create a bidirectional link
+        :param parent: HELPER linking the parent menu item, automatically set on child nodes when loaded from a config
         """
 
         # config data
@@ -34,6 +36,7 @@ class MenuNode(object):
         self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
         self.kwargs = kwargs or {}
         self.data = data or {}
+        self.id = id or None
 
         self.parent_path = parent_path  # only the root node needs this
         # todo get parent path method
@@ -45,6 +48,28 @@ class MenuNode(object):
         # todo move to abstract
         self.app_node = app_node  # the app menu node created by this MenuNode instance
         self.app_node_parent = None  # root node only
+
+        self._default_id()
+
+    def _default_id(self):
+        # todo ideally should be unique
+        
+        if self.id:
+            return
+
+        label = self.label
+        if not label:
+            label = "TODO"  # todo unique number
+
+        parent_names = []
+        parent = self.parent
+        while parent:
+            parent_names.append(parent.id)
+            parent = parent.parent
+        parent_names.reverse()
+        parent_names.append(self.label)
+        self.id = "_".join(parent_names)
+
 
     @property
     def try_command(self):
