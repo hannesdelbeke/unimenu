@@ -81,5 +81,5 @@ class MenuNodeQt(MenuNodeAbstract):
         return action
 
     def teardown(self):
-        raise NotImplementedError("not yet implemented")
-        pass
+        """remove from menu"""
+        self.app_node.deleteLater()
