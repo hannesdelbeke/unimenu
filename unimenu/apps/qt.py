@@ -4,12 +4,16 @@ import contextlib
 
 with contextlib.suppress(ImportError):
     from PySide6 import QtGui, QtWidgets
+    from PySide6.QtGui import QAction
 with contextlib.suppress(ImportError):
     from PyQt6 import QtGui, QtWidgets
+    from PyQt6.QtGui import QAction
 with contextlib.suppress(ImportError):
     from PySide2 import QtGui, QtWidgets
+    from PySide2.QtWidgets import QAction
 with contextlib.suppress(ImportError):
     from PyQt5 import QtGui, QtWidgets
+    from PyQt5.QtWidgets import QAction
 
 
 class MenuNodeQt(MenuNodeAbstract):
@@ -47,7 +51,7 @@ class MenuNodeQt(MenuNodeAbstract):
         #  PySide.QtGui.QAction.setWhatsThis()
         #  PySide.QtGui.QAction.setFont()
 
-        action = QtWidgets.QAction(self.label, **self.kwargs)
+        action = QAction(self.label, **self.kwargs)
 
         # qt accepts callable commands, not just string commands
         if isinstance(self.command, str):
@@ -72,7 +76,7 @@ class MenuNodeQt(MenuNodeAbstract):
 
         return action
 
-    def _setup_separator(self, parent_app_node=None) -> QtWidgets.QAction:
+    def _setup_separator(self, parent_app_node=None) -> QAction:
         """
         instantiate a separator object
         """
