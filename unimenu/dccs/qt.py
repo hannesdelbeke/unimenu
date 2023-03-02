@@ -14,6 +14,21 @@ with contextlib.suppress(ImportError):
 
 class MenuNodeQt(MenuNodeAbstract):
 
+    @property
+    def _default_root_parent(self):
+        """
+        get the default parent for the root node
+        it finds the first QMainWindow in the app, and gets its menu bar
+        if this is not the desired behaviour, override this method or set the parent of the root node before setup
+        """
+        main_window = None
+        for widget in QtWidgets.QApplication.topLevelWidgets():
+            if type(widget) == QtWidgets.QMainWindow:
+                main_window = widget
+                break
+        menu_bar = main_window.findChild(QtWidgets.QMenuBar)
+        return menu_bar
+
     def _setup_sub_menu(self, parent_app_node=None) -> QtWidgets.QMenu:
         menu = QtWidgets.QMenu(title=self.label, **self.kwargs)  # parent
         if parent_app_node:

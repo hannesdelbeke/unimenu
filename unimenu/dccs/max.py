@@ -1,7 +1,8 @@
 """
 generate menus in 3ds max
 
-generated menus are persistent between sessions!
+generated menus with menuMan are persistent between sessions!
+recommended to use qt instead, to generate menus on startup
 """
 
 from pymxs import runtime as rt

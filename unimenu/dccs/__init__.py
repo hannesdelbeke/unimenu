@@ -52,16 +52,20 @@ class SupportedDCCs:
 
     QT = DCC("qt", None)
 
-    ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
+    # ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
+    NON_QT = [BLENDER, UNREAL, SUBSTANCE_PAINTER, MARMOSET]
 
 
 def detect_dcc() -> Optional[DCC]:
-    """detect which dcc is currently running"""
-    for dcc in SupportedDCCs.ALL:
+    """
+    detect which dcc is currently running
+    returns QT if no custom supported app is detected
+    """
+    for dcc in SupportedDCCs.NON_QT:
         with contextlib.suppress(ImportError):
             __import__(dcc.module)
             logging.debug(f"UNIMENU: detected {dcc.name}")
             return dcc
-    logging.warning("UNIMENU: no supported DCC detected, falling back to QT")
+    # logging.info("UNIMENU: no custom DCC detected, falling back to QT")
     return SupportedDCCs.QT
 

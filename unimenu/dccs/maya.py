@@ -1,3 +1,7 @@
+"""
+native maya menu support. not needed anymore, use the qt menu instead
+"""
+
 import pymel.core as pm  # todo replace with cmds because it's faster
 from unimenu.dccs._abstract import MenuNodeAbstract
 import maya.mel
