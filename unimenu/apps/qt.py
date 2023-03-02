@@ -32,6 +32,14 @@ class MenuNodeQt(MenuNodeAbstract):
             if type(widget) == QtWidgets.QMainWindow:
                 main_window = widget
                 break
+
+        if not main_window:
+            for widget in QtWidgets.QApplication.topLevelWidgets():
+                if widget.objectName() == "mainWindow":
+                    print("FOUND MAIN WINDOW UNIMENU", main_window)
+                    main_window = widget
+                    break
+
         menu_bar = main_window.findChild(QtWidgets.QMenuBar)
         return menu_bar
 
