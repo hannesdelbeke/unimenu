@@ -41,14 +41,14 @@ class SupportedDCCs:
 
     # dcc -> digital content creation (software)
 
-    BLENDER = DCC("blender", "bpy")
-    MAYA = DCC("maya", "maya")  # pymel can be slow to import
-    UNREAL = DCC("unreal", "unreal")
-    MAX = DCC("max", "pymxs")
-    KRITA = DCC("krita", "krita")
-    SUBSTANCE_DESIGNER = DCC("substance_designer", "pysbs")
-    SUBSTANCE_PAINTER = DCC("substance_painter", "substance_painter")
-    MARMOSET = DCC("marmoset", "mset")
+    BLENDER = DCC(name="blender", module="bpy")
+    MAYA = DCC(name="maya", module="maya")  # pymel can be slow to import
+    UNREAL = DCC(name="unreal", module="unreal")
+    MAX = DCC(name="max", module="pymxs")
+    KRITA = DCC(name="krita", module="krita")
+    SUBSTANCE_DESIGNER = DCC(name="substance_designer", module="pysbs")
+    SUBSTANCE_PAINTER = DCC(name="substance_painter", module="substance_painter")
+    MARMOSET = DCC(name="marmoset", module="mset")
 
     QT = DCC("qt", None)
 
