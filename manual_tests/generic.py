@@ -46,8 +46,8 @@ def create_test_menus():
     menu_entry = unimenu.add_item("print hi", command="print('hi')", parent=menu2)
 
     print(menu_entry)
-    # in susbtance painter, this throws a
-    # [Python] RuntimeError: Internal C++ object (PySide2.QtWidgets.QAction) already deleted.
+    # TODO fix: in susbtance painter, this throws a
+    #  [Python] RuntimeError: Internal C++ object (PySide2.QtWidgets.QAction) already deleted.
 
 
 create_test_menus()
