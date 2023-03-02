@@ -17,6 +17,7 @@ with contextlib.suppress(ImportError):
 
 
 menu_bar = None
+main_window = None
 class MenuNodeQt(MenuNodeAbstract):
 
     @property
@@ -26,8 +27,11 @@ class MenuNodeQt(MenuNodeAbstract):
         it finds the first QMainWindow in the app, and gets its menu bar
         if this is not the desired behaviour, override this method or set the parent of the root node before setup
         """
-        global menu_bar  # store in global, to avoid garbage collection of python pointer to c++ qt obj
-        main_window = None
+
+        # store in global, to avoid garbage collection of python pointer to c++ qt obj
+        global menu_bar
+        global main_window
+
         for widget in QtWidgets.QApplication.topLevelWidgets():
             if type(widget) == QtWidgets.QMainWindow:
                 main_window = widget
@@ -45,6 +49,7 @@ class MenuNodeQt(MenuNodeAbstract):
 
     def _setup_sub_menu(self, parent_app_node=None) -> QtWidgets.QMenu:
         menu = QtWidgets.QMenu(title=self.label, **self.kwargs)  # parent
+        global menu_bar
         if parent_app_node:
             parent_app_node.addMenu(menu)
         return menu

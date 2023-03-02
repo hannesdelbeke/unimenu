@@ -48,6 +48,6 @@ def create_test_menus():
     print(menu_entry)
     # TODO fix: in susbtance painter, this throws a
     #  [Python] RuntimeError: Internal C++ object (PySide2.QtWidgets.QAction) already deleted.
-
+    # TODO test, think this might be resolved now with the any_dcc_test.py & qt implementation.
 
 create_test_menus()
