@@ -8,7 +8,7 @@
 A pure python module to add python commands to the menu.
 
 Supports Unreal Engine, Blender, Marmoset<br>
-and any app that uses QT: Maya, Krita, Substance Painter, 3ds Max, FreeCAD, ...
+and any app that uses QT: Maya, Krita, Substance Painter, 3ds Max, FreeCAD, CryEngine ...
 
 For more info read the [wiki](https://github.com/hannesdelbeke/unimenu/wiki)
 
