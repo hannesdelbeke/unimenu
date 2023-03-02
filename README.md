@@ -48,9 +48,11 @@ unimenu.setup(data)
 ### with code
 
 ```python
-import unimenu.dccs.blender
+import unimenu.apps.blender
+
 menu = unimenu.dccs.blender.MenuNodeBlender(label="my submenu")  # create a submenu, parent defaults to the menu bar
-item = unimenu.dccs.blender.MenuNodeBlender(label="hello", command='print("hello world")', parent="UNIMENU_MT_my_submenu")  # add menu item to our submenu
+item = unimenu.dccs.blender.MenuNodeBlender(label="hello", command='print("hello world")',
+                                            parent="UNIMENU_MT_my_submenu")  # add menu item to our submenu
 menu.items.append(item)  # add the item to the submenu
 menu.setup()  # setup the menu
 ```

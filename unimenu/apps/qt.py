@@ -1,4 +1,4 @@
-from unimenu.dccs._abstract import MenuNodeAbstract
+from unimenu.apps._abstract import MenuNodeAbstract
 import contextlib
 
 

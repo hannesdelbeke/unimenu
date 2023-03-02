@@ -2,7 +2,7 @@
 a pure qt demo
 """
 
-import unimenu.dccs.qt
+import unimenu.apps.qt
 from PySide2 import QtWidgets
 
 data = {
@@ -52,7 +52,7 @@ q_node = unimenu.setup(data)
 menu.addMenu(q_node)
 
 # setup tools menu from config
-menu_node = unimenu.dccs.qt.MenuNodeQt(**data)
+menu_node = unimenu.apps.qt.MenuNodeQt(**data)
 menu_node.print_tree()
 # Tools
 #   tool1

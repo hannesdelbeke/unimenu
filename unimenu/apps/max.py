@@ -6,7 +6,7 @@ recommended to use qt instead, to generate menus on startup
 """
 
 from pymxs import runtime as rt
-from unimenu.dccs._abstract import MenuNodeAbstract
+from unimenu.apps._abstract import MenuNodeAbstract
 
 
 # menu man pymxs official https://help.autodesk.com/view/MAXDEV/2022/ENU/?guid=Max_Python_API_using_pymxs_pymxs_macroscripts_menus_html
@@ -33,7 +33,7 @@ class MenuNodeMax(MenuNodeAbstract):
         tooltip = self.tooltip or ""
 
         # todo generated menus are persistent between sessions!
-        #  this does not match the behavior of other DCCs currently
+        #  this does not match the behavior of other Apps currently
         #  a macro is created at C:\Users\hanne\AppData\Local\Autodesk\3dsMax\2024 - 64bit\ENU\usermacros\
         macro_name, macro_category = create_macro(self.label, self.command)
         # todo handle case when we create a macro with the same name as an existing macro

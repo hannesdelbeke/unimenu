@@ -3,7 +3,7 @@ native maya menu support. not needed anymore, use the qt menu instead
 """
 
 import pymel.core as pm  # todo replace with cmds because it's faster
-from unimenu.dccs._abstract import MenuNodeAbstract
+from unimenu.apps._abstract import MenuNodeAbstract
 import maya.mel
 import maya.cmds
 
@@ -54,7 +54,7 @@ class MenuNodeMaya(MenuNodeAbstract):
     @property
     def _default_root_parent(self):
 
-        # todo parent logic currently is re implemented in every dcc module
+        # todo parent logic currently is re implemented in every app module
         #  can we move it to the abstract class?
         # if we provide a parent in the config, we might want to parent to a submenu
         if self.parent_path:

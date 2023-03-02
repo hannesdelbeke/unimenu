@@ -4,8 +4,8 @@ Core methods to generate custom menus.
 
 import importlib
 import pkgutil
-import unimenu.dccs._abstract
-from unimenu.dccs import detect_dcc, DCC
+import unimenu.apps._abstract
+from unimenu.apps import detect_app, App
 from unimenu.utils import getattr_recursive, load_config
 import os
 from pathlib import Path
@@ -17,7 +17,7 @@ def setup_module(module,
                  function_name: str = None,
                  icon: str = None,
                  tooltip: str = None,
-                 dcc=None,
+                 app=None,
                  smart_spaces=True,
                  ):
     """
@@ -37,7 +37,7 @@ def setup_module(module,
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
     icon: the icon name to use for the menu entry, defaults to ''
-    dcc: the dcc that contains the menu. if None, will try to detect dcc
+    app: the app that contains the menu. if None, will try to detect app
     """
 
     function_name = function_name or "main"
@@ -78,7 +78,7 @@ def setup_module(module,
 
         submodule_dict = {
             "label": submodule_label,
-            "command": callback,  # todo ensure this also works for dccs that only support strings
+            "command": callback,  # todo ensure this also works for apps that only support strings
         }
         if icon:
             submodule_dict["icon"] = icon
@@ -92,33 +92,33 @@ def setup_module(module,
     data["items"] = [{"label": menu_name or parent_module.__name__, "items": items}]
 
     # use the generated dict to set up the menu
-    return setup(data, dcc)
+    return setup(data, app)
 
 
-def load(arg, dcc: DCC = None) -> unimenu.dccs._abstract.MenuNodeAbstract:
+def load(arg, app: App = None) -> unimenu.apps._abstract.MenuNodeAbstract:
     """
     smart menu load from a dict, config file or module
     arg: a config (dict or str/Path) or a module (to create a menu from a folder)
     """
-    dcc = dcc or detect_dcc()
-    return dcc.menu_node_class.load(arg)
+    app = app or detect_app()
+    return app.menu_node_class.load(arg)
 
 
 def Node(**kwargs):
-    """detect dcc and create a menu node from kwargs"""
+    """detect app and create a menu node from kwargs"""
     return load(kwargs)
 
 
-def setup(arg, dcc: DCC = None, backlink=True, parent_app_node=None):
+def setup(arg, app: App = None, backlink=True, parent_app_node=None):
     """
     smart menu setup from a dict, config file or module
     arg: dict, str or module
-    dcc: the dcc that contains the menu. if None, will try to detect dcc
+    app: the app that contains the menu. if None, will try to detect app
     backlink: if True, add an attribute to the app node instance to the app node, doesn't work on all apps e.g. Unreal
     parent_app_node: if provided, use this node as the app parent node instead of the default root node
     returns the app menu node
     """
-    menu_node = load(arg, dcc)
+    menu_node = load(arg, app)
     app_node = menu_node.setup(parent_app_node=parent_app_node, backlink=backlink)
     return app_node
 
@@ -130,18 +130,18 @@ def setup(arg, dcc: DCC = None, backlink=True, parent_app_node=None):
 #     return teardown_dict(data)
 
 
-# def teardown_dict(data, dcc=None):
+# def teardown_dict(data, app=None):
 #     """remove the created menu"""
 #     # get all entries from a dict, assume they are setup, and attempt a teardown
-#     dcc = dcc or detect_dcc()
-#     return dcc.menu_module.teardown_menu(data)
+#     app = app or detect_app()
+#     return app.menu_module.teardown_menu(data)
 
 
-def teardown_menu(name, dcc=None):
+def teardown_menu(name, app=None):
     """remove the created menu"""
     # get the top menu with name X, and delete it and all submenus
-    dcc = dcc or detect_dcc()
-    return dcc.menu_module.teardown_menu(name)
+    app = app or detect_app()
+    return app.menu_module.teardown_menu(name)
 
 
 def config_dir_paths() -> "list[Path]":

@@ -1,5 +1,5 @@
 """
-piece of test-code for copy/pasting, that should work in every dcc
+piece of test-code for copy/pasting, that should work in every app
 """
 
 import sys

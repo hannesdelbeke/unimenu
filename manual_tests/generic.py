@@ -15,14 +15,14 @@ import sys
 sys.path.append(r"C:\Users\hanne\OneDrive\Documents\repos\unimenu")
 
 import unimenu
-from unimenu.dccs import detect_dcc
+from unimenu.apps import detect_app
 from importlib import reload
 from pathlib import Path
 
 
 def create_test_menus():
-    dcc = detect_dcc()
-    reload(dcc.menu_module)
+    app = detect_app()
+    reload(app.menu_module)
 
     config = Path(unimenu.__file__).parent.parent / "samples/config.json"
     # in substance painter, Path(unimenu.__file__) does not return this file's location but instead:

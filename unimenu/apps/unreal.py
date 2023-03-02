@@ -1,5 +1,5 @@
 import unreal
-from unimenu.dccs._abstract import MenuNodeAbstract
+from unimenu.apps._abstract import MenuNodeAbstract
 
 
 class MenuNodeUnreal(MenuNodeAbstract):

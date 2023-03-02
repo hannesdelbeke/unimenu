@@ -6,8 +6,8 @@
 """
 import bpy
 from typing import Union, Callable
-from unimenu.dccs._abstract import MenuNodeAbstract
-import unimenu.dccs
+from unimenu.apps._abstract import MenuNodeAbstract
+import unimenu.apps
 
 
 counter = -1
@@ -111,6 +111,9 @@ def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
         self.layout.menu(id_name)
+        # TODO fix bug in above line
+        #  search for unknown menutype UNIMENU_MT_UniMenu3
+        #  uiItemM: not found UNIMENU_MT_UniMenu3
 
     parent.append(menu_draw)
 
@@ -118,7 +121,7 @@ def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
 
 
 class MenuNodeBlender(MenuNodeAbstract):
-    app = unimenu.dccs.SupportedDCCs.BLENDER  # helper to get matching DCC
+    app = unimenu.apps.SupportedApps.BLENDER  # helper to get matching App
 
     @property
     def _default_root_parent(self):
