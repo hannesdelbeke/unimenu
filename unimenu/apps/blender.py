@@ -9,8 +9,15 @@ from typing import Union, Callable
 from unimenu.apps._abstract import MenuNodeAbstract
 import unimenu.apps
 
+def unique_operator_name(name) -> str:
+    """ensure unique name for blender operators, adds _number to the end if name not unique"""
+    unique_counter = 1  # start count from 2
+    new_name = name
+    while new_name in dir(bpy.types):
+        unique_counter += 1
+        new_name = f"{name}_{unique_counter}"
+    return new_name
 
-counter = -1
 
 def operator_wrapper(
     parent: bpy.types.Operator, label: str, command: Union[str, Callable], icon_name=None, tooltip=None
@@ -23,9 +30,6 @@ def operator_wrapper(
     3 add to (sub)menu (parent operator)
     """
 
-    global counter
-    counter += 1
-
     icon_name = icon_name or "NONE"
     tooltip = tooltip or ""
 
@@ -33,7 +37,8 @@ def operator_wrapper(
     # class: UNIMENU_OT_my_operator
     # id: unimenu.my_operator
     #  todo add support dupe names
-    name = "UNIMENU_OT_" + label.replace(" ", "_") + str(counter)
+    name = "UNIMENU_OT_" + label.replace(" ", "_")
+    name = unique_operator_name(name)
     id_name = name.replace("UNIMENU_OT_", "unimenu.").lower()
 
     # create
@@ -58,6 +63,7 @@ def operator_wrapper(
 
             return {"RUNNING_MODAL"}
 
+    # print("UNI made operator", name, OperatorWrapper.bl_idname)
     OperatorWrapper.__name__ = name
     if tooltip:
         OperatorWrapper.__doc__ = tooltip
@@ -88,15 +94,18 @@ def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
     3 add to (sub)menu (parent operator)
     """
 
-    global counter
-    counter += 1
+    # global counter
+    # counter += 1
     # todo add support dupe names
     # handle name
     # class: UNIMENU_OT_my_operator
     # id: unimenu.my_operator
     # todo we dont need to set both class and bl_idname
 
-    name = "UNIMENU_MT_" + label.replace(" ", "_") + str(counter)
+    name = "UNIMENU_MT_" + label.replace(" ", "_")
+
+    name = unique_operator_name(name)
+
     id_name = name
 
     class MenuWrapper(bpy.types.Menu):
@@ -108,6 +117,7 @@ def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
 
     # rename class
     MenuWrapper.__name__ = name
+    # print("UNI made menu operator", name, MenuWrapper.bl_idname)
 
     # register
     bpy.utils.register_class(MenuWrapper)
@@ -129,7 +139,10 @@ class MenuNodeBlender(MenuNodeAbstract):
 
     @property
     def _default_root_parent(self):
-        parent_path = self.parent_path or "TOPBAR_MT_editor_menus"
+        if self.parent_path:
+            parent_path = f"UNIMENU_MT_{self.parent_path.replace(' ', '_')}"
+        else:
+            parent_path = "TOPBAR_MT_editor_menus"
         parent_node = getattr(bpy.types, parent_path)  # get the parent from blender by name
         return parent_node
 
