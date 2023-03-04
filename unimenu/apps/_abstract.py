@@ -1,6 +1,7 @@
 from abc import abstractmethod, ABC
 import unimenu.utils
 from pathlib import Path
+import logging
 
 
 class MenuNode(object):
@@ -204,14 +205,15 @@ class MenuNodeAbstract(MenuNode, ABC):
             self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
             for item in self.items:
                 item.setup(parent_app_node=self.app_node)
+        else:
+            logging.warning("Can not create a MenuNode that has no command or children: " + self.label)
 
         # some apps, e.g. unreal, don't allow adding attributes dynamically
         if backlink:
             try:
                 self.app_node.menu_node = self  # todo setproperty qt
             except AttributeError:
-                print(f"Warning: could not set backlink on {self.app_node} to {self}")
-                pass
+                logging.warning(f"Warning: could not set backlink on {self.app_node} to {self}")
 
         return self.app_node
 
