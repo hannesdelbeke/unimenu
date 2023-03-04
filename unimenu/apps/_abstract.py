@@ -131,7 +131,7 @@ class MenuNode(object):
                 child_config.pop("parent", None)  # we only need to save the parent for the top node
                 child_configs.append(child_config)
             config["items"] = child_configs
-        if self.parent and isinstance(self.parent, str):
+        if self.parent_path and isinstance(self.parent_path, str):
             config["parent_path"] = self.parent_path
         if self.kwargs:
             config["kwargs"] = self.kwargs
