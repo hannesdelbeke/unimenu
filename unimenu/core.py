@@ -89,7 +89,11 @@ def setup_module(module,
     data = {}
     if parent_menu:
         data["parent"] = parent_menu
-    data["items"] = [{"label": menu_name or parent_module.__name__, "items": items}]
+
+    parent_menu_label = menu_name or parent_module.__name__
+    parent_menu_label = parent_menu_label.replace('_', ' ').title() if smart_spaces else parent_menu_label
+
+    data["items"] = [{"label": parent_menu_label, "items": items}]
 
     # use the generated dict to set up the menu
     return setup(data, app)
