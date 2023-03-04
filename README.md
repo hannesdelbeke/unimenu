@@ -16,12 +16,6 @@ For more info read the [wiki](https://github.com/hannesdelbeke/unimenu/wiki)
 
 # how to use
 
-you can make your menu(s):
-- from a config
-- from a dict
-- with explicit code
-- from a folder of scripts
-
 ### load from config (YAML & JSON)
 ```yaml
 items:
@@ -36,7 +30,9 @@ config_path = "path/to/config.yaml"
 unimenu.setup(config_path)
 ```
 
-### load from dynamic dict
+
+
+### load from a dict
 
 ```python
 import unimenu
@@ -45,16 +41,15 @@ unimenu.setup(data)
 ```
 
 
+
 ### with code
 
 ```python
-import unimenu.apps.blender
-
-menu = unimenu.dccs.blender.MenuNodeBlender(label="my submenu")  # create a submenu, parent defaults to the menu bar
-item = unimenu.dccs.blender.MenuNodeBlender(label="hello", command='print("hello world")',
-                                            parent="UNIMENU_MT_my_submenu")  # add menu item to our submenu
-menu.items.append(item)  # add the item to the submenu
-menu.setup()  # setup the menu
+import unimenu
+menu = unimenu.Node(label="my menu")  # create a menu
+item = unimenu.Node(label="hi", command='print("hi")')  # create a menu item
+menu.items.append(item)  # add the item to the menu
+menu.setup()  # setup the menu in the app, parented by default to the main menu bar
 ```
 
 ### from a folder of scripts (module) (experimental, needs updating)
