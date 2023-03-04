@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 
 
-def setup_module(module,
+def load_module(module,
                  parent_menu: str = None,
                  menu_name: str = None,
                  function_name: str = None,
@@ -96,7 +96,19 @@ def setup_module(module,
     data["items"] = [{"label": parent_menu_label, "items": items}]
 
     # use the generated dict to set up the menu
-    return setup(data, app)
+    return load(data, app)
+
+
+def setup_module(module,
+                    parent_menu: str = None,
+                    menu_name: str = None,
+                    function_name: str = None,
+                    icon: str = None,
+                    tooltip: str = None,
+                    app=None,
+                    smart_spaces=True,
+                    ):
+    return load_module(module, parent_menu, menu_name, function_name, icon, tooltip, app, smart_spaces).setup()
 
 
 def load(arg, app: App = None) -> unimenu.apps._abstract.MenuNodeAbstract:
