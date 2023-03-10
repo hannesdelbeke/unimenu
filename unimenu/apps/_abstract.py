@@ -39,7 +39,11 @@ class MenuNode(object):
         self.data = data or {}
         self.id = id or None
 
-        self.parent_path = parent_path  # only the root node needs this
+        # only the root node needs parent_path
+        if parent_path:
+            self.parent_path = parent_path.replace(" ", "_")
+        else:
+            self.parent_path = None
         # todo get parent path method
 
         # helpers
@@ -62,13 +66,15 @@ class MenuNode(object):
         if not label:
             label = "TODO"  # todo unique number
 
+        label = label.replace(" ", "_")
+
         parent_names = []
         parent = self.parent
         while parent:
-            parent_names.append(parent.id)
+            parent_names.append(parent.id)  # todo, since id includes parent, adding parent id adds root parent multiple times
             parent = parent.parent
         parent_names.reverse()
-        parent_names.append(self.label)
+        parent_names.append(label)
         self.id = "_".join(parent_names)
 
 
