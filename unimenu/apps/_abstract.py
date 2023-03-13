@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 import unimenu.utils
 from pathlib import Path
 import logging
+import re
 
 
 class MenuNode(object):
@@ -66,7 +67,8 @@ class MenuNode(object):
         if not label:
             label = "TODO"  # todo unique number
 
-        label = label.replace(" ", "_")
+
+        label = re.sub('[^0-9a-zA-Z]+', '_', label)  # replace non alphanumeric with _
 
         parent_names = []
         parent = self.parent

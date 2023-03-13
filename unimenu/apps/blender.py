@@ -20,7 +20,7 @@ def unique_operator_name(name) -> str:
 
 
 def operator_wrapper(
-    parent: bpy.types.Operator, label: str, command: Union[str, Callable], icon_name=None, tooltip=None
+    parent: bpy.types.Operator, label: str, id: str, command: Union[str, Callable], icon_name=None, tooltip=None
 ) -> bpy.types.Operator:
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
@@ -37,9 +37,10 @@ def operator_wrapper(
     # class: UNIMENU_OT_my_operator
     # id: unimenu.my_operator
     #  todo add support dupe names
-    name = "UNIMENU_OT_" + label.replace(" ", "_")
+    name = "UNIMENU_OT_" + id
     name = unique_operator_name(name)
     id_name = name.replace("UNIMENU_OT_", "unimenu.").lower()
+    print("id_name", id_name)
 
     # create
     class OperatorWrapper(bpy.types.Operator):
@@ -157,7 +158,7 @@ class MenuNodeBlender(MenuNodeAbstract):
     def _setup_menu_item(self, parent_app_node=None) -> bpy.types.Operator:
         icon = self.icon or "NONE"
         tooltip = self.tooltip or ""
-        return operator_wrapper(parent_app_node, self.label, self.command, icon_name=icon, tooltip=tooltip)
+        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.command, icon_name=icon, tooltip=tooltip)
 
     def _setup_separator(self, parent_app_node=None):
         # todo return separator correctly
