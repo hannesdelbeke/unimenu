@@ -39,16 +39,3 @@ def getattr_recursive(obj, attr: str):
     for attribute in attributes:
         obj = getattr(obj, attribute)
     return obj
-
-
-def try_command(command, *args, **kwargs):
-    """try to run a command, return None if it fails & print the traceback"""
-    try:
-        # check if string
-        if isinstance(command, str):
-            return exec(command)
-        else:
-            return command(*args, **kwargs)
-    except Exception:
-        import traceback
-        traceback.print_exc()

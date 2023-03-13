@@ -75,12 +75,7 @@ class MenuNodeQt(MenuNodeAbstract):
         #  PySide.QtGui.QAction.setFont()
 
         action = QAction(self.label, objectName=self.id, **self.kwargs)
-
-        # qt accepts callable commands, not just string commands
-        if isinstance(self.command, str):
-            action.triggered.connect(lambda: exec(self.command))
-        else:  # callable
-            action.triggered.connect(lambda: self.command())
+        action.triggered.connect(self.run)
 
         if self.tooltip:
             if parent_app_node:

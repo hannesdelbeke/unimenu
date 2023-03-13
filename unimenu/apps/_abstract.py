@@ -3,6 +3,7 @@ import unimenu.utils
 from pathlib import Path
 import logging
 import re
+import traceback
 
 
 class MenuNode(object):
@@ -79,11 +80,6 @@ class MenuNode(object):
         parent_names.append(label)
         self.id = "_".join(parent_names)
 
-
-    @property
-    def try_command(self):
-        return f"import unimenu.utils; unimenu.utils.try_command(r'{self.command}')"
-
     @property
     def children(self):
         return self.items
@@ -149,10 +145,19 @@ class MenuNode(object):
 
     def run(self):
         """execute the command in self.command, which accepts a function or string"""
-        if isinstance(self.command, str):
-            lambda: exec(self.command)
-        else:  # callable
-            self.command()
+        try:
+            if isinstance(self.command, str):
+                print("executing str command", self.command)
+                # lambda: exec(self.command)
+                exec(self.command)
+                print("done")
+            else:  # callable
+                print("executing call command", self.command)
+                self.command()
+                print("done")
+        except Exception as e:
+            traceback.print_exc()
+            return e
 
     @classmethod
     def load(cls, arg):

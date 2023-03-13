@@ -53,16 +53,9 @@ def operator_wrapper(
         _parent_name = parent.bl_idname
 
         def execute(self, context):
-            # data loaded from the config passes strings to eval,
-            # but dynamically created configs support callables
-
-            if isinstance(self._command, str):
-                exec(self._command)
-
-            elif callable(self._command):
-                self._command()
-
-            return {"RUNNING_MODAL"}
+            print(self._command)
+            self._command()
+            return {"FINISHED"}
 
     # print("UNI made operator", name, OperatorWrapper.bl_idname)
     OperatorWrapper.__name__ = name
@@ -158,7 +151,7 @@ class MenuNodeBlender(MenuNodeAbstract):
     def _setup_menu_item(self, parent_app_node=None) -> bpy.types.Operator:
         icon = self.icon or "NONE"
         tooltip = self.tooltip or ""
-        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.command, icon_name=icon, tooltip=tooltip)
+        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.run, icon_name=icon, tooltip=tooltip)
 
     def _setup_separator(self, parent_app_node=None):
         # todo return separator correctly
