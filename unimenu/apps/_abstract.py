@@ -143,18 +143,14 @@ class MenuNode(object):
             config["data"] = self.data
         return config
 
-    def run(self):
+    def run(self, *args):
         """execute the command in self.command, which accepts a function or string"""
         try:
             if isinstance(self.command, str):
-                print("executing str command", self.command)
                 # lambda: exec(self.command)
                 exec(self.command)
-                print("done")
             else:  # callable
-                print("executing call command", self.command)
                 self.command()
-                print("done")
         except Exception as e:
             traceback.print_exc()
             return e
