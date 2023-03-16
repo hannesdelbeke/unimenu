@@ -80,17 +80,15 @@ class MenuNodeMaya(MenuNodeAbstract):
 
     def _setup_menu_item(self, parent_app_node=None):
         icon = self.icon or ""
-
-        # tooltip = self.tooltip or ""
-        # todo menuItem doesn't support tooltip.
-        #  could use qt instead http://discourse.techart.online/t/is-there-a-way-to-get-tooltips-for-maya-menitem/15385
+        tooltip = self.tooltip or "test"
 
         # support adding custom kwargs from the config
         kwargs = self.kwargs
         kwargs.setdefault("label", self.label)
-        kwargs.setdefault("command", self.run)  # todo test this works, used to be try command
+        kwargs.setdefault("command", self.run)
         kwargs.setdefault("parent", parent_app_node)
         kwargs.setdefault("image", icon)
+        kwargs.setdefault("annotation", tooltip)  # shown on hover in lower left corner
 
         self.name = f"{self.label}_{get_counter()}"
 
