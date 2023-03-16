@@ -40,7 +40,6 @@ def operator_wrapper(
     name = "UNIMENU_OT_" + id
     name = unique_operator_name(name)
     id_name = name.replace("UNIMENU_OT_", "unimenu.").lower()
-    print("id_name", id_name)
 
     # create
     class OperatorWrapper(bpy.types.Operator):
@@ -53,7 +52,6 @@ def operator_wrapper(
         _parent_name = parent.bl_idname
 
         def execute(self, context):
-            print(self._command)
             self._command()
             return {"FINISHED"}
 
