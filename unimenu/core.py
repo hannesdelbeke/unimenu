@@ -159,6 +159,8 @@ def teardown_menu(name, app=None):
     app = app or detect_app()
     return app.menu_module.teardown_menu(name)
 
+def teardown_menus(names, app=None):
+    return [teardown_menu(name, app) for name in names]
 
 def config_dir_paths() -> "list[Path]":
     raw_path = os.environ.get("UNIMENU_CONFIG_PATH", "")
@@ -175,7 +177,7 @@ def discover_config_paths() -> "list[Path]":
     return configs
 
 
-def load_all_configs():
+def load_all_configs() -> unimenu.apps._abstract.MenuNodeAbstract:
     """load all config files in the config paths"""
     nodes = []
     config_paths = discover_config_paths()
@@ -185,24 +187,26 @@ def load_all_configs():
     return nodes
 
 
-def setup_all_configs():
+def setup_all_configs() -> unimenu.apps._abstract.MenuNodeAbstract:
     """setup all config files in the config paths"""
     config_paths = discover_config_paths()
 
     # register configs without parents first, to avoid creating the child before the parent.
     # note that this is not a perfect solution
 
-    configs1 = []
-    configs2 = []
+    root_nodes = []
+    child_nodes = []
 
     for config_path in config_paths:
         config_node = load(config_path)
         if not config_node.parent_path:
-            configs1.append(config_node)
+            root_nodes.append(config_node)
         else:
-            configs2.append(config_node)
+            child_nodes.append(config_node)
 
-    for node in configs1:
+    for node in root_nodes:
         node.setup()
-    for node in configs2:
+    for node in child_nodes:
         node.setup()
+
+    return root_nodes + child_nodes

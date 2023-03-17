@@ -143,7 +143,7 @@ class MenuNode(object):
             config["data"] = self.data
         return config
 
-    def run(self, *args):
+    def run(self, *args):  # some apps pass args to the command. e.g. maya passes False
         """execute the command in self.command, which accepts a function or string"""
         try:
             if isinstance(self.command, str):
