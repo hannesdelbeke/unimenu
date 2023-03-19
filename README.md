@@ -12,6 +12,8 @@ and any app that uses QT: Maya, Krita, Substance Painter, 3ds Max, FreeCAD, CryE
 
 For more info read the [wiki](https://github.com/hannesdelbeke/unimenu/wiki)
 
+If you use Blender, you can try the [unimenu_addon](https://github.com/hannesdelbeke/unimenu_addon)
+
 <img src="samples/menu_screen_maya.jpg" width="400"/> <img src="samples/menu_screen_unreal5.jpg" width="400"/> <img src="samples/menu_screen_krita.jpg" width="400"/> <img src="samples/menu_screen_substance_painter.jpg" width="400"/>
 
 # how to use
