@@ -15,6 +15,7 @@ For more info read the [wiki](https://github.com/hannesdelbeke/unimenu/wiki)
 If you use Blender, you can try the [unimenu_addon](https://github.com/hannesdelbeke/unimenu_addon)
 
 <img src="samples/menu_screen_maya.jpg" width="400"/> <img src="samples/menu_screen_unreal5.jpg" width="400"/> <img src="samples/menu_screen_krita.jpg" width="400"/> <img src="samples/menu_screen_substance_painter.jpg" width="400"/>
+<img src="samples/menu_screen_nuke.jpg" width="400"/>
 
 # how to use
 
@@ -84,6 +85,8 @@ unimenu was tested in the following versions, and might work in other versions.
 - Substance Painter 8.2.0
 - Max 2024
 - Marmoset 3.08
+- nuke 13 (minimum)
+- hiero 13 (minimum)
 
 python 3.7+ due to f-strings and pathlib
 
