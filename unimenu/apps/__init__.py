@@ -49,6 +49,8 @@ class SupportedApps:
     SUBSTANCE_DESIGNER = App(name="substance_designer", module="pysbs")
     SUBSTANCE_PAINTER = App(name="substance_painter", module="substance_painter")
     MARMOSET = App(name="marmoset", module="mset")
+    NUKE = App(name="nuke", module="nuke")
+    HIERO = App(name="hiero", module="hiero")
 
     QT = App("qt", None)
 
