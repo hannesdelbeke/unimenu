@@ -1,9 +1,8 @@
 from unimenu.apps._abstract import MenuNodeAbstract
-from UI4.App import MainWindow, MainMenu
-import logging
+from UI4.App import MainWindow
 
 
-class MenuNodeQt(MenuNodeAbstract):
+class MenuNodeKatana(MenuNodeAbstract):
 
     @property
     def _default_root_parent(self):
