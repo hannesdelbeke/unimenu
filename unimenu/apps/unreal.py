@@ -15,7 +15,7 @@ class MenuNodeUnreal(MenuNodeAbstract):
         return parent_menu
 
     def setup(self, parent_app_node=None, backlink=True):
-        super().setup(parent_app_node=parent_app_node, backlink=True)
+        super().setup(parent_app_node=parent_app_node, backlink=backlink)
 
         # post setup
         unreal_menus = unreal.ToolMenus.get()
