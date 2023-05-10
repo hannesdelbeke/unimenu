@@ -51,6 +51,7 @@ class SupportedApps:
     MARMOSET = App(name="marmoset", module="mset")
     NUKE = App(name="nuke", module="nuke")
     HIERO = App(name="hiero", module="hiero")
+    KATANA = App(name="katana", module="katana")
 
     QT = App("qt", None)
 
