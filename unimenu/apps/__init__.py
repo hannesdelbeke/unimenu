@@ -52,6 +52,7 @@ class SupportedApps:
     NUKE = App(name="nuke", module="nuke")
     HIERO = App(name="hiero", module="hiero")
     KATANA = App(name="katana", module="katana")
+    MARI = App(name="mari", module="mari")
 
     QT = App("qt", None)
 
