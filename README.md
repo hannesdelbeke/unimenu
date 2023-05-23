@@ -16,7 +16,7 @@ If you use Blender, you can try the [unimenu_addon](https://github.com/hannesdel
 
 <img src="samples/menu_screen_maya.jpg" width="400"/> <img src="samples/menu_screen_unreal5.jpg" width="400"/> <img src="samples/menu_screen_krita.jpg" width="400"/> <img src="samples/menu_screen_substance_painter.jpg" width="400"/>
 <img src="samples/menu_screen_nuke.jpg" width="400"/> <img src="samples/menu_screen_katana.jpg" width="400"/>
-
+<img src="samples/menu_screen_mari.jpg" width="400"/>
 # how to use
 
 ### load from config (YAML & JSON)
@@ -88,7 +88,7 @@ unimenu was tested in the following versions, and might work in other versions.
 - Nuke 13 (minimum)
 - Hiero 13 (minimum)
 - Katana 5 (minimum)
-
+- Mari 6.0 (minimum)
 
 python 3.7+ due to f-strings and pathlib
 
