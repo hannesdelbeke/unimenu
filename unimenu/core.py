@@ -90,10 +90,11 @@ def load_module(module,
     if parent_menu:
         data["parent"] = parent_menu
 
-    parent_menu_label = label or parent_module.__name__
-    parent_menu_label = parent_menu_label.replace('_', ' ').title() if smart_spaces else parent_menu_label
+    label = label or parent_module.__name__
+    label = label.replace('_', ' ').title() if smart_spaces else label
 
-    data["items"] = [{"label": parent_menu_label, "items": items}]
+    data["label"] =  label
+    data["items"] =  items
 
     # use the generated dict to set up the menu
     return load(data, app)
