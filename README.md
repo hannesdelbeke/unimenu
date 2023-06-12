@@ -39,7 +39,7 @@ unimenu.setup(config_path)
 
 ```python
 import unimenu
-data = {"items": [{"label": test,"command": 'print("hello world")'}]}
+data = {"items": [{"label": "test","command": 'print("hello world")'}]}
 unimenu.setup(data)
 ```
 
