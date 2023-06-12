@@ -13,7 +13,7 @@ from pathlib import Path
 
 def load_module(module,
                  parent_menu: str = None,
-                 menu_name: str = None,
+                 label: str = None,
                  function_name: str = None,
                  icon: str = None,
                  tooltip: str = None,
@@ -33,7 +33,7 @@ def load_module(module,
                         ├─ tool1.py      (import cool_tools.tool1)
                         └─ tool2.py      (import cool_tools.tool2)
     parent: the name of the parent menu to add our menu entries to
-    menu_name: optional kwars to overwrite the name of the menu to create, defaults to module name
+    label: optional kwars to overwrite the name of the menu to create, defaults to module name
     function_name: the function name to run on the module, e.g.: 'run', defaults to 'main'
                    if empty, call the module directly
     icon: the icon name to use for the menu entry, defaults to ''
@@ -90,7 +90,7 @@ def load_module(module,
     if parent_menu:
         data["parent"] = parent_menu
 
-    parent_menu_label = menu_name or parent_module.__name__
+    parent_menu_label = label or parent_module.__name__
     parent_menu_label = parent_menu_label.replace('_', ' ').title() if smart_spaces else parent_menu_label
 
     data["items"] = [{"label": parent_menu_label, "items": items}]
@@ -101,14 +101,14 @@ def load_module(module,
 
 def setup_module(module,
                     parent_menu: str = None,
-                    menu_name: str = None,
+                    label: str = None,
                     function_name: str = None,
                     icon: str = None,
                     tooltip: str = None,
                     app=None,
                     smart_spaces=True,
                     ):
-    return load_module(module, parent_menu, menu_name, function_name, icon, tooltip, app, smart_spaces).setup()
+    return load_module(module, parent_menu, label, function_name, icon, tooltip, app, smart_spaces).setup()
 
 
 def load(arg, app: App = None) -> unimenu.apps._abstract.MenuNodeAbstract:
