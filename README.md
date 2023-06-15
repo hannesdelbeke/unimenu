@@ -55,9 +55,9 @@ menu.items.append(item)  # add the item to the menu
 menu.setup()  # setup the menu in the app, parented by default to the main menu bar
 ```
 
-### from a folder of scripts (module) (experimental, needs updating)
+### from a folder of scripts (module)
 
-great for a folder full of tools that need launching when clicking a button.
+To auto construct a menu from a folder, with a menu entry for every tool in a folder:
 1. ensure the folder is importable (in the sys.path)
 2. create a menthod in all submodules with the same name, e.g. def show()
 ```python
