@@ -41,11 +41,13 @@ class MenuNodeQt(MenuNodeAbstract):
         if not main_window:
             for widget in QtWidgets.QApplication.topLevelWidgets():
                 if widget.objectName() == "mainWindow":
-                    print("FOUND MAIN WINDOW UNIMENU", main_window)
                     main_window = widget
+                    print("FOUND MAIN WINDOW UNIMENU", main_window)
                     break
 
-        menu_bar = main_window.findChild(QtWidgets.QMenuBar)
+        # In the case of using a QSystemTrayIcon no menubar is available so find a QMenu
+        target_menu = QtWidgets.QMenuBar if self.use_menu_bar else QtWidgets.QMenu
+        menu_bar = main_window.findChild(target_menu)
 
         if self.parent_path:
             parent_menu = menu_bar.findChild(QtWidgets.QMenu, self.parent_path)
