@@ -6,10 +6,14 @@ class MenuNodeUnreal(MenuNodeAbstract):
 
     @property
     def _default_root_parent(self):
-        if self.parent_path:
-            parent_path = f"LevelEditor.MainMenu.{self.parent_path}"  # todo make this more flexible
+        if not self.use_context_menu:
+            if self.parent_path:
+                parent_path = f"LevelEditor.MainMenu.{self.parent_path}"  # todo make this more flexible
+            else:
+                parent_path = "LevelEditor.MainMenu"
         else:
-            parent_path = "LevelEditor.MainMenu"
+            parent_path = f"ContentBrowser.AssetContextMenu.{self.parent_path}"
+
         unreal_menus = unreal.ToolMenus.get()
         parent_menu = unreal_menus.find_menu(parent_path)
         return parent_menu
@@ -22,9 +26,14 @@ class MenuNodeUnreal(MenuNodeAbstract):
         unreal_menus.refresh_all_widgets()
 
     def _setup_sub_menu(self, parent_app_node=None) -> unreal.ToolMenu:
+
+        target_section_name = "PythonTools"
+        if self.use_context_menu:
+            target_section_name = "GetAssetActions"
+
         return parent_app_node.add_sub_menu(
             owner=parent_app_node.menu_name,
-            section_name="PythonTools",
+            section_name=target_section_name,
             name=self.id,  # todo check if needs to be unique like in add_to_menu
             label=self.label,  # todo add label support
             tool_tip=self.tooltip
