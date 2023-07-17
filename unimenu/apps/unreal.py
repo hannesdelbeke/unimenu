@@ -16,7 +16,7 @@ class MenuNodeUnreal(MenuNodeAbstract):
 
         # Extend the root
         if self.parent_path:
-            parent_path = self.parent_path
+            parent_path = f"{parent_path}.{self.parent_path}"
 
         unreal_menus = unreal.ToolMenus.get()
         parent_menu = unreal_menus.find_menu(parent_path)
