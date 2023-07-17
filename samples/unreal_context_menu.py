@@ -30,20 +30,21 @@ config = {
             {
                 'command': 'test_function()',
                 'label': 'Open Selected Asset',
-                "icon": ":/qt-project.org/styles/commonstyle/images/up-32.png",
+                "icon": "MessageLog.TabIcon",
                 "tooltip": "tooltip",
 
             },
             {
                 'label': 'label',
                 'separator': True,
-                "icon": ":/qt-project.org/styles/commonstyle/images/up-32.png",
+                "icon": "BlueprintEditor.AddNewFunction",
                 "tooltip": "tooltip separator",
 
             },
             {
                 'command': 'print("hello 2")',
                 'label': 'tool2',
+                'icon': "BlueprintEditor.AddNewEventGraph"
 
             },
             {
@@ -53,11 +54,13 @@ config = {
                     [
                         {
                             'command': 'print("hello 1")',
-                            'label': 'tool1'
+                            'label': 'tool1',
+                            'icon': "MessageLog.TabIcon"
                         },
                         {
                             'command': 'print("hello 2")',
-                            'label': 'tool2'
+                            'label': 'tool2',
+                            'icon': "MessageLog.TabIcon"
                         }
                     ]
             }
