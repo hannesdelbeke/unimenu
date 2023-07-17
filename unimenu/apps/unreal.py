@@ -6,13 +6,17 @@ class MenuNodeUnreal(MenuNodeAbstract):
 
     @property
     def _default_root_parent(self):
-        if not self.use_context_menu:
-            if self.parent_path:
-                parent_path = f"LevelEditor.MainMenu.{self.parent_path}"  # todo make this more flexible
-            else:
-                parent_path = "LevelEditor.MainMenu"
-        else:
-            parent_path = f"ContentBrowser.AssetContextMenu.{self.parent_path}"
+        # Default menu root
+        parent_path = "LevelEditor.MainMenu"
+
+        # Optional root
+        if self.kwargs.get('root_menu'):
+            # full list of ui names here https://dev.epicgames.com/community/snippets/exo/unreal-engine-editor-ui-menu-names
+            parent_path = f"{self.kwargs['root_menu']}"
+
+        # Extend the root
+        if self.parent_path:
+            parent_path = parent_path + f".{self.parent_path}"
 
         unreal_menus = unreal.ToolMenus.get()
         parent_menu = unreal_menus.find_menu(parent_path)
@@ -26,10 +30,12 @@ class MenuNodeUnreal(MenuNodeAbstract):
         unreal_menus.refresh_all_widgets()
 
     def _setup_sub_menu(self, parent_app_node=None) -> unreal.ToolMenu:
-
+        # Default Section
         target_section_name = "PythonTools"
-        if self.use_context_menu:
-            target_section_name = "GetAssetActions"
+
+        if self.kwargs.get('menu_section'):
+            # change target section
+            target_section_name = self.kwargs['menu_section']
 
         return parent_app_node.add_sub_menu(
             owner=parent_app_node.menu_name,
