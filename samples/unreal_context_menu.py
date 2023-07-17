@@ -4,7 +4,7 @@
 
     full list of ui names here https://dev.epicgames.com/community/snippets/exo/unreal-engine-editor-ui-menu-names
 
-    and the kwarg use_context on the root
+    and the kwarg context_menu on the root noode
 
 '''
 
