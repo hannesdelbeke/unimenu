@@ -13,7 +13,7 @@ class MenuNode(object):
     unigue_names = set()
     # when creating a MenuNode from a config, we do MenuNode(**config), see MenuNode.load()
     def __init__(self, label=None, command=None, icon=None, tooltip=None, separator=False, items=None,
-                 parent=None, parent_path=None, app_node=None, kwargs=None, data=None, id=None, use_menu_bar=True):
+                 parent=None, parent_path=None, app_node=None, kwargs=None, data=None, id=None):
         """
         :param id: a unique name for the menu item. e.g. ANIMATION_EXPORTER. in qt this is objectName
         :param label: the label of the menu item
@@ -40,7 +40,6 @@ class MenuNode(object):
         self.kwargs = kwargs or {}
         self.data = data or {}
         self.id = id or None
-        self.use_menu_bar = use_menu_bar
 
         # only the root node needs parent_path
         if parent_path:
