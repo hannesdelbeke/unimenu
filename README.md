@@ -100,3 +100,15 @@ feel free to create a PR to help out.
 
 to add support for your favorite software, add a python module named after the software with a setup_menu function
 where possible stick to the windows menu [design guidelines](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/bb226797(v=vs.85))
+
+- [ ] add editable install instructions
+
+### samples
+You can install the unimenu samples with
+```bash
+pip install git+https://github.com/hannesdelbeke/unimenu@main#subdirectory=dev
+```
+then you can run them with e.g.
+```python
+import unimenu_samples.any_dcc_test
+```
