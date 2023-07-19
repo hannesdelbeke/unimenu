@@ -6,10 +6,9 @@ class MenuNodeUnreal(MenuNodeAbstract):
 
     @property
     def _default_root_parent(self):
-        if self.parent_path:
-            parent_path = f"LevelEditor.MainMenu.{self.parent_path}"  # todo make this more flexible
-        else:
+        if not self.parent_path:
             parent_path = "LevelEditor.MainMenu"
+
         unreal_menus = unreal.ToolMenus.get()
         parent_menu = unreal_menus.find_menu(parent_path)
         return parent_menu
