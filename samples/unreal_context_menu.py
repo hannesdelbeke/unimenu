@@ -68,5 +68,4 @@ config = {
 }
 
 # test teardown
-node = unimenu.load(config)
-app_node = node.setup(backlink=False)
+node = unimenu.setup(config, backlink=False)
