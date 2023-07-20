@@ -19,8 +19,8 @@ def test_function():
 
 config = {
     'label': 'StaticMesh Tools',
+    'parent_path': "ContentBrowser.AssetContextMenu.StaticMesh",
     'kwargs': {
-        'root_menu': "ContentBrowser.AssetContextMenu.StaticMesh",
         "menu_section": "GetAssetActions"
                 },
 
