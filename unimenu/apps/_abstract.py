@@ -71,6 +71,9 @@ class MenuNode(object):
 
         label = re.sub('[^0-9a-zA-Z]+', '_', label)  # replace non alphanumeric with _
 
+        # add parent path to the id. ensures unique ids.
+        # note that in e.g. unreal, the "name" is a type of id, that needs to be unique. but only one level deep.
+        # so using id for name might result in repeated parent names. e.g. "parentA.ParentA_menuB"
         parent_names = []
         parent = self.parent
         while parent:
@@ -79,6 +82,9 @@ class MenuNode(object):
         parent_names.reverse()
         parent_names.append(label)
         self.id = "_".join(parent_names)
+        # todo update this when parent changes, change to property
+        # but if we rely on id to identify a node, then changing it when parent changes is bad
+        # inform user that this string can change, they can save a pointer to the python instance instead
 
     @property
     def children(self):
