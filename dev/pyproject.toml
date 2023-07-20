@@ -4,27 +4,27 @@ requires = ["setuptools", "setuptools-scm"]
 
 
 [tool.setuptools]
-packages = ["unimenu"]
+packages = ["unimenu_samples"]  # todo later add tests
 
 
 [project]
-name = "unimenu"
+name = "unimenu-dev"
 authors = [
     {name = "hannes"},
 ]
-description = "easy menus from a single config across apps"
+description = "modules to help with unimenu development"
 readme = "README.md"
 requires-python = ">=3.4"
-keywords = ["dcc", "pipeline", "menu", "config"]
-license = { file = "LICENSE" }
+keywords = ["unimenu", "menu", "dev"]
+# license = { file = "LICENSE" }
 classifiers = [
     "Programming Language :: Python :: 3.7",
 ]
 dependencies = [
-    'importlib-metadata; python_version<"3.7"',
+    'importlib-metadata; python_version<"3.7"', "unimenu",
 ]
 #dynamic = ["version"]
-version = "0.4.1"
+version = "0.0.1"
 
 [project.optional-dependencies]
 yaml = ["pyyaml"]
