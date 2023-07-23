@@ -87,6 +87,8 @@ class MenuNodeUnreal(MenuNodeAbstract):
     def get_name_path(self):
         # e.g. return 'LevelEditor.MainMenu.Tools' if self.id is 'Tools'
         if self.parent:
-            return self.parent.get_parent_path() + "." + self.id
-        else:
+            return self.parent.get_name_path() + "." + self.id
+        elif self.parent_path:
             return self.parent_path + "." + self.id
+        else:
+            return self.id
