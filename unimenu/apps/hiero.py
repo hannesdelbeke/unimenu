@@ -23,20 +23,19 @@ class MenuNodeHiero(MenuNodeAbstract):
     def _setup_sub_menu(self, parent_app_node=None):
         if not self.label:
             self.label = "custom_menu"
-        if parent_app_node:
-            return parent_app_node.addMenu(self.label)
-        else:  # make a normal sub menu
-            return hiero.ui.menuBar().addMenu(self.label)
+
+        parent_app_node = parent_app_node or hiero.ui.menuBar()
+        return parent_app_node.addMenu(self.label, **self.kwargs)
 
     def _setup_menu_item(self, parent_app_node=None):
-        menu_action = parent_app_node.addAction(self.label)
+        menu_action = parent_app_node.addAction(self.label, **self.kwargs)
         if self.icon:
             menu_action.setIcon(QtGui.QIcon(self.icon))
         menu_action.triggered.connect(self.run)
 
     def _setup_separator(self, parent_app_node=None):
         if parent_app_node:
-            parent_app_node.addSeparator()
+            parent_app_node.addSeparator(**self.kwargs)
 
     def teardown(self):
          raise NotImplementedError("not yet implemented")
