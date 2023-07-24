@@ -26,7 +26,7 @@ class MenuNode(object):
         :param data: custom data to store in the node, this is not used by unimenu, e.g. category, tags, etc
         :param parent_path: used to parent the tree to a parent, only used by the root-node
         :param app_node: HELPER linking the app menu node created by a MenuNode instance, tries to create a bidirectional link
-        :param parent: HELPER linking the parent menu item, automatically set on child nodes when loaded from a config
+        :param parent: HELPER linking the parent menu item, automatically set on children created from the 'items' kwarg
         """
 
         # config data
@@ -35,15 +35,13 @@ class MenuNode(object):
         self.icon = icon or ""
         self.tooltip = tooltip or ""
         self.separator = separator or False
-        items = items or []
-        self.items: list[MenuNodeAbstract] = [self.__class__(**item) for item in items]
         self.kwargs = kwargs or {}
         self.data = data or {}
         self.id = id or None
 
         # only the root node needs parent_path
         if parent_path:
-            self.parent_path = parent_path.replace(" ", "_")
+            self.parent_path: str = parent_path.replace(" ", "_")
         else:
             self.parent_path = None
         # todo get parent path method
@@ -57,6 +55,10 @@ class MenuNode(object):
         self.app_node_parent = None  # root node only
 
         self._default_id()
+
+        # since we pass parent, create items at end of init, so we first set all parent(self) attrs
+        items = items or []
+        self.items: list[MenuNodeAbstract] = [self.__class__(**item, parent=self) for item in items]
 
     def _default_id(self):
         # todo ideally should be unique
