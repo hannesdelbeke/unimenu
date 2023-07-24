@@ -143,15 +143,15 @@ class MenuNodeBlender(MenuNodeAbstract):
         # cls.registered_operators.update(operators)
         # return operators
 
-    def _setup_sub_menu(self, parent_app_node=None) -> bpy.types.Menu:
+    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None) -> bpy.types.Menu:
         return menu_wrapper(parent=parent_app_node, label=self.label)
 
-    def _setup_menu_item(self, parent_app_node=None) -> bpy.types.Operator:
+    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None): -> bpy.types.Operator:
         icon = self.icon or "NONE"
         tooltip = self.tooltip or ""
         return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.run, icon_name=icon, tooltip=tooltip)
 
-    def _setup_separator(self, parent_app_node=None):
+    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
         # todo return separator correctly
         parent_app_node.append(lambda self, context: self.layout.separator())
 

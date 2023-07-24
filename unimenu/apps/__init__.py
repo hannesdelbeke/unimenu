@@ -30,7 +30,7 @@ class App:
         return importlib.import_module(f"unimenu.apps.{self.name}")
 
     @property
-    def menu_node_class(self) -> "unimenu.apps._abstract.MenuNodeAbstract":  # " in typehint to avoid circular import
+    def menu_node_class(self) -> "unimenu.apps._abstract.MenuNodeAbstract":  # typehint string to avoid circular import
         """get the app-specific menu node class"""
         name = self.name.replace("_", " ").title().replace(" ", "")  # convert lower_case to CamelCase
         return getattr(self.menu_module, "MenuNode" + name)  # get the MenuNode class from the app module

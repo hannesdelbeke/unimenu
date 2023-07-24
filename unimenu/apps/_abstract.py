@@ -107,7 +107,7 @@ class MenuNode(object):
 
     @property
     def all_command_nodes(self):
-        """return every menu entry that has a command"""
+        """return: every menu entry that has a command"""
         commands = []
         for child in self.children:
             if child.command:
@@ -116,7 +116,7 @@ class MenuNode(object):
         return commands
 
     def root(self):
-        """Return the root node of the menu-tree"""
+        """return: the root node of the menu-tree"""
         # we use isinstance since sometimes parent is a string (or other type)
         # e.g. when the menu is loaded from a config file, the root node might have a string as parent
         if self.parent and isinstance(self.parent, MenuNode):
@@ -124,7 +124,7 @@ class MenuNode(object):
         return self
 
     def __dict__ (self):
-        # used to save back to a config file
+        """return: a dict representation of this menu-node, used to save to a config file """
         config = {}
         if self.label:
             config["label"] = self.label
@@ -207,19 +207,23 @@ class MenuNodeAbstract(MenuNode, ABC):
     def setup(self, parent_app_node=None, backlink=True):
         """
         Instantiate a menu item in the app from the menu node data
-        parent: app menu to parent to, not a MenuNode!
+
+        parent_app_node: app menu node to parent to, not a (uni)MenuNode!
         backlink: if True, add an attribute to the app node instance to the app node
         """
         parent_app_node = parent_app_node or self._default_root_parent
 
+        # todo make decorator to default kwargs to an empty dict.
+
+        print(f"Setting up menu node: {self.label}")
         if self.separator:
-            self.app_node = self._setup_separator(parent_app_node=parent_app_node)
+            self.app_node = self._setup_separator(parent_app_node=parent_app_node, kwargs=self.kwargs)
 
         elif self.command:  # menu item
-            self.app_node = self._setup_menu_item(parent_app_node=parent_app_node)
+            self.app_node = self._setup_menu_item(parent_app_node=parent_app_node, kwargs=self.kwargs)
 
         elif self.items:  # submenu
-            self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
+            self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node, kwargs=self.kwargs)
             for item in self.items:
                 item.setup(parent_app_node=self.app_node)
         else:
@@ -243,17 +247,17 @@ class MenuNodeAbstract(MenuNode, ABC):
         return None
 
     @abstractmethod
-    def _setup_sub_menu(self, parent_app_node=None):
+    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None):
         """instantiate & parent a sub menu"""
         pass
 
     @abstractmethod
-    def _setup_menu_item(self, parent_app_node=None):
+    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
         """instantiate & parent a menu item"""
         pass
 
     @abstractmethod
-    def _setup_separator(self, parent_app_node=None):
+    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
         """instantiate & parent a separator"""
         pass
 
