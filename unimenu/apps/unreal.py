@@ -15,6 +15,10 @@ class MenuNodeUnreal(MenuNodeAbstract):
         return parent_menu
 
     def setup(self, parent_app_node=None, backlink=True):
+        # save  section name to data before setup
+        user_section = self.kwargs.get('menu_section')
+        self.data['target_section_name'] = user_section if user_section else "PythonTools"
+
         super().setup(parent_app_node=parent_app_node, backlink=backlink)
 
         # post setup
