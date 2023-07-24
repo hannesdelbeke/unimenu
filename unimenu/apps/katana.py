@@ -11,11 +11,11 @@ class MenuNodeKatana(MenuNodeAbstract):
 
     def _setup_sub_menu(self, parent_app_node=None):
         if parent_app_node:
-            return parent_app_node.addMenu(self.label)
+            return parent_app_node.addMenu(self.label, **self.kwargs)
 
     def _setup_menu_item(self, parent_app_node=None):
         if parent_app_node:
-            action = parent_app_node.addAction(self.label)
+            action = parent_app_node.addAction(self.label, **self.kwargs)
             action.setParent(parent_app_node)
             action.triggered.connect(self.run)
             return action
