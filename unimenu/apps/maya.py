@@ -77,7 +77,7 @@ class MenuNodeMaya(MenuNodeAbstract):
             parent_path = get_compatible_name(self.parent_path)
             return find_menu(parent_path)
 
-    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_sub_menu(self, parent_app_node=None):
         self.name = get_unique_name(self.label, parent=parent_app_node)
         kwargs = self.kwargs  # support adding custom kwargs from the config
         kwargs.setdefault("tearOff", True)
@@ -89,7 +89,7 @@ class MenuNodeMaya(MenuNodeAbstract):
             kwargs.setdefault("parent", parent_app_node)
             return maya.cmds.menuItem(self.name, **kwargs)
 
-    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_menu_item(self, parent_app_node=None):
         self.name = get_unique_name(self.label, parent=parent_app_node)
         icon = self.icon or ""
         tooltip = self.tooltip or "test"
@@ -101,7 +101,7 @@ class MenuNodeMaya(MenuNodeAbstract):
         kwargs.setdefault("annotation", tooltip)  # shown on hover in lower left corner
         return maya.cmds.menuItem(self.name, **kwargs)
 
-    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_separator(self, parent_app_node=None):
         self.name = get_unique_name(self.label, parent=parent_app_node)
         kwargs = self.kwargs  # support adding custom kwargs from the config
         kwargs.setdefault("divider", True)

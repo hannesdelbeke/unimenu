@@ -14,7 +14,7 @@ class MenuNodeMarmoset(MenuNodeAbstract):
     # @property
     # def _default_root_parent(self):
 
-    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_sub_menu(self, parent_app_node=None):
 
         global windows
         if not parent_app_node:
@@ -33,7 +33,7 @@ class MenuNodeMarmoset(MenuNodeAbstract):
 
         return settings_drawer
 
-    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_menu_item(self, parent_app_node=None):
 
         def cmd():
             if isinstance(self.command, str):
@@ -47,7 +47,7 @@ class MenuNodeMarmoset(MenuNodeAbstract):
         parent_app_node.addElement(button)
         return button
 
-    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_separator(self, parent_app_node=None):
         raise NotImplementedError("not yet implemented")
 
     def teardown(self):

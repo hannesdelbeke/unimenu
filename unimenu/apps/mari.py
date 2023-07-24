@@ -11,16 +11,16 @@ class MenuNodeMari(MenuNodeAbstract):
     def _default_root_parent(self):
         return "MainWindow"
 
-    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_sub_menu(self, parent_app_node=None):
         if parent_app_node:
             return f"{parent_app_node}/{self.label}"
 
-    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_menu_item(self, parent_app_node=None):
         if parent_app_node:
             action = mari.actions.create(f"{parent_app_node}/{self.label}", self.command or "")
             mari.menus.addAction(action, parent_app_node)
 
-    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_separator(self, parent_app_node=None):
         if parent_app_node:
             mari.menus.addSeparator(parent_app_node)
 

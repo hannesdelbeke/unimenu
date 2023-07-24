@@ -213,17 +213,14 @@ class MenuNodeAbstract(MenuNode, ABC):
         """
         parent_app_node = parent_app_node or self._default_root_parent
 
-        # todo make decorator to default kwargs to an empty dict.
-
-        print(f"Setting up menu node: {self.label}")
         if self.separator:
-            self.app_node = self._setup_separator(parent_app_node=parent_app_node, kwargs=self.kwargs)
+            self.app_node = self._setup_separator(parent_app_node=parent_app_node)
 
         elif self.command:  # menu item
-            self.app_node = self._setup_menu_item(parent_app_node=parent_app_node, kwargs=self.kwargs)
+            self.app_node = self._setup_menu_item(parent_app_node=parent_app_node)
 
         elif self.items:  # submenu
-            self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node, kwargs=self.kwargs)
+            self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
             for item in self.items:
                 item.setup(parent_app_node=self.app_node)
         else:
@@ -247,17 +244,17 @@ class MenuNodeAbstract(MenuNode, ABC):
         return None
 
     @abstractmethod
-    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_sub_menu(self, parent_app_node=None):
         """instantiate & parent a sub menu"""
         pass
 
     @abstractmethod
-    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_menu_item(self, parent_app_node=None):
         """instantiate & parent a menu item"""
         pass
 
     @abstractmethod
-    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_separator(self, parent_app_node=None):
         """instantiate & parent a separator"""
         pass
 

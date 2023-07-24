@@ -23,13 +23,13 @@ class MenuNodeMax(MenuNodeAbstract):
     def _default_root_parent(self):
         return rt.menuMan.getMainMenuBar()
 
-    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_sub_menu(self, parent_app_node=None):
         sub_menu = rt.menuMan.createMenu(self.label)
         sub_menu_item = rt.menuMan.createSubMenuItem(self.label, sub_menu)
         parent_app_node.addItem(sub_menu_item, -1)
         return sub_menu
 
-    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_menu_item(self, parent_app_node=None):
         tooltip = self.tooltip or ""
 
         # todo generated menus are persistent between sessions!
@@ -41,7 +41,7 @@ class MenuNodeMax(MenuNodeAbstract):
         item = rt.menuMan.createActionItem(macro_name, macro_category)
         parent_app_node.addItem(item, -1)  # item index
 
-    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_separator(self, parent_app_node=None):
         item = rt.menuMan.createSeparatorItem()
         parent_app_node.addItem(item, -1)  # item index
 

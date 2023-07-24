@@ -56,13 +56,13 @@ class MenuNodeQt(MenuNodeAbstract):
 
         return menu_bar
 
-    def _setup_sub_menu(self, parent_app_node=None, kwargs: "dict" = None) -> QtWidgets.QMenu:
+    def _setup_sub_menu(self, parent_app_node=None) -> QtWidgets.QMenu:
         menu = QtWidgets.QMenu(title=self.label, objectName=self.id, parent=parent_app_node, **self.kwargs)
         if parent_app_node:
             parent_app_node.addMenu(menu)
         return menu
 
-    def _setup_menu_item(self, parent_app_node=None, kwargs: "dict" = None):
+    def _setup_menu_item(self, parent_app_node=None):
         """create a QAction from the MenuNode data"""
 
         # A PySide.QtGui.QAction may contain an icon, menu text (label), a shortcut, status text,
@@ -94,7 +94,7 @@ class MenuNodeQt(MenuNodeAbstract):
 
         return action
 
-    def _setup_separator(self, parent_app_node=None, kwargs: "dict" = None) -> QAction:
+    def _setup_separator(self, parent_app_node=None) -> QAction:
         """
         instantiate a separator object
         """
