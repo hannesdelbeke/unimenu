@@ -15,6 +15,7 @@ class MenuNodeUnreal(MenuNodeAbstract):
         return parent_menu
 
     def setup(self, parent_app_node: unreal.ToolMenu = None, backlink=True) -> unreal.ToolMenu:
+        backlink = False # todo, override to false unreal doesnt support backlink yet
         app_node = super().setup(parent_app_node=parent_app_node, backlink=backlink)
 
         # post setup
