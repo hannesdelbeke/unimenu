@@ -31,7 +31,7 @@ config = {
 
 
 config = {
-    'label': 'Tools',
+    'label': 'UniMenu Tools',
     'items':
         [
             {
@@ -69,8 +69,7 @@ config = {
 
 app_menu_node = unimenu.setup(config)
 
-
 # test teardown
-node = unimenu.load(config)
-app_node = node.setup()
-node.teardown()
+# node = unimenu.load(config)
+# app_node = node.setup()
+# node.teardown()
