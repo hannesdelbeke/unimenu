@@ -28,7 +28,7 @@ config = {
 
         [
             {
-                'command': 'test_function()',
+                'command': 'from unimenu_samples import unreal_context_menu; unreal_context_menu.test_function()',
                 'label': 'Open Selected Asset',
                 "icon": "MessageLog.TabIcon",
                 "tooltip": "tooltip",
