@@ -21,7 +21,7 @@ config = {
     'label': 'StaticMesh Tools',
     'parent_path': "ContentBrowser.AssetContextMenu.StaticMesh",
     'kwargs': {
-        "menu_section": "GetAssetActions"
+        "section_name": "GetAssetActions"
                 },
 
     'items':
