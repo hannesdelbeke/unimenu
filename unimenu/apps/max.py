@@ -24,6 +24,7 @@ class MenuNodeMax(MenuNodeAbstract):
         return rt.menuMan.getMainMenuBar()
 
     def _setup_sub_menu(self, parent_app_node=None):
+        # todo unsure if **self.kwargs should be passed to createMenu or createSubMenuItem
         sub_menu = rt.menuMan.createMenu(self.label)
         sub_menu_item = rt.menuMan.createSubMenuItem(self.label, sub_menu)
         parent_app_node.addItem(sub_menu_item, -1)
@@ -31,6 +32,8 @@ class MenuNodeMax(MenuNodeAbstract):
 
     def _setup_menu_item(self, parent_app_node=None):
         tooltip = self.tooltip or ""
+
+        # todo unsure if **self.kwargs should be passed to create_macro or createActionItem
 
         # todo generated menus are persistent between sessions!
         #  this does not match the behavior of other Apps currently

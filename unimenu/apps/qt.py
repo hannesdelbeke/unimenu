@@ -62,8 +62,11 @@ class MenuNodeQt(MenuNodeAbstract):
             parent_app_node.addMenu(menu)
         return menu
 
-    def _setup_menu_item(self, parent_app_node=None):
-        """create a QAction from the MenuNode data"""
+    def _setup_menu_item(self, parent_app_node=None) -> QAction:
+        """
+        create a QAction from the MenuNode data
+        parent_app_node: the parent menu or menu bar
+        """
 
         # A PySide.QtGui.QAction may contain an icon, menu text (label), a shortcut, status text,
         # “What’s This?” text, and a tooltip

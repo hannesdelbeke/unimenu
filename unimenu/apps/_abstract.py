@@ -107,7 +107,7 @@ class MenuNode(object):
 
     @property
     def all_command_nodes(self):
-        """return every menu entry that has a command"""
+        """return: every menu entry that has a command"""
         commands = []
         for child in self.children:
             if child.command:
@@ -116,7 +116,7 @@ class MenuNode(object):
         return commands
 
     def root(self):
-        """Return the root node of the menu-tree"""
+        """return: the root node of the menu-tree"""
         # we use isinstance since sometimes parent is a string (or other type)
         # e.g. when the menu is loaded from a config file, the root node might have a string as parent
         if self.parent and isinstance(self.parent, MenuNode):
@@ -124,7 +124,7 @@ class MenuNode(object):
         return self
 
     def __dict__ (self):
-        # used to save back to a config file
+        """return: a dict representation of this menu-node, used to save to a config file """
         config = {}
         if self.label:
             config["label"] = self.label
@@ -207,7 +207,8 @@ class MenuNodeAbstract(MenuNode, ABC):
     def setup(self, parent_app_node=None, backlink=True):
         """
         Instantiate a menu item in the app from the menu node data
-        parent: app menu to parent to, not a MenuNode!
+
+        parent_app_node: app menu node to parent to, not a (uni)MenuNode!
         backlink: if True, add an attribute to the app node instance to the app node
         """
         parent_app_node = parent_app_node or self._default_root_parent

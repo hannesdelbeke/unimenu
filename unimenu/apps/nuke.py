@@ -16,21 +16,22 @@ class MenuNodeNuke(MenuNodeAbstract):
         return menubar
 
     def _setup_sub_menu(self, parent_app_node=None):
-        if not self.label:
+
+        if not self.label:  # todo move to abstract node
             self.label = "custom_menu"
-        if parent_app_node:
-            if self.icon:
-                return parent_app_node.addMenu(self.label, self.icon)
-            return parent_app_node.addMenu(self.label)
-        else:  # make a normal sub menu
-            return nuke.menu("Nuke").addMenu(self.label)
+
+        parent_app_node = parent_app_node or nuke.menu("Nuke")
+        if self.icon:
+            return parent_app_node.addMenu(self.label, self.icon, **self.kwargs)
+        else:
+            return parent_app_node.addMenu(self.label, **self.kwargs)
 
     def _setup_menu_item(self, parent_app_node=None):
-        parent_app_node.addCommand(self.label, self.run)
+        parent_app_node.addCommand(self.label, self.run, **self.kwargs)
 
     def _setup_separator(self, parent_app_node=None):
         if parent_app_node:
-            parent_app_node.addSeparator()
+            parent_app_node.addSeparator(**self.kwargs)
 
     def teardown(self):
         menubar = nuke.menu(self.parent_path)
