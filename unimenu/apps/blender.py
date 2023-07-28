@@ -70,7 +70,11 @@ def operator_wrapper(
     def menu_draw(self, context):  # self is the parent menu
         # todo check if icon exists, if not use NONE, for now dirty try except hack
         try:
-            self.layout.operator(id_name, icon=icon_name)
+            if isinstance(icon_name, int):
+                # if the icon is a number it might be a custom icon
+                self.layout.operator(id_name, icon_value=icon_name)
+            else:
+                self.layout.operator(id_name, icon=icon_name)
         except TypeError:  # icon not found:
             self.layout.operator(id_name, icon="NONE")
 
