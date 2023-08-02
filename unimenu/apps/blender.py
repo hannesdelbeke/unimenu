@@ -4,6 +4,8 @@
 # 3. register operators
 # 4. add operators to menu
 """
+import logging
+
 import bpy
 from typing import Union, Callable
 from unimenu.apps._abstract import MenuNodeAbstract
@@ -68,15 +70,34 @@ def operator_wrapper(
 
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
+
+        icon_ID = None
+        icon_name = None
+
+        if isinstance(icon_name, int):  # use icon ID for custom icons
+            logging.debug(f"icon_name is int: {icon_name}")
+            icon_ID = icon_name
+
+        elif isinstance(icon_name, str):  # if str, can be default icon name, or a string path
+            logging.debug(f"icon_name is str: {icon_name}")
+            icon_name=icon_name
+        else:
+            raise TypeError(f"icon_name '{icon_name}' isn't a valid type '{type(icon_name)}', "
+                            f"expecting str, int, Path")
+
+        if icon_name:
+            self.layout.operator(id_name, icon=icon_name)
+        elif icon_ID:
+            self.layout.operator(id_name, icon_value=icon_ID)
+        else:
+            self.layout.operator(id_name, icon="NONE")
+
+    def try_menu_draw(self, context):  # self is the parent menu
         # todo check if icon exists, if not use NONE, for now dirty try except hack
         try:
-            if isinstance(icon_name, int):
-                # if the icon is a number it might be a custom icon
-                self.layout.operator(id_name, icon_value=icon_name)
-            else:
-                self.layout.operator(id_name, icon=icon_name)
+            return menu_draw(self, context)
         except TypeError:  # icon not found:
-            self.layout.operator(id_name, icon="NONE")
+            return self.layout.operator(id_name, icon="NONE")
 
     parent.append(menu_draw)
 
