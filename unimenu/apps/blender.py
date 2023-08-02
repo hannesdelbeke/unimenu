@@ -66,31 +66,32 @@ def operator_wrapper(
     bpy.utils.register_class(OperatorWrapper)
 
     # ensure None was not accidentally passed
-    icon_name = icon_name or "NONE"
+    icon_value = icon_name or "NONE"
 
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
+        _icon_ID = None
+        _icon_name = None
 
-        icon_ID = None
-        icon_name = None
+        if isinstance(icon_value, int):  # use icon ID for custom icons
+            logging.debug(f"icon_name is int: {icon_value}")
+            _icon_ID = icon_value
 
-        if isinstance(icon_name, int):  # use icon ID for custom icons
-            logging.debug(f"icon_name is int: {icon_name}")
-            icon_ID = icon_name
+        elif isinstance(icon_value, str):  # if str, can be default icon name, or a string path
+            logging.debug(f"icon_name is str: {icon_value}")
+            _icon_name=icon_value
 
-        elif isinstance(icon_name, str):  # if str, can be default icon name, or a string path
-            logging.debug(f"icon_name is str: {icon_name}")
-            icon_name=icon_name
         else:
-            raise TypeError(f"icon_name '{icon_name}' isn't a valid type '{type(icon_name)}', "
+            raise TypeError(f"icon_name '{icon_value}' isn't a valid type '{type(icon_value)}', "
                             f"expecting str, int, Path")
 
-        if icon_name:
+        if _icon_name:
             self.layout.operator(id_name, icon=icon_name)
-        elif icon_ID:
-            self.layout.operator(id_name, icon_value=icon_ID)
+        elif _icon_ID:
+            self.layout.operator(id_name, icon_value=_icon_ID)
         else:
             self.layout.operator(id_name, icon="NONE")
+
 
     def try_menu_draw(self, context):  # self is the parent menu
         # todo check if icon exists, if not use NONE, for now dirty try except hack
@@ -102,6 +103,7 @@ def operator_wrapper(
     parent.append(menu_draw)
 
     return OperatorWrapper
+
 
 
 def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
