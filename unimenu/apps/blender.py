@@ -4,10 +4,19 @@
 # 3. register operators
 # 4. add operators to menu
 """
+import logging
+import pathlib
+
 import bpy
+import bpy.utils.previews
 from typing import Union, Callable
 from unimenu.apps._abstract import MenuNodeAbstract
 import unimenu.apps
+
+
+preview_collections = {}  # store custom icons here to prevent blender warnings
+# todo cleanup on teardown / unload with bpy.utils.previews.remove(preview_collection)
+
 
 def unique_operator_name(name) -> str:
     """ensure unique name for blender operators, adds _number to the end if name not unique"""
@@ -19,8 +28,30 @@ def unique_operator_name(name) -> str:
     return new_name
 
 
+def create_custom_icon(path, name: str = None):
+    """
+    helper method to create a custom icon
+
+    path: path to png
+
+    returns icon ID
+    """
+    name = name or "icon_name"
+
+    preview_collection = preview_collections.get(path)
+    if preview_collection:
+        return preview_collection[name].icon_id
+
+    preview_collection = bpy.utils.previews.new()
+    preview_collections[path] = preview_collection
+    icon = preview_collection.load(name=name, path=str(path), path_type='IMAGE')
+    icon_ID = icon.icon_id
+
+    return icon_ID
+
+
 def operator_wrapper(
-    parent: bpy.types.Operator, label: str, id: str, command: Union[str, Callable], icon_name=None, tooltip=None
+    parent: bpy.types.Operator, label: str, id: str, command: Union[str, Callable], icon=None, tooltip=None
 ) -> bpy.types.Operator:
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
@@ -30,7 +61,7 @@ def operator_wrapper(
     3 add to (sub)menu (parent operator)
     """
 
-    icon_name = icon_name or "NONE"
+    icon = icon or "NONE"
     tooltip = tooltip or ""
 
     # handle name
@@ -64,19 +95,55 @@ def operator_wrapper(
     bpy.utils.register_class(OperatorWrapper)
 
     # ensure None was not accidentally passed
-    icon_name = icon_name or "NONE"
+    icon = icon or "NONE"
 
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
-        # todo check if icon exists, if not use NONE, for now dirty try except hack
-        try:
-            self.layout.operator(id_name, icon=icon_name)
-        except TypeError:  # icon not found:
+        _icon_ID = None
+        _icon_name = None
+
+        if isinstance(icon, int):  # use icon ID for custom icons
+            logging.debug(f"icon is int: {icon}")
+            _icon_ID = icon
+
+        elif isinstance(icon, str):  # if str, can be default icon name, or a string path
+            logging.debug(f"icon is str: {icon}")
+
+            # check if it's a path
+            if pathlib.Path(icon).exists():
+                logging.debug(f"icon str path exists: {icon}")
+                _icon_ID = create_custom_icon(icon)
+
+            else:  # assume icon is a default icon name
+                logging.debug(f"icon str path doesn't exists: {icon}, assuming it's a default icon name")
+                _icon_name=icon
+
+        elif isinstance(icon, pathlib.Path):  # use icon path for custom icons
+            _icon_ID = create_custom_icon(icon)
+
+        else:
+            raise TypeError(f"icon '{icon}' isn't a valid type '{type(icon)}', "
+                            f"expecting str, int, Path")
+
+        if _icon_name:
+            self.layout.operator(id_name, icon=_icon_name)
+        elif _icon_ID:
+            self.layout.operator(id_name, icon_value=_icon_ID)
+        else:
             self.layout.operator(id_name, icon="NONE")
 
-    parent.append(menu_draw)
+
+    def try_menu_draw(self, context):  # self is the parent menu
+        # todo check if icon exists, if not use NONE, for now dirty try except hack
+        try:
+            return menu_draw(self, context)
+        except TypeError:  # icon not found:
+            return self.layout.operator(id_name, icon="NONE")
+
+    parent.append(try_menu_draw)
 
     return OperatorWrapper
+
 
 
 def menu_wrapper(parent: bpy.types.Operator, label: str) -> bpy.types.Menu:
@@ -149,7 +216,7 @@ class MenuNodeBlender(MenuNodeAbstract):
     def _setup_menu_item(self, parent_app_node=None) -> bpy.types.Operator:
         icon = self.icon or "NONE"
         tooltip = self.tooltip or ""
-        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.run, icon_name=icon, tooltip=tooltip)
+        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.run, icon=icon, tooltip=tooltip)
 
     def _setup_separator(self, parent_app_node=None):
         # todo return separator correctly
