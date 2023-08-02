@@ -5,8 +5,10 @@
 # 4. add operators to menu
 """
 import logging
+import pathlib
 
 import bpy
+import bpy.utils.previews
 from typing import Union, Callable
 from unimenu.apps._abstract import MenuNodeAbstract
 import unimenu.apps
@@ -19,6 +21,26 @@ def unique_operator_name(name) -> str:
         unique_counter += 1
         new_name = f"{name}_{unique_counter}"
     return new_name
+
+
+def create_custom_icon(path, name: str = None):
+    """
+    helper method to create a custom icon
+
+    path: path to png
+
+    returns icon ID
+    """
+    name = name or "icon_name"
+
+    preview_collection = bpy.utils.previews.new()
+    icon = preview_collection.load(name=name, path=str(path), path_type='IMAGE')
+
+    icon_ID = icon.icon_id
+    # icon = preview_collection["icon_name"]  # icon can be loaded by name
+
+    # bpy.utils.previews.remove(preview_collection)  # delete preview to avoid warning
+    return icon_ID
 
 
 def operator_wrapper(
@@ -79,7 +101,18 @@ def operator_wrapper(
 
         elif isinstance(icon_value, str):  # if str, can be default icon name, or a string path
             logging.debug(f"icon_name is str: {icon_value}")
-            _icon_name=icon_value
+
+            # check if it's a path
+            if pathlib.Path(icon_value).exists():
+                logging.debug(f"icon_name str path exists: {icon_value}")
+                _icon_ID = create_custom_icon(icon_value)
+
+            else:  # assume icon is a default icon name
+                logging.debug(f"icon_name str path doesn't exists: {icon_value}, assuming it's a default icon name")
+                _icon_name=icon_value
+
+        elif isinstance(icon_name, pathlib.Path):  # use icon path for custom icons
+            _icon_ID = create_custom_icon(icon_value)
 
         else:
             raise TypeError(f"icon_name '{icon_value}' isn't a valid type '{type(icon_value)}', "
@@ -100,7 +133,7 @@ def operator_wrapper(
         except TypeError:  # icon not found:
             return self.layout.operator(id_name, icon="NONE")
 
-    parent.append(menu_draw)
+    parent.append(try_menu_draw)
 
     return OperatorWrapper
 
