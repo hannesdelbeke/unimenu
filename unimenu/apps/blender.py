@@ -40,11 +40,12 @@ def create_custom_icon(path, name: str = None):
     # icon = preview_collection["icon_name"]  # icon can be loaded by name
 
     # bpy.utils.previews.remove(preview_collection)  # delete preview to avoid warning
+    # deleting this also deletes the icon, todo how to handle this better?
     return icon_ID
 
 
 def operator_wrapper(
-    parent: bpy.types.Operator, label: str, id: str, command: Union[str, Callable], icon_name=None, tooltip=None
+    parent: bpy.types.Operator, label: str, id: str, command: Union[str, Callable], icon=None, tooltip=None
 ) -> bpy.types.Operator:
     """
     Wrap a command in a Blender operator & add it to a parent menu operator.
@@ -54,7 +55,7 @@ def operator_wrapper(
     3 add to (sub)menu (parent operator)
     """
 
-    icon_name = icon_name or "NONE"
+    icon = icon or "NONE"
     tooltip = tooltip or ""
 
     # handle name
@@ -88,38 +89,38 @@ def operator_wrapper(
     bpy.utils.register_class(OperatorWrapper)
 
     # ensure None was not accidentally passed
-    icon_value = icon_name or "NONE"
+    icon = icon or "NONE"
 
     # add to menu
     def menu_draw(self, context):  # self is the parent menu
         _icon_ID = None
         _icon_name = None
 
-        if isinstance(icon_value, int):  # use icon ID for custom icons
-            logging.debug(f"icon_name is int: {icon_value}")
-            _icon_ID = icon_value
+        if isinstance(icon, int):  # use icon ID for custom icons
+            logging.debug(f"icon is int: {icon}")
+            _icon_ID = icon
 
-        elif isinstance(icon_value, str):  # if str, can be default icon name, or a string path
-            logging.debug(f"icon_name is str: {icon_value}")
+        elif isinstance(icon, str):  # if str, can be default icon name, or a string path
+            logging.debug(f"icon is str: {icon}")
 
             # check if it's a path
-            if pathlib.Path(icon_value).exists():
-                logging.debug(f"icon_name str path exists: {icon_value}")
-                _icon_ID = create_custom_icon(icon_value)
+            if pathlib.Path(icon).exists():
+                logging.debug(f"icon str path exists: {icon}")
+                _icon_ID = create_custom_icon(icon)
 
             else:  # assume icon is a default icon name
-                logging.debug(f"icon_name str path doesn't exists: {icon_value}, assuming it's a default icon name")
-                _icon_name=icon_value
+                logging.debug(f"icon str path doesn't exists: {icon}, assuming it's a default icon name")
+                _icon_name=icon
 
-        elif isinstance(icon_name, pathlib.Path):  # use icon path for custom icons
-            _icon_ID = create_custom_icon(icon_value)
+        elif isinstance(icon, pathlib.Path):  # use icon path for custom icons
+            _icon_ID = create_custom_icon(icon)
 
         else:
-            raise TypeError(f"icon_name '{icon_value}' isn't a valid type '{type(icon_value)}', "
+            raise TypeError(f"icon '{icon}' isn't a valid type '{type(icon)}', "
                             f"expecting str, int, Path")
 
         if _icon_name:
-            self.layout.operator(id_name, icon=icon_name)
+            self.layout.operator(id_name, icon=_icon_name)
         elif _icon_ID:
             self.layout.operator(id_name, icon_value=_icon_ID)
         else:
@@ -209,7 +210,7 @@ class MenuNodeBlender(MenuNodeAbstract):
     def _setup_menu_item(self, parent_app_node=None) -> bpy.types.Operator:
         icon = self.icon or "NONE"
         tooltip = self.tooltip or ""
-        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.run, icon_name=icon, tooltip=tooltip)
+        return operator_wrapper(parent=parent_app_node, label=self.label, id=self.id, command=self.run, icon=icon, tooltip=tooltip)
 
     def _setup_separator(self, parent_app_node=None):
         # todo return separator correctly
