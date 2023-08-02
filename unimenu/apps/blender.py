@@ -13,6 +13,11 @@ from typing import Union, Callable
 from unimenu.apps._abstract import MenuNodeAbstract
 import unimenu.apps
 
+
+preview_collections = {}  # store custom icons here to prevent blender warnings
+# todo cleanup on teardown / unload with bpy.utils.previews.remove(preview_collection)
+
+
 def unique_operator_name(name) -> str:
     """ensure unique name for blender operators, adds _number to the end if name not unique"""
     unique_counter = 1  # start count from 2
@@ -33,14 +38,15 @@ def create_custom_icon(path, name: str = None):
     """
     name = name or "icon_name"
 
+    preview_collection = preview_collections.get(path)
+    if preview_collection:
+        return preview_collection[name].icon_id
+
     preview_collection = bpy.utils.previews.new()
+    preview_collections[path] = preview_collection
     icon = preview_collection.load(name=name, path=str(path), path_type='IMAGE')
-
     icon_ID = icon.icon_id
-    # icon = preview_collection["icon_name"]  # icon can be loaded by name
 
-    # bpy.utils.previews.remove(preview_collection)  # delete preview to avoid warning
-    # deleting this also deletes the icon, todo how to handle this better?
     return icon_ID
 
 
