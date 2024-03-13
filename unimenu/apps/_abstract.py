@@ -181,6 +181,8 @@ class MenuNode(object):
     @classmethod
     def load_config(cls, config_path):
         data = unimenu.utils.load_config(config_path)
+        if not data:
+            logging.warning("Failed to load config")
         menu_node = cls(**data)
         menu_node.config_path = config_path
         for node in menu_node.all_children:
