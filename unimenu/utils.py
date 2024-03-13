@@ -25,7 +25,7 @@ def load_yaml(config_path) -> dict:
     return data
 
 
-def load_config(config_path) -> dict:
+def load_config(config_path) -> "dict|None":
     """get data from a JSON or YAML config"""
     return load_json(config_path) or load_yaml(config_path)
 
