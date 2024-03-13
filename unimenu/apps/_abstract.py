@@ -165,8 +165,11 @@ class MenuNode(object):
 
     @classmethod
     def load(cls, arg):
-        # if arg is a Path or string, load from config
-        if isinstance(arg, (str, Path)):
+        # TODO if arg is a string, check if it's an existing Path
+        if isinstance(arg, str):
+          arg = Path(arg)
+        # if arg is a Path, load from config
+        if isinstance(arg, Path):
             return cls.load_config(arg)
         # if arg is a dict, create a menu node from it
         elif isinstance(arg, dict):
