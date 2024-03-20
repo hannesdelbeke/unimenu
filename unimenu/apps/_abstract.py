@@ -228,9 +228,13 @@ class MenuNodeAbstract(MenuNode, ABC):
             self.app_node = self._setup_menu_item(parent_app_node=parent_app_node)
 
         elif self.items:  # submenu
-            self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
-            for item in self.items:
-                item.setup(parent_app_node=self.app_node)
+            if self.label == self._get_parent_app_node_name(parent_app_node=parent_app_node):
+                for item in self.items:
+                    item.setup(parent_app_node=parent_app_node)
+            else:
+                self.app_node = self._setup_sub_menu(parent_app_node=parent_app_node)
+                for item in self.items:
+                    item.setup(parent_app_node=self.app_node)
         else:
             logging.warning("Can not create a MenuNode that has no command or children: " + self.label)
 
@@ -250,6 +254,11 @@ class MenuNodeAbstract(MenuNode, ABC):
     def _default_root_parent(self):
         """get the default parent for the root node, optional method"""
         return None
+    
+    @abstractmethod
+    def _get_parent_app_node_name(self, parent_app_node=None):
+        """get the default parent name for the root node, optional method"""
+        pass
 
     @abstractmethod
     def _setup_sub_menu(self, parent_app_node=None):
