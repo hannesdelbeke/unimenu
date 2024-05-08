@@ -165,8 +165,14 @@ class MenuNode(object):
 
     @classmethod
     def load(cls, arg):
-        # if arg is a Path or string, load from config
-        if isinstance(arg, (str, Path)):
+        # if arg is a string, check if it's a valid Path
+        if isinstance(arg, str):
+            arg = Path(arg)
+            if not arg.exists():
+                logging.error(f"Path does not exist: {arg}")
+                return
+        # if arg is a Path, load from config
+        if isinstance(arg, Path):
             return cls.load_config(arg)
         # if arg is a dict, create a menu node from it
         elif isinstance(arg, dict):
@@ -178,6 +184,8 @@ class MenuNode(object):
     @classmethod
     def load_config(cls, config_path):
         data = unimenu.utils.load_config(config_path)
+        if not data:
+            logging.warning("Failed to load config")
         menu_node = cls(**data)
         menu_node.config_path = config_path
         for node in menu_node.all_children:

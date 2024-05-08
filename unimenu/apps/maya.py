@@ -113,3 +113,7 @@ class MenuNodeMaya(MenuNodeAbstract):
         """Delete the menu item & its children"""
         maya.cmds.deleteUI(self.name, menu=True)
 
+
+def teardown_menu(name):
+    maya.cmds.deleteUI(name, menu=True)
+    
