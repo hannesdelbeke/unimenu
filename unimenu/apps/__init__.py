@@ -57,7 +57,7 @@ class SupportedApps:
     QT = App("qt", None)
 
     # ALL = [BLENDER, MAYA, UNREAL, KRITA, SUBSTANCE_PAINTER, MAX, MARMOSET]
-    NON_QT = [BLENDER, UNREAL, MAYA, SUBSTANCE_PAINTER, MARMOSET]
+    NON_QT = [BLENDER, UNREAL, SUBSTANCE_PAINTER, MARMOSET]
 
 
 def detect_app() -> Optional[App]:
