@@ -80,7 +80,7 @@ def load_deferred():
     }
 
     global menu
-    menu = unimenu.setup_dict(config)
+    menu = unimenu.setup(config)
     # todo use new node class
 
 

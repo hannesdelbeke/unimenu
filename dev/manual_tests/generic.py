@@ -33,7 +33,7 @@ def create_test_menus():
     menu1 = unimenu.add_item("menu1")
 
     # add menu tree from config
-    menu2 = unimenu.setup_config(config)[0]
+    menu2 = unimenu.setup(config)[0]
 
     # print(menu2)
     # in susbtance painter, this throws a
