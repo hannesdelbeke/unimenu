@@ -9,6 +9,14 @@ import maya.cmds  # cmds is faster than pymel
 import re
 
 
+def get_top_qt_window(QApplication: "module" = None):
+    """get the top level window in the qt app"""
+    top_level_widgets = QApplication.topLevelWidgets()
+    for widget in top_level_widgets:
+        if widget.objectName() == "MayaWindow": # MayaWindow in 2026 PySide6
+            return widget
+
+
 def find_menu(long_name):
     long_name = f"MayaWindow|{long_name}"  # for now we assume the menu is a child of the main window
     long_menu_names = maya.cmds.lsUI(menus=True, long=True)
@@ -94,12 +102,24 @@ class MenuNodeMaya(MenuNodeAbstract):
         icon = self.icon or ""
         tooltip = self.tooltip or "test"
         kwargs = self.kwargs  # support adding custom kwargs from the config
-        kwargs.setdefault("label", self.label)
-        kwargs.setdefault("command", self.run)
-        kwargs.setdefault("parent", parent_app_node)
+        # kwargs.setdefault("label", self.label)
+        # kwargs.setdefault("command", self.run)
+        # kwargs.setdefault("parent", parent_app_node)
         kwargs.setdefault("image", icon)
-        kwargs.setdefault("annotation", tooltip)  # shown on hover in lower left corner
-        return maya.cmds.menuItem(self.name, **kwargs)
+        # kwargs.setdefault("annotation", tooltip)  # shown on hover in lower left corner
+
+        # if a unique name is provided, we can create mel commands
+        maya.cmds.runTimeCommand(self.name,
+                                 default=True,  # prevent maya from attempting to save these commands.
+                                 label=self.label,
+                                 annotation=tooltip,
+                                 command=self.run,
+                                 # keywords='render',
+                                 # tags='Render'
+                                 # category='Menu items.Cloud.Render',
+                                 )
+
+        return maya.cmds.menuItem(self.name, runTimeCommand=self.name, **kwargs)
 
     def _setup_separator(self, parent_app_node=None):
         self.name = get_unique_name(self.label, parent=parent_app_node)
