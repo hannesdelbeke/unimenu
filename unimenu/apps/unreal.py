@@ -23,6 +23,9 @@ class MenuNodeUnreal(MenuNodeAbstract):
         unreal_menus.refresh_all_widgets()
 
         return app_node
+    
+    def _get_parent_app_node_name(self, parent_app_node: unreal.ToolMenu = None) -> str:
+        return unreal.StringLibrary.conv_name_to_string(parent_app_node.menu_name) if parent_app_node else ""
 
     def _setup_sub_menu(self, parent_app_node: unreal.ToolMenu = None) -> unreal.ToolMenu:
         """
@@ -91,7 +94,7 @@ class MenuNodeUnreal(MenuNodeAbstract):
 
         # see https://docs.unrealengine.com/4.27/en-US/PythonAPI/class/ToolMenu.html
         # todo what is diff with dynamic section?
-        return parent_app_node.add_section(section_name=self.label + "_section", label=self.label + "_label", **self.kwargs)
+        return parent_app_node.add_section(section_name=self.label + "_section", label=self.label, **self.kwargs)
 
     def teardown(self):
         """remove from menu"""

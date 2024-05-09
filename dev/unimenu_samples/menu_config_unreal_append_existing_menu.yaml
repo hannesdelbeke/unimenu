@@ -1,0 +1,18 @@
+# -*- coding: utf-8 -*-
+parent_path: ContentBrowser.FolderContextMenu
+
+
+label: ContentBrowser.FolderContextMenu
+items:
+- label: Example
+  separator: True
+  
+- label: SyncToAssetByPath
+  command: print("SyncToAssetByPath")
+  kwargs: 
+    section_name: Example_section
+  
+- label: CheckAssets
+  command: print("CheckAssets")
+  kwargs: 
+    section_name: Example_section
