@@ -27,6 +27,10 @@ items:
     items:
       - label: my item
         command: print("Hello World")
+      - label: my multiline command
+        command: |
+          from importlib import reload;
+          print(reload);
 ```
 ```python
 import unimenu
